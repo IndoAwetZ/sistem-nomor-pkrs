@@ -150,8 +150,7 @@
             window.location.reload(); 
         }
 
-        function hapusData(id) {
-            // 3. Fungsi Hapus Data
+        // 3. Fungsi Hapus Data
             async function hapusData(id) {
                 // Tampilkan pop-up konfirmasi (mencegah klik tak sengaja)
                 const konfirmasi = confirm(`AWAS: Apakah Anda yakin ingin menghapus antrean ID #${id}?\nData ini tidak dapat dikembalikan.`);
@@ -177,7 +176,6 @@
                     }
                 }
             }
-        }
 
         // ================= LOGIKA MODAL & FORM =================
         const modal = document.getElementById('modalTambah');
