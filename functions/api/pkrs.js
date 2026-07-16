@@ -56,6 +56,33 @@ export async function onRequestPost(context) {
     ).run();
 
     // -- TEMPAT UNTUK KODE KIRIM EMAIL (RESEND) NANTINYA --
+    // -- MENGIRIM EMAIL VIA GOOGLE APPS SCRIPT --
+    // Jangan lupa ganti URL di bawah ini dengan URL /exec milik Anda
+    const googleScriptURL = "https://script.google.com/macros/s/AKfycbyQbigrFe3wSlPm30HewMRZ2kJyCW_SKIwJgMo7cIAVOYbc0W7crVeAb0GYkPb-Op4I9Q/exec";
+
+    // Merakit desain isi emailnya
+    const desainEmail = `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+            <h2 style="color: #2563eb;">Permintaan PKRS Berhasil Diproses!</h2>
+            <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
+            <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
+            <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
+                <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor PKRS Anda:</p>
+                <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
+            </div>
+            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem PKRS Hub.</p>
+        </div>
+    `;
+
+    // Proses pengiriman
+    await fetch(googleScriptURL, {
+        method: "POST",
+        body: JSON.stringify({
+            tujuan: input.email,
+            subjek: `[PKRS Hub] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
+            pesanHtml: desainEmail
+        })
+    });
 
     // D. Beri respon sukses ke Frontend
     return Response.json({ 
