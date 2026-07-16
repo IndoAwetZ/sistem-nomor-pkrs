@@ -8,40 +8,86 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
+        /* Animasi transisi sidebar */
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased relative">
 
-    <!-- Navbar / Header Atas -->
-    <nav class="bg-blue-600 shadow-lg">
+    <!-- ================= NAVBAR ================= -->
+    <nav class="bg-blue-600 shadow-lg relative z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
                 </div>
                 
-                <div class="flex items-center space-x-4">
-                    <!-- Indikator Admin & Tombol Keluar -->
-                    <div id="panelAdmin" class="hidden flex items-center space-x-3">
+                <!-- Desktop Menu (Sembunyi di Mobile) -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3">
                         <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300 shadow-sm">ADMIN MODE</span>
                         <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
                     </div>
-
-                    <!-- Tombol Nomor Baru (Sekarang memiliki fungsi onclick) -->
                     <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
                         + Nomor Baru
+                    </button>
+                </div>
+
+                <!-- Hamburger Button (Hanya tampil di Mobile) -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleSidebar()" class="text-white hover:text-blue-200 focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Konten Utama -->
+    <!-- ================= SIDEBAR MOBILE (Off-Canvas) ================= -->
+    <div id="overlaySidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
+    <div id="menuSidebar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl z-50 transform translate-x-full sidebar-transition flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-blue-50">
+            <span class="font-bold text-blue-800">Menu Navigasi</span>
+            <button onclick="toggleSidebar()" class="text-gray-500 hover:text-red-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6 space-y-4 flex-grow">
+            <button onclick="toggleSidebar(); bukaModal();" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center">
+                + Buat Nomor Baru
+            </button>
+            <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-4 border-t border-gray-100">
+                <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode Aktif</span>
+                <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= KONTEN UTAMA ================= -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-6 flex justify-between items-end">
+        
+        <!-- Header & Action Tools -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
                 <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+            </div>
+            
+            <!-- Alat Pencarian & Ekspor -->
+            <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="inputPencarian" onkeyup="cariData()" placeholder="Cari nama, nomor, atau judul..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <button onclick="eksporCSV()" class="bg-green-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-green-700 shadow transition-colors flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Unduh CSV
+                </button>
             </div>
         </div>
 
@@ -50,60 +96,46 @@
             <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
         </div>
 
-        <!-- Tabel untuk Layar Lebar (Desktop/Tablet) -->
+        <!-- Tabel untuk Desktop -->
         <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase tracking-wider">Nomor PKRS</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Permintaan</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminta</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keperluan & Jenis</th>
-                        <th id="kolomAksiHeader" class="hidden px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor PKRS</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
+                        <th id="kolomAksiHeader" class="hidden px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200">
-                    <!-- Data masuk ke sini -->
-                </tbody>
+                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
             </table>
         </div>
 
-        <!-- Kartu untuk Layar Kecil (Mobile) -->
-        <div id="isiTabelMobile" class="md:hidden space-y-4">
-            <!-- Data masuk ke sini -->
-        </div>
+        <!-- Kartu untuk Mobile -->
+        <div id="isiTabelMobile" class="md:hidden space-y-4"></div>
     </main>
 
-    <!-- ================= MODAL TAMBAH DATA ================= -->
-    <!-- Elemen ini disembunyikan secara default menggunakan class "hidden" -->
-    <div id="modalTambah" class="hidden fixed inset-0 z-50 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
+    <!-- ================= MODAL TAMBAH DATA (Tetap Sama) ================= -->
+    <div id="modalTambah" class="hidden fixed inset-0 z-[60] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md mx-4 relative">
-            
             <h3 class="text-xl font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h3>
-            
             <form id="formTambah" onsubmit="simpanData(event)">
                 <div class="space-y-4">
-                    <!-- Input Nama Peminta -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Peminta</label>
-                        <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Budi Santoso">
+                        <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
-
-                    <!-- Input Email -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Email Tujuan</label>
-                        <input type="email" id="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="email@rsud.com">
+                        <input type="email" id="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
-
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Input Tanggal -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tgl Permintaan</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
                             <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-                        
-                        <!-- Pilihan Jenis Cetak -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Cetak</label>
                             <select id="jenis_cetak" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
@@ -115,90 +147,225 @@
                             </select>
                         </div>
                     </div>
-
-                    <!-- Input Judul Keperluan -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Judul Keperluan</label>
-                        <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Sosialisasi Cuci Tangan">
+                        <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
-
-                <!-- Tombol Aksi Modal -->
                 <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium transition-colors">
-                        Batal
-                    </button>
-                    <button type="submit" id="btnSubmit" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium shadow transition-colors flex items-center">
-                        Simpan & Generate
-                    </button>
+                    <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium">Batal</button>
+                    <button type="submit" id="btnSubmit" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium shadow flex items-center">Simpan & Generate</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- ================= END MODAL ================= -->
 
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // Logika Admin & Logout
+        // --- VARIABEL GLOBAL ---
+        let dataUtama = []; // Menyimpan data asli dari database
         const peranSistem = localStorage.getItem('role_sistem');
+        
+        // Cek mode admin saat pertama dimuat
         if (peranSistem === 'admin') {
-            document.getElementById('panelAdmin').classList.remove('hidden');
+            document.getElementById('panelAdminDesktop').classList.remove('hidden');
+            document.getElementById('panelAdminMobile').classList.remove('hidden');
+            document.getElementById('panelAdminMobile').classList.add('flex');
             document.getElementById('kolomAksiHeader').classList.remove('hidden');
         }
 
+        // --- FUNGSI SIDEBAR MOBILE ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('menuSidebar');
+            const overlay = document.getElementById('overlaySidebar');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                // Buka Sidebar
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                // Tutup Sidebar
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // --- FUNGSI OTENTIKASI & MODAL ---
         function prosesLogout() {
             localStorage.removeItem('role_sistem');
             window.location.reload(); 
         }
 
-        // 3. Fungsi Hapus Data
-            async function hapusData(id) {
-                // Tampilkan pop-up konfirmasi (mencegah klik tak sengaja)
-                const konfirmasi = confirm(`AWAS: Apakah Anda yakin ingin menghapus antrean ID #${id}?\nData ini tidak dapat dikembalikan.`);
-                
-                if (konfirmasi) {
-                    try {
-                        // Tembak API Backend Anda dengan metode DELETE
-                        const response = await fetch(`/api/pkrs?id=${id}`, {
-                            method: 'DELETE'
-                        });
-                        
-                        const result = await response.json();
-                        
-                        if (result.sukses) {
-                            // Jika berhasil dihapus di database, segarkan halaman
-                            window.location.reload(); 
-                        } else {
-                            alert('Gagal menghapus data: ' + result.error);
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('Terjadi kesalahan saat menghubungi server.');
-                    }
-                }
+        function bukaModal() { document.getElementById('modalTambah').classList.remove('hidden'); }
+        function tutupModal() { 
+            document.getElementById('modalTambah').classList.add('hidden');
+            document.getElementById('formTambah').reset(); 
+        }
+
+        // --- FUNGSI RENDER TABEL (DIPISAH AGAR BISA DIPANGGIL PENCARIAN) ---
+        function renderTabel(dataRender) {
+            const wadahDesktop = document.getElementById('isiTabelDesktop');
+            const wadahMobile = document.getElementById('isiTabelMobile');
+            
+            wadahDesktop.innerHTML = '';
+            wadahMobile.innerHTML = '';
+            
+            const rentangKolom = peranSistem === 'admin' ? 6 : 5;
+
+            if (dataRender.length === 0) {
+                wadahDesktop.innerHTML = `<tr><td colspan="${rentangKolom}" class="px-6 py-8 text-center text-gray-500">Tidak ada data ditemukan.</td></tr>`;
+                wadahMobile.innerHTML = '<div class="text-center py-10 text-gray-500 bg-white rounded-lg border">Tidak ada data ditemukan.</div>';
+                return;
             }
 
-        // ================= LOGIKA MODAL & FORM =================
-        const modal = document.getElementById('modalTambah');
-        const form = document.getElementById('formTambah');
+            dataRender.forEach(baris => {
+                const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum ada nomor</span>';
+                let selAksiDesktop = '';
+                let tombolAksiMobile = '';
+                
+                if (peranSistem === 'admin') {
+                    selAksiDesktop = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                            <button onclick="hapusData(${baris.id})" class="text-red-500 hover:text-red-700 font-semibold flex items-center justify-center w-full">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                Hapus
+                            </button>
+                        </td>
+                    `;
+                    
+                    tombolAksiMobile = `
+                        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-end">
+                            <button onclick="hapusData(${baris.id})" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-md">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                Hapus
+                            </button>
+                        </div>
+                    `;
+                }
 
-        function bukaModal() {
-            modal.classList.remove('hidden');
+                wadahDesktop.innerHTML += `
+                    <tr class="hover:bg-blue-50/50">
+                        <td class="px-6 py-4 text-sm text-gray-500">#${baris.id}</td>
+                        <td class="px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">${nomorFinal}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">${baris.tanggal_permintaan}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 font-medium">
+                            ${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-600">
+                            <div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${baris.jenis_cetak}</span>
+                        </td>
+                        ${selAksiDesktop}
+                    </tr>
+                `;
+
+                wadahMobile.innerHTML += `
+                    <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>
+                                <h3 class="text-lg font-bold text-gray-900 mt-1">${baris.judul_keperluan}</h3>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">${baris.tanggal_permintaan}</span>
+                        </div>
+                        <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3">
+                            <p class="text-xs text-blue-600 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p>
+                            <p class="font-bold text-blue-900 break-words">${nomorFinal}</p>
+                        </div>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p>
+                            <p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p>
+                        </div>
+                        ${tombolAksiMobile}
+                    </div>
+                `;
+            });
         }
 
-        function tutupModal() {
-            modal.classList.add('hidden');
-            form.reset(); // Mengosongkan form saat ditutup
-        }
+        // --- MENGAMBIL DATA DARI DATABASE ---
+        fetch('/api/pkrs')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingState').style.display = 'none';
+                if (!data.error) {
+                    dataUtama = data; // Simpan ke variabel global
+                    renderTabel(dataUtama);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>';
+            });
 
-        // Fungsi yang berjalan saat form disubmit
-        async function simpanData(event) {
-            event.preventDefault(); // Mencegah halaman refresh bawaan browser
+        // --- FUNGSI PENCARIAN (SEARCH) ---
+        function cariData() {
+            const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
             
-            const btnSubmit = document.getElementById('btnSubmit');
-            btnSubmit.innerHTML = 'Menyimpan...'; // Efek loading sederhana
-            btnSubmit.disabled = true;
+            // Menyaring data berdasarkan Nomor, Judul, atau Nama
+            const dataDisaring = dataUtama.filter(baris => {
+                const teksNomor = (baris.nomor_pkrs_final || '').toLowerCase();
+                const teksJudul = (baris.judul_keperluan || '').toLowerCase();
+                const teksNama = (baris.nama_peminta || '').toLowerCase();
+                
+                return teksNomor.includes(kataKunci) || teksJudul.includes(kataKunci) || teksNama.includes(kataKunci);
+            });
+            
+            renderTabel(dataDisaring); // Render ulang tabel dengan data hasil filter
+        }
 
-            // Mengambil semua isi inputan
+        // --- FUNGSI EXPORT CSV ---
+        function eksporCSV() {
+            if (dataUtama.length === 0) return alert('Tidak ada data untuk diekspor!');
+
+            // Ambil data mana yang sedang tampil (bisa jadi sedang difilter)
+            const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
+            const dataEksport = kataKunci ? dataUtama.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(kataKunci) || (b.judul_keperluan||'').toLowerCase().includes(kataKunci) || (b.nama_peminta||'').toLowerCase().includes(kataKunci)) : dataUtama;
+
+            // Membuat Header CSV
+            let kontenCSV = "ID,Nomor PKRS,Tanggal Permintaan,Nama Peminta,Email,Jenis Cetak,Judul Keperluan,Timestamp\n";
+            
+            // Memasukkan isi data ke CSV
+            dataEksport.forEach(baris => {
+                const id = baris.id;
+                const nomor = `"${baris.nomor_pkrs_final || ''}"`;
+                const tgl = `"${baris.tanggal_permintaan || ''}"`;
+                const nama = `"${baris.nama_peminta || ''}"`;
+                const email = `"${baris.email || ''}"`;
+                const jenis = `"${baris.jenis_cetak || ''}"`;
+                const judul = `"${baris.judul_keperluan || ''}"`;
+                const waktu = `"${baris.timestamp || ''}"`;
+                
+                kontenCSV += `${id},${nomor},${tgl},${nama},${email},${jenis},${judul},${waktu}\n`;
+            });
+
+            // Membuat pemicu download
+            const blob = new Blob([kontenCSV], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Data_Antrean_PKRS_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- FUNGSI CRUD (HAPUS & SIMPAN TETAP SAMA) ---
+        async function hapusData(id) {
+            const konfirmasi = confirm(`AWAS: Apakah Anda yakin ingin menghapus antrean ID #${id}?`);
+            if (konfirmasi) {
+                try {
+                    const response = await fetch(`/api/pkrs?id=${id}`, { method: 'DELETE' });
+                    const result = await response.json();
+                    if (result.sukses) window.location.reload(); 
+                    else alert('Gagal menghapus: ' + result.error);
+                } catch (error) { alert('Terjadi kesalahan server.'); }
+            }
+        }
+
+        async function simpanData(event) {
+            event.preventDefault();
+            const btnSubmit = document.getElementById('btnSubmit');
+            btnSubmit.innerHTML = 'Menyimpan...'; btnSubmit.disabled = true;
+
             const dataKirim = {
                 nama_peminta: document.getElementById('nama_peminta').value,
                 tanggal_permintaan: document.getElementById('tanggal_permintaan').value,
@@ -208,123 +375,17 @@
             };
 
             try {
-                // Mengirim metode POST ke fungsi API Backend Anda
                 const response = await fetch('/api/pkrs', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dataKirim)
                 });
-
                 const result = await response.json();
-
-                if (result.sukses) {
-                    alert(`SUKSES!\nNomor PKRS Anda: ${result.nomor_pkrs}`);
-                    tutupModal();
-                    window.location.reload(); // Segarkan halaman untuk melihat tabel baru
-                } else {
-                    alert('Gagal menyimpan data: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan jaringan.');
-            } finally {
-                // Mengembalikan bentuk tombol seperti semula
-                btnSubmit.innerHTML = 'Simpan & Generate';
-                btnSubmit.disabled = false;
-            }
+                if (result.sukses) { alert(`SUKSES!\nNomor: ${result.nomor_pkrs}`); window.location.reload(); }
+                else { alert('Gagal: ' + result.error); }
+            } catch (error) { alert('Gangguan jaringan.'); } 
+            finally { btnSubmit.innerHTML = 'Simpan & Generate'; btnSubmit.disabled = false; }
         }
-        // =======================================================
-
-        // Menarik dan Menampilkan Data ke Tabel
-        fetch('/api/pkrs')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('loadingState').style.display = 'none';
-                
-                const wadahDesktop = document.getElementById('isiTabelDesktop');
-                const wadahMobile = document.getElementById('isiTabelMobile');
-                
-                const rentangKolom = peranSistem === 'admin' ? 6 : 5;
-
-                if (data.length === 0 || data.error) {
-                    wadahDesktop.innerHTML = `<tr><td colspan="${rentangKolom}" class="px-6 py-8 text-center text-sm text-gray-500">Belum ada data permintaan.</td></tr>`;
-                    wadahMobile.innerHTML = '<div class="text-center py-10 text-gray-500">Belum ada data.</div>';
-                    return;
-                }
-
-                data.forEach(baris => {
-                    const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum digenerate</span>';
-                    
-                    let selAksiDesktop = '';
-                    let tombolAksiMobile = '';
-                    
-                    if (peranSistem === 'admin') {
-                        selAksiDesktop = `
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                <button onclick="hapusData(${baris.id})" class="text-red-500 hover:text-red-700 font-semibold transition-colors">Hapus</button>
-                            </td>
-                        `;
-                        
-                        tombolAksiMobile = `
-                            <div class="mt-3 pt-3 border-t border-gray-100 flex justify-end">
-                                <button onclick="hapusData(${baris.id})" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    Hapus
-                                </button>
-                            </div>
-                        `;
-                    }
-
-                    wadahDesktop.innerHTML += `
-                        <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#${baris.id}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">${nomorFinal}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${baris.tanggal_permintaan}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                                ${baris.nama_peminta}<br>
-                                <span class="text-xs text-gray-500 font-normal">${baris.email}</span>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">
-                                <div class="font-medium text-gray-900">${baris.judul_keperluan}</div>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
-                                    ${baris.jenis_cetak}
-                                </span>
-                            </td>
-                            ${selAksiDesktop}
-                        </tr>
-                    `;
-
-                    wadahMobile.innerHTML += `
-                        <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>
-                                    <h3 class="text-lg font-bold text-gray-900 mt-1">${baris.judul_keperluan}</h3>
-                                </div>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                    ${baris.tanggal_permintaan}
-                                </span>
-                            </div>
-                            
-                            <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3">
-                                <p class="text-xs text-blue-600 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p>
-                                <p class="font-bold text-blue-900">${nomorFinal}</p>
-                            </div>
-
-                            <div class="text-sm text-gray-600 space-y-1">
-                                <p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p>
-                                <p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p>
-                            </div>
-                            
-                            ${tombolAksiMobile}
-                        </div>
-                    `;
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('loadingState').innerHTML = '<span class="text-red-500 font-medium bg-red-50 px-4 py-2 rounded">Gagal mengambil data database.</span>';
-            });
     </script>
 </body>
 </html>
