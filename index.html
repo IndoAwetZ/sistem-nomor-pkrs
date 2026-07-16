@@ -4,58 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Penomoran PKRS</title>
-    <!-- Menambahkan sedikit gaya CSS agar tabel rapi -->
+    <!-- Memanggil Tailwind CSS langsung -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        /* CSS tambahan sederhana untuk efek transisi */
+        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
     </style>
 </head>
-<body>
-    <h2>Daftar Permintaan Nomor PKRS</h2>
-    
-    <table id="tabelPkrs">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Timestamp</th>
-                <th>Nama Peminta</th>
-                <th>Tanggal Permintaan</th>
-                <th>Jenis Cetak</th>
-                <th>Judul Keperluan</th>
-                <th>Email Tujuan</th>
-            </tr>
-        </thead>
-        <tbody id="isiTabel">
-            <!-- Data akan muncul di sini secara otomatis -->
-        </tbody>
-    </table>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Navbar / Header Atas -->
+    <nav class="bg-blue-600 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
+                </div>
+                <!-- Tempat tombol Create menyusul di sini -->
+                 <div class="flex items-center space-x-4">
+                    <!-- Indikator Admin & Tombol Keluar (Tersembunyi secara default) -->
+                    <div id="panelAdmin" class="hidden flex items-center space-x-3">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300">ADMIN MODE</span>
+                        <button onclick="prosesLogout()" class="text-white text-sm hover:text-gray-200">Logout</button>
+                    </div>
+
+                    <!-- Tombol Nomor Baru -->
+                    <button class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow">
+                        + Nomor Baru
+                    </button>
+                </div>
+                <button class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow">
+                    + Nomor Baru
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konten Utama -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="mb-6 flex justify-between items-end">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
+                <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+            </div>
+        </div>
+
+        <!-- Wadah Data (Loading State) -->
+        <div id="loadingState" class="text-center py-10">
+            <p class="text-gray-500 animate-pulse">Memuat data dari database...</p>
+        </div>
+
+        <!-- Tabel untuk Layar Lebar (Desktop/Tablet) -->
+        <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Permintaan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminta</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keperluan & Jenis</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kontak</th>
+                    </tr>
+                </thead>
+                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200">
+                    <!-- Data masuk ke sini -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Kartu untuk Layar Kecil (Mobile) -->
+        <div id="isiTabelMobile" class="md:hidden space-y-4">
+            <!-- Data masuk ke sini sebagai kartu -->
+        </div>
+
+    </main>
 
     <script>
-        // Mengambil data dari jembatan API D1
+        // Logika penarikan API
         fetch('/api/pkrs')
             .then(response => response.json())
             .then(data => {
-                const isiTabel = document.getElementById('isiTabel');
+                document.getElementById('loadingState').style.display = 'none';
+                
+                const wadahDesktop = document.getElementById('isiTabelDesktop');
+                const wadahMobile = document.getElementById('isiTabelMobile');
+                
+                if (data.length === 0) {
+                    wadahDesktop.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">Belum ada data permintaan.</td></tr>';
+                    wadahMobile.innerHTML = '<div class="text-center py-10 text-gray-500">Belum ada data.</div>';
+                    return;
+                }
+
                 data.forEach(baris => {
-                    isiTabel.innerHTML += `
-                        <tr>
-                            <td>${baris.id}</td>
-                            <td>${baris.timestamp}</td>
-                            <td>${baris.nama_peminta}</td>
-                            <td>${baris.tanggal_permintaan}</td>
-                            <td>${baris.jenis_cetak}</td>
-                            <td>${baris.judul_keperluan}</td>
-                            <td>${baris.email}</td>
+                    // 1. Render untuk Tampilan Desktop (Tabel)
+                    wadahDesktop.innerHTML += `
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">#${baris.id}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${baris.tanggal_permintaan}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${baris.nama_peminta}</td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                <div class="font-medium text-gray-900">${baris.judul_keperluan}</div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                                    ${baris.jenis_cetak}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${baris.email}</td>
                         </tr>
+                    `;
+
+                    // 2. Render untuk Tampilan Mobile (Kartu)
+                    wadahMobile.innerHTML += `
+                        <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
+                            <div class="flex justify-between items-start border-b border-gray-100 pb-3 mb-3">
+                                <div>
+                                    <span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>
+                                    <h3 class="text-lg font-bold text-gray-900 mt-1">${baris.judul_keperluan}</h3>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    ${baris.tanggal_permintaan}
+                                </span>
+                            </div>
+                            <div class="text-sm text-gray-600 space-y-1">
+                                <p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p>
+                                <p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p>
+                                <p><span class="font-medium text-gray-900">Email:</span> ${baris.email}</p>
+                            </div>
+                        </div>
                     `;
                 });
             })
             .catch(error => {
-                console.error('Terjadi kesalahan:', error);
-                document.getElementById('isiTabel').innerHTML = '<tr><td colspan="7">Gagal memuat data.</td></tr>';
+                console.error('Error:', error);
+                document.getElementById('loadingState').innerHTML = '<span class="text-red-500 font-medium">Gagal mengambil data database.</span>';
             });
     </script>
+
+    <script>
+        // Cek apakah ada status admin di memori browser
+        const peranSistem = localStorage.getItem('role_sistem');
+
+        if (peranSistem === 'admin') {
+            // Tampilkan panel admin di pojok kanan atas
+            document.getElementById('panelAdmin').classList.remove('hidden');
+        }
+
+        // Fungsi untuk menghapus sesi admin
+        function prosesLogout() {
+            localStorage.removeItem('role_sistem');
+            window.location.reload(); // Segarkan halaman agar kembali jadi User biasa
+        }
+    </script>
+
 </body>
 </html>
