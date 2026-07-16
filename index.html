@@ -151,7 +151,32 @@
         }
 
         function hapusData(id) {
-            alert(`Fitur hapus untuk ID ${id} akan segera aktif setelah API Hapus selesai dibuat!`);
+            // 3. Fungsi Hapus Data
+            async function hapusData(id) {
+                // Tampilkan pop-up konfirmasi (mencegah klik tak sengaja)
+                const konfirmasi = confirm(`AWAS: Apakah Anda yakin ingin menghapus antrean ID #${id}?\nData ini tidak dapat dikembalikan.`);
+                
+                if (konfirmasi) {
+                    try {
+                        // Tembak API Backend Anda dengan metode DELETE
+                        const response = await fetch(`/api/pkrs?id=${id}`, {
+                            method: 'DELETE'
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.sukses) {
+                            // Jika berhasil dihapus di database, segarkan halaman
+                            window.location.reload(); 
+                        } else {
+                            alert('Gagal menghapus data: ' + result.error);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menghubungi server.');
+                    }
+                }
+            }
         }
 
         // ================= LOGIKA MODAL & FORM =================

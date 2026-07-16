@@ -68,3 +68,27 @@ export async function onRequestPost(context) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
+
+// --- 4. FUNGSI UNTUK MENGHAPUS DATA (Hanya untuk Admin) ---
+export async function onRequestDelete(context) {
+  try {
+    // Menangkap ID dari URL (contoh URL: /api/pkrs?id=5)
+    const url = new URL(context.request.url);
+    const id = url.searchParams.get("id");
+
+    if (!id) {
+        return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
+    }
+
+    // Mengeksekusi perintah hapus di database D1
+    await context.env.DB.prepare("DELETE FROM nomor_pkrs WHERE id = ?").bind(id).run();
+
+    return Response.json({ 
+        sukses: true, 
+        pesan: `Data ID #${id} berhasil dihapus dari sistem.` 
+    });
+
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}
