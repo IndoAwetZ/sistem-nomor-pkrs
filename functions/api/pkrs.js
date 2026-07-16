@@ -71,7 +71,7 @@ export async function onRequestPost(context) {
               "Content-Type": "application/json"
           },
           body: JSON.stringify({
-              from: "TIM PKRS <no-reply@pkrs.hnm.my.id>", 
+              from: "TIM PKRS <no-reply@hnm.my.id>", 
               to: [input.email],
               subject: `[PKRS Hub] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
               html: desainEmail
@@ -153,7 +153,7 @@ export async function onRequestPut(context) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            from: "TIM PKRS <no-reply@pkrs.hnm.my.id>", 
+            from: "TIM PKRS <no-reply@hnm.my.id>", 
             to: [input.email],
             subject: `[Update PKRS Hub] Detail Antrean Diperbarui - ${nomorPKRSFinal}`,
             html: desainEmail
