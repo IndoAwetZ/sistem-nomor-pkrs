@@ -122,3 +122,34 @@ export async function onRequestDelete(context) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
+
+// --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT) ---
+export async function onRequestPut(context) {
+  try {
+    const input = await context.request.json();
+    
+    if (!input.id) {
+        return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
+    }
+
+    // Mengeksekusi perintah update di database D1
+    await context.env.DB.prepare(
+        "UPDATE nomor_pkrs SET nama_peminta = ?, tanggal_permintaan = ?, jenis_cetak = ?, judul_keperluan = ?, email = ? WHERE id = ?"
+    ).bind(
+        input.nama_peminta,
+        input.tanggal_permintaan,
+        input.jenis_cetak,
+        input.judul_keperluan,
+        input.email,
+        input.id
+    ).run();
+
+    return Response.json({ 
+        sukses: true, 
+        pesan: `Data ID #${input.id} berhasil diperbarui.` 
+    });
+
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}
