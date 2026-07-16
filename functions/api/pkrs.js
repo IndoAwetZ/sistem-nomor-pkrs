@@ -1,8 +1,9 @@
-// --- 1. FUNGSI UNTUK MEMBACA DATA (Tampil di Tabel Web) ---
+// --- 1. FUNGSI UNTUK MEMBACA DATA ---
 export async function onRequestGet(context) {
   try {
+    // INFO: Sekarang kita menarik kolom 'status' dari database
     const result = await context.env.DB.prepare(
-        "SELECT id, timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final FROM nomor_pkrs ORDER BY id DESC"
+        "SELECT id, timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status FROM nomor_pkrs ORDER BY id DESC"
     ).all();
     
     return Response.json(result.results);
@@ -23,7 +24,7 @@ function angkaKeRomawi(num) {
     return hasil;
 }
 
-// --- 3. FUNGSI UNTUK MENYIMPAN DATA BARU & GENERATE NOMOR ---
+// --- 3. FUNGSI UNTUK MENYIMPAN DATA BARU ---
 export async function onRequestPost(context) {
   try {
     const input = await context.request.json();
@@ -38,8 +39,9 @@ export async function onRequestPost(context) {
     
     const nomorPKRSFinal = `TIM PKRS/RSASF/${nomorUrut}/${bulan}/${tahun}`;
 
+    // INFO: Menyisipkan 'Menunggu' sebagai status awal
     await context.env.DB.prepare(
-        "INSERT INTO nomor_pkrs (timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO nomor_pkrs (timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     ).bind(
         new Date().toISOString(),
         input.nama_peminta,
@@ -47,7 +49,8 @@ export async function onRequestPost(context) {
         input.jenis_cetak,
         input.judul_keperluan,
         input.email,
-        nomorPKRSFinal
+        nomorPKRSFinal,
+        'Menunggu'
     ).run();
 
       const desainEmail = `
@@ -63,7 +66,6 @@ export async function onRequestPost(context) {
           </div>
       `;
 
-      // Eksekusi Resend (Dengan Pelacak Error)
       const kirimEmail = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -78,21 +80,13 @@ export async function onRequestPost(context) {
           })
       });
 
-      // Mencegah Silent Failure!
       if (!kirimEmail.ok) {
           const responError = await kirimEmail.json();
           throw new Error("Ditolak Resend: " + JSON.stringify(responError));
       }
 
-    return Response.json({ 
-        sukses: true, 
-        pesan: "Data berhasil disimpan!",
-        nomor_pkrs: nomorPKRSFinal 
-    });
-
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
-  }
+    return Response.json({ sukses: true, pesan: "Data berhasil disimpan!", nomor_pkrs: nomorPKRSFinal });
+  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
 }
 
 // --- 4. FUNGSI UNTUK MENGHAPUS DATA ---
@@ -100,32 +94,29 @@ export async function onRequestDelete(context) {
   try {
     const url = new URL(context.request.url);
     const id = url.searchParams.get("id");
-
     if (!id) return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
 
     await context.env.DB.prepare("DELETE FROM nomor_pkrs WHERE id = ?").bind(id).run();
-
     return Response.json({ sukses: true, pesan: `Data ID #${id} berhasil dihapus.` });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
-  }
+  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
 }
 
-// --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT) & KIRIM EMAIL REVISI ---
+// --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT & STATUS) ---
 export async function onRequestPut(context) {
   try {
     const input = await context.request.json();
-    
     if (!input.id) return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
 
+    // INFO: Mengupdate kolom status sesuai inputan Admin
     await context.env.DB.prepare(
-        "UPDATE nomor_pkrs SET nama_peminta = ?, tanggal_permintaan = ?, jenis_cetak = ?, judul_keperluan = ?, email = ? WHERE id = ?"
+        "UPDATE nomor_pkrs SET nama_peminta = ?, tanggal_permintaan = ?, jenis_cetak = ?, judul_keperluan = ?, email = ?, status = ? WHERE id = ?"
     ).bind(
         input.nama_peminta,
         input.tanggal_permintaan,
         input.jenis_cetak,
         input.judul_keperluan,
         input.email,
+        input.status,
         input.id
     ).run();
 
@@ -134,18 +125,22 @@ export async function onRequestPut(context) {
 
     const desainEmail = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-            <h2 style="color: #f59e0b;">Perubahan Data Berhasil Disimpan!</h2>
+            <h2 style="color: #f59e0b;">Perubahan Status / Data Berhasil Disimpan!</h2>
             <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
-            <p>Sesuai permintaan, kami telah <strong>memperbarui</strong> detail antrean Anda. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> sekarang telah tercatat dengan data terbaru di sistem kami.</p>
+            <p>Kami telah memperbarui detail antrean Anda untuk keperluan <strong>"${input.judul_keperluan}"</strong>.</p>
             <div style="background-color: #fef3c7; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor PKRS Anda (Tetap):</p>
+                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor PKRS Anda:</p>
                 <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #b45309;">${nomorPKRSFinal}</p>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #d97706;">
+                    <p style="margin: 0; font-size: 14px; color: #92400e;">Status Pengerjaan Saat Ini:</p>
+                    <p style="margin: 5px 0 0; font-size: 18px; font-weight: bold; color: #b45309;">${input.status.toUpperCase()}</p>
+                </div>
             </div>
-            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi revisi ini dikirim otomatis oleh Sistem PKRS Hub.</p>
+            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi ini dikirim otomatis oleh Sistem PKRS Hub.</p>
         </div>
     `;
 
-    // Eksekusi Resend (Dengan Pelacak Error)
     const kirimResend = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -155,23 +150,16 @@ export async function onRequestPut(context) {
         body: JSON.stringify({
             from: "TIM PKRS <no-reply@hnm.my.id>", 
             to: [input.email],
-            subject: `[Update PKRS Hub] Detail Antrean Diperbarui - ${nomorPKRSFinal}`,
+            subject: `[Update PKRS Hub] Status Antrean Diperbarui - ${nomorPKRSFinal}`,
             html: desainEmail
         })
     });
 
-    // Mencegah Silent Failure!
     if (!kirimResend.ok) {
         const responError = await kirimResend.json();
         throw new Error("Ditolak Resend: " + JSON.stringify(responError));
     }
 
-    return Response.json({ 
-        sukses: true, 
-        pesan: `Data ID #${input.id} berhasil diperbarui dan email telah dikirim.` 
-    });
-
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
-  }
+    return Response.json({ sukses: true, pesan: `Data ID #${input.id} berhasil diperbarui.` });
+  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
 }
