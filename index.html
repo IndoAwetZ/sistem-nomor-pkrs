@@ -4,121 +4,176 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Penomoran PKRS</title>
-    <!-- Memanggil Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* --- EFEK HOVER KARTU --- */
         .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
-        /* Animasi transisi sidebar */
-        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+
+        /* --- CSS HAMBURGER & PUSH EFFECT (DIADAPTASI DARI CODEFRONTS) --- */
+        .chm-04, .chm-04 *, .chm-04 *::before, .chm-04 *::after { box-sizing: border-box; }
+        .chm-04 { 
+            min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; 
+            background: #f3f4f6; /* Warna abu-abu background saat didorong */
+        }
+        .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
+        
+        /* Cangkang Konten Utama */
+        .chm-04__shell { 
+            position: relative; min-height: 100vh; background: #f9fafb; z-index: 2;
+            transition: transform .65s cubic-bezier(.16,1,.3,1), filter .65s; will-change: transform; 
+        }
+        
+        /* Efek Push: Layar mengecil, melengkung, dan meredup */
+        .chm-04.is-pushed .chm-04__shell { 
+            transform: translateX(260px) scale(.94); 
+            border-radius: 24px; overflow: hidden; filter: brightness(.8); 
+            box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+        }
+
+        /* Tombol Hamburger (Khusus Mobile) */
+        .chm-04__trg {
+            position: absolute; top: 10px; left: 16px; z-index: 60; width: 44px; height: 44px;
+            cursor: pointer; display: grid; place-items: center; transition: transform .5s;
+        }
+        .chm-04.is-pushed .chm-04__trg { transform: translateX(260px); }
+        
+        /* Garis Hamburger */
+        .chm-04__b { width: 24px; height: 14px; position: relative; }
+        .chm-04__b i { 
+            position: absolute; left: 0; height: 2.5px; width: 100%; border-radius: 3px; 
+            background: #ffffff; /* Putih agar terlihat di navbar biru */
+            transition: transform .5s cubic-bezier(.7,0,.2,1), opacity .3s, background .4s; 
+        }
+        .chm-04__b i:nth-child(1) { top: 0; }
+        .chm-04__b i:nth-child(2) { top: 6px; }
+        .chm-04__b i:nth-child(3) { top: 12px; }
+        
+        /* Animasi Hamburger menjadi 'X' berwarna gelap */
+        .chm-04.is-pushed .chm-04__b i { background: #1e3a8a; } 
+        .chm-04.is-pushed .chm-04__b i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .chm-04.is-pushed .chm-04__b i:nth-child(2) { opacity: 0; }
+        .chm-04.is-pushed .chm-04__b i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* Sidebar Kiri */
+        .chm-04__sidebar {
+            position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40;
+            background: #ffffff; border-right: 1px solid #e5e7eb;
+            transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1);
+            padding: 80px 24px 24px; display: flex; flex-direction: column;
+        }
+        .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased relative">
+<body class="text-gray-800 font-sans antialiased">
 
-    <!-- ================= NAVBAR ================= -->
-    <nav class="bg-blue-600 shadow-lg relative z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
-                    <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
-                </div>
-                
-                <!-- Desktop Menu (Sembunyi di Mobile) -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300 shadow-sm">ADMIN MODE</span>
-                        <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
-                    </div>
-                    <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
-                        + Nomor Baru
-                    </button>
-                </div>
-
-                <!-- Hamburger Button (Hanya tampil di Mobile) -->
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleSidebar()" class="text-white hover:text-blue-200 focus:outline-none">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+    <!-- ================= KERANGKA OFF-CANVAS CODEFRONTS ================= -->
+    <div class="chm-04" id="appRoot">
+        <div class="chm-04__scene">
+            
+            <!-- Tombol Hamburger (Disembunyikan di layar besar/Desktop) -->
+            <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+                <div class="chm-04__b"><i></i><i></i><i></i></div>
             </div>
-        </div>
-    </nav>
 
-    <!-- ================= SIDEBAR MOBILE (Off-Canvas) ================= -->
-    <div id="overlaySidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
-    <div id="menuSidebar" class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl z-50 transform translate-x-full sidebar-transition flex flex-col">
-        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-blue-50">
-            <span class="font-bold text-blue-800">Menu Navigasi</span>
-            <button onclick="toggleSidebar()" class="text-gray-500 hover:text-red-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-        <div class="p-6 space-y-4 flex-grow">
-            <button onclick="toggleSidebar(); bukaModal();" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center">
-                + Buat Nomor Baru
-            </button>
-            <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-4 border-t border-gray-100">
-                <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode Aktif</span>
-                <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Logout</button>
+            <!-- Sidebar Mobile -->
+            <aside class="chm-04__sidebar md:hidden">
+                <div class="space-y-4">
+                    <div class="text-sm font-bold text-gray-400 tracking-wider mb-6">MENU NAVIGASI</div>
+                    
+                    <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center transition-colors">
+                        + Buat Nomor Baru
+                    </button>
+                    
+                    <!-- Panel Admin Khusus Mobile -->
+                    <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode</span>
+                        <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Logout</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Cangkang Konten (Yang Akan Terdorong) -->
+            <div class="chm-04__shell">
+                
+                <!-- Navbar / Header Atas -->
+                <nav class="bg-blue-600 shadow-lg relative z-40 h-16">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                        <div class="flex justify-center md:justify-between h-full items-center">
+                            
+                            <!-- Logo (Tengah di Mobile, Kiri di Desktop) -->
+                            <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
+                                <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
+                            </div>
+                            
+                            <!-- Menu Desktop (Sembunyi di Mobile) -->
+                            <div class="hidden md:flex items-center space-x-4">
+                                <div id="panelAdminDesktop" class="hidden flex items-center space-x-3">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300 shadow-sm">ADMIN MODE</span>
+                                    <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
+                                </div>
+                                <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
+                                    + Nomor Baru
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Konten Utama Halaman -->
+                <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-y-auto" style="height: calc(100vh - 64px);">
+                    
+                    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
+                            <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+                        </div>
+                        
+                        <!-- Alat Pencarian & Ekspor -->
+                        <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <input type="text" id="inputPencarian" onkeyup="cariData()" placeholder="Cari nama atau nomor..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            </div>
+                            <button onclick="eksporCSV()" class="bg-green-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-green-700 shadow transition-colors flex items-center justify-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                Unduh CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="loadingState" class="text-center py-10">
+                        <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
+                    </div>
+
+                    <!-- Tabel Desktop -->
+                    <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor PKRS</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
+                                    <th id="kolomAksiHeader" class="hidden px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Kartu Mobile -->
+                    <div id="isiTabelMobile" class="md:hidden space-y-4 pb-10"></div>
+                </main>
             </div>
         </div>
     </div>
+    <!-- ================= END KERANGKA OFF-CANVAS ================= -->
 
-    <!-- ================= KONTEN UTAMA ================= -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Header & Action Tools -->
-        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
-                <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
-            </div>
-            
-            <!-- Alat Pencarian & Ekspor -->
-            <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                    <input type="text" id="inputPencarian" onkeyup="cariData()" placeholder="Cari nama, nomor, atau judul..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                </div>
-                <button onclick="eksporCSV()" class="bg-green-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-green-700 shadow transition-colors flex items-center justify-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    Unduh CSV
-                </button>
-            </div>
-        </div>
-
-        <!-- Wadah Data (Loading State) -->
-        <div id="loadingState" class="text-center py-10">
-            <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
-        </div>
-
-        <!-- Tabel untuk Desktop -->
-        <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor PKRS</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
-                        <th id="kolomAksiHeader" class="hidden px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
-            </table>
-        </div>
-
-        <!-- Kartu untuk Mobile -->
-        <div id="isiTabelMobile" class="md:hidden space-y-4"></div>
-    </main>
-
-    <!-- ================= MODAL TAMBAH DATA (Tetap Sama) ================= -->
-    <div id="modalTambah" class="hidden fixed inset-0 z-[60] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
+    <!-- ================= MODAL TAMBAH DATA (Di Luar Kerangka agar overlay aman) ================= -->
+    <div id="modalTambah" class="hidden fixed inset-0 z-[100] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md mx-4 relative">
             <h3 class="text-xl font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h3>
             <form id="formTambah" onsubmit="simpanData(event)">
@@ -160,13 +215,12 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // --- VARIABEL GLOBAL ---
-        let dataUtama = []; // Menyimpan data asli dari database
+        let dataUtama = [];
         const peranSistem = localStorage.getItem('role_sistem');
         
-        // Cek mode admin saat pertama dimuat
+        // Logika Admin
         if (peranSistem === 'admin') {
             document.getElementById('panelAdminDesktop').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.remove('hidden');
@@ -174,23 +228,12 @@
             document.getElementById('kolomAksiHeader').classList.remove('hidden');
         }
 
-        // --- FUNGSI SIDEBAR MOBILE ---
+        // Animasi Sidebar CodeFronts
         function toggleSidebar() {
-            const sidebar = document.getElementById('menuSidebar');
-            const overlay = document.getElementById('overlaySidebar');
-            
-            if (sidebar.classList.contains('translate-x-full')) {
-                // Buka Sidebar
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-            } else {
-                // Tutup Sidebar
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
+            document.getElementById('appRoot').classList.toggle('is-pushed');
         }
 
-        // --- FUNGSI OTENTIKASI & MODAL ---
+        // Otentikasi & Modal
         function prosesLogout() {
             localStorage.removeItem('role_sistem');
             window.location.reload(); 
@@ -201,8 +244,12 @@
             document.getElementById('modalTambah').classList.add('hidden');
             document.getElementById('formTambah').reset(); 
         }
+        function bukaModalDanTutupSidebar() {
+            toggleSidebar();
+            setTimeout(bukaModal, 300); // Jeda sedikit agar animasi push selesai
+        }
 
-        // --- FUNGSI RENDER TABEL (DIPISAH AGAR BISA DIPANGGIL PENCARIAN) ---
+        // Render Data ke Tabel & Kartu
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -220,8 +267,7 @@
 
             dataRender.forEach(baris => {
                 const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum ada nomor</span>';
-                let selAksiDesktop = '';
-                let tombolAksiMobile = '';
+                let selAksiDesktop = ''; let tombolAksiMobile = '';
                 
                 if (peranSistem === 'admin') {
                     selAksiDesktop = `
@@ -230,17 +276,14 @@
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Hapus
                             </button>
-                        </td>
-                    `;
-                    
+                        </td>`;
                     tombolAksiMobile = `
                         <div class="mt-3 pt-3 border-t border-gray-100 flex justify-end">
                             <button onclick="hapusData(${baris.id})" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-md">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Hapus
                             </button>
-                        </div>
-                    `;
+                        </div>`;
                 }
 
                 wadahDesktop.innerHTML += `
@@ -248,24 +291,15 @@
                         <td class="px-6 py-4 text-sm text-gray-500">#${baris.id}</td>
                         <td class="px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">${nomorFinal}</td>
                         <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">${baris.tanggal_permintaan}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 font-medium">
-                            ${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">
-                            <div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${baris.jenis_cetak}</span>
-                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 font-medium">${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span></td>
+                        <td class="px-6 py-4 text-sm text-gray-600"><div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${baris.jenis_cetak}</span></td>
                         ${selAksiDesktop}
-                    </tr>
-                `;
+                    </tr>`;
 
                 wadahMobile.innerHTML += `
                     <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
                         <div class="flex justify-between items-start mb-3">
-                            <div>
-                                <span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>
-                                <h3 class="text-lg font-bold text-gray-900 mt-1">${baris.judul_keperluan}</h3>
-                            </div>
+                            <div><span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span><h3 class="text-lg font-bold text-gray-900 mt-1">${baris.judul_keperluan}</h3></div>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">${baris.tanggal_permintaan}</span>
                         </div>
                         <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3">
@@ -277,86 +311,52 @@
                             <p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p>
                         </div>
                         ${tombolAksiMobile}
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
-        // --- MENGAMBIL DATA DARI DATABASE ---
+        // Baca Data API
         fetch('/api/pkrs')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('loadingState').style.display = 'none';
-                if (!data.error) {
-                    dataUtama = data; // Simpan ke variabel global
-                    renderTabel(dataUtama);
-                }
+                if (!data.error) { dataUtama = data; renderTabel(dataUtama); }
             })
-            .catch(error => {
-                document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>';
-            });
+            .catch(error => { document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>'; });
 
-        // --- FUNGSI PENCARIAN (SEARCH) ---
+        // Pencarian (Search)
         function cariData() {
             const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
-            
-            // Menyaring data berdasarkan Nomor, Judul, atau Nama
-            const dataDisaring = dataUtama.filter(baris => {
-                const teksNomor = (baris.nomor_pkrs_final || '').toLowerCase();
-                const teksJudul = (baris.judul_keperluan || '').toLowerCase();
-                const teksNama = (baris.nama_peminta || '').toLowerCase();
-                
-                return teksNomor.includes(kataKunci) || teksJudul.includes(kataKunci) || teksNama.includes(kataKunci);
-            });
-            
-            renderTabel(dataDisaring); // Render ulang tabel dengan data hasil filter
+            const dataDisaring = dataUtama.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(kataKunci) || (b.judul_keperluan||'').toLowerCase().includes(kataKunci) || (b.nama_peminta||'').toLowerCase().includes(kataKunci));
+            renderTabel(dataDisaring);
         }
 
-        // --- FUNGSI EXPORT CSV ---
+        // Unduh Excel (CSV)
         function eksporCSV() {
-            if (dataUtama.length === 0) return alert('Tidak ada data untuk diekspor!');
-
-            // Ambil data mana yang sedang tampil (bisa jadi sedang difilter)
+            if (dataUtama.length === 0) return alert('Tidak ada data!');
             const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
             const dataEksport = kataKunci ? dataUtama.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(kataKunci) || (b.judul_keperluan||'').toLowerCase().includes(kataKunci) || (b.nama_peminta||'').toLowerCase().includes(kataKunci)) : dataUtama;
 
-            // Membuat Header CSV
-            let kontenCSV = "ID,Nomor PKRS,Tanggal Permintaan,Nama Peminta,Email,Jenis Cetak,Judul Keperluan,Timestamp\n";
-            
-            // Memasukkan isi data ke CSV
+            let kontenCSV = "ID,Nomor PKRS,Tanggal Permintaan,Nama Peminta,Email,Jenis Cetak,Judul Keperluan\n";
             dataEksport.forEach(baris => {
-                const id = baris.id;
-                const nomor = `"${baris.nomor_pkrs_final || ''}"`;
-                const tgl = `"${baris.tanggal_permintaan || ''}"`;
-                const nama = `"${baris.nama_peminta || ''}"`;
-                const email = `"${baris.email || ''}"`;
-                const jenis = `"${baris.jenis_cetak || ''}"`;
-                const judul = `"${baris.judul_keperluan || ''}"`;
-                const waktu = `"${baris.timestamp || ''}"`;
-                
-                kontenCSV += `${id},${nomor},${tgl},${nama},${email},${jenis},${judul},${waktu}\n`;
+                kontenCSV += `${baris.id},"${baris.nomor_pkrs_final||''}","${baris.tanggal_permintaan||''}","${baris.nama_peminta||''}","${baris.email||''}","${baris.jenis_cetak||''}","${baris.judul_keperluan||''}"\n`;
             });
 
-            // Membuat pemicu download
             const blob = new Blob([kontenCSV], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Data_Antrean_PKRS_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            link.href = URL.createObjectURL(blob);
+            link.download = `Data_Antrean_PKRS_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
-        // --- FUNGSI CRUD (HAPUS & SIMPAN TETAP SAMA) ---
+        // CRUD API Requests
         async function hapusData(id) {
-            const konfirmasi = confirm(`AWAS: Apakah Anda yakin ingin menghapus antrean ID #${id}?`);
-            if (konfirmasi) {
+            if (confirm(`AWAS: Yakin hapus antrean ID #${id}?`)) {
                 try {
                     const response = await fetch(`/api/pkrs?id=${id}`, { method: 'DELETE' });
                     const result = await response.json();
                     if (result.sukses) window.location.reload(); 
-                    else alert('Gagal menghapus: ' + result.error);
+                    else alert('Gagal: ' + result.error);
                 } catch (error) { alert('Terjadi kesalahan server.'); }
             }
         }
