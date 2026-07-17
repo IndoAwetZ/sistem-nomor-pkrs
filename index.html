@@ -8,13 +8,11 @@
     <style>
         .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
         
-        /* CUSTOM SCROLLBAR ELEGAN */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* --- CSS HAMBURGER & PUSH EFFECT --- */
         .chm-04, .chm-04 *, .chm-04 *::before, .chm-04 *::after { box-sizing: border-box; }
         .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f3f4f6; }
         .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
@@ -34,9 +32,6 @@
         .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e5e7eb; transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1); padding: 24px; display: flex; flex-direction: column; }
         .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
 
-        /* =========================================================
-           CUSTOM CSS UNTUK MODAL FEEDBACK SUCCESS/ERROR & HAPUS
-           ========================================================= */
         .feedback-dlg { margin: auto; opacity: 0; transform: translateY(12px) scale(.96); transition: opacity .28s, transform .28s, overlay .28s allow-discrete, display .28s allow-discrete; }
         .feedback-dlg[open] { opacity: 1; transform: none; }
         @starting-style { .feedback-dlg[open] { opacity: 0; transform: translateY(12px) scale(.96); } }
@@ -109,7 +104,6 @@
                 <div class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
                     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
                         
-                        <!-- ================= BARIS ALAT (PENCARIAN, FILTER, CSV) ================= -->
                         <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
                             <div>
                                 <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
@@ -118,7 +112,6 @@
                             
                             <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
                                 
-                                <!-- Search Box -->
                                 <div class="relative w-full sm:w-auto">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -126,7 +119,6 @@
                                     <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                                 </div>
                                 
-                                <!-- Tombol & Panel Filter Dropdown -->
                                 <div class="relative w-full sm:w-auto">
                                     <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-700 px-4 py-2 rounded-md font-medium text-sm border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
                                         <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
@@ -134,7 +126,6 @@
                                         <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span></span>
                                     </button>
                                     
-                                    <!-- Kotak Popover Filter -->
                                     <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-[70] p-5 origin-top-right transform transition-all">
                                         <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
                                             <h4 class="font-bold text-gray-800 text-sm">Saring Data</h4>
@@ -156,6 +147,15 @@
                                                     <option value="Lainnya">Lainnya</option>
                                                 </select>
                                             </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Status Antrean</label>
+                                                <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                    <option value="">Semua Status</option>
+                                                    <option value="Menunggu">🟡 Menunggu</option>
+                                                    <option value="Diproses">🔵 Diproses</option>
+                                                    <option value="Selesai">🟢 Selesai</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         
                                         <div class="mt-6 flex space-x-2">
@@ -165,7 +165,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Tombol CSV -->
                                 <button onclick="eksporCSV()" class="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors flex items-center justify-center">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     Unduh CSV
@@ -173,7 +172,6 @@
                             </div>
                         </div>
 
-                        <!-- ================= DASHBOARD STATISTIK (HANYA INFORMASI, DIKEMBALIKAN KE SEMULA) ================= -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400">
                                 <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
@@ -233,19 +231,24 @@
                             </table>
                         </div>
 
-                        <div id="isiTabelMobile" class="md:hidden space-y-4 pb-10"></div>
+                        <div id="isiTabelMobile" class="md:hidden space-y-4 pb-4"></div>
+                        
+                        <!-- ================= BARU: WADAH PAGINATION (HALAMAN) ================= -->
+                        <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1 pb-8"></div>
+
                     </main>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= MODAL TAMBAH & EDIT DATA (FORM) ================= -->
+    <!-- ================= MODAL TAMBAH & EDIT DATA ================= -->
     <div id="modalTambah" class="hidden fixed inset-0 z-[100] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md mx-4 relative">
             <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h3>
             <form id="formTambah" onsubmit="simpanData(event)">
                 <input type="hidden" id="edit_id" value="">
+                
                 <div class="space-y-4">
                     <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-md border border-gray-200 mb-2">
                         <label class="block text-sm font-bold text-gray-700 mb-1">Ubah Status Pengerjaan</label>
@@ -292,7 +295,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL KONFIRMASI HAPUS (DOUBLE VERIFICATION) ================= -->
+    <!-- ================= MODAL KONFIRMASI HAPUS ================= -->
     <dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(420px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 shadow-2xl z-[150]">
         <div class="px-8 pb-7 pt-9 text-left">
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
@@ -311,7 +314,7 @@
         </div>
     </dialog>
 
-    <!-- ================= MODAL FEEDBACK (SUCCESS / ERROR) ================= -->
+    <!-- ================= MODAL FEEDBACK ================= -->
     <dialog id="modalFeedback" class="feedback-dlg w-[min(360px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 text-center shadow-2xl z-[160]">
         <div class="px-8 pb-7 pt-9">
             <div class="feedback-icon mx-auto mb-5 grid h-20 w-20 place-items-center">
@@ -326,8 +329,12 @@
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         let dataUtama = [];
-        let dataSaringanTerakhir = []; // Variabel untuk menyimpan hasil saringan (berguna untuk CSV)
+        let dataSaringanTerakhir = []; 
         
+        // --- KONFIGURASI PAGINATION ---
+        let halamanSaatIni = 1;
+        const barisPerHalaman = 10; 
+
         const peranSistem = localStorage.getItem('role_sistem');
         if (peranSistem === 'admin') {
             document.getElementById('panelAdminDesktop').classList.remove('hidden');
@@ -335,12 +342,10 @@
             document.getElementById('panelAdminMobile').classList.add('flex');
         }
 
-        // --- SISTEM PANEL FILTER MELAYANG ---
         function toggleFilterPanel() {
             document.getElementById('filterPanel').classList.toggle('hidden');
         }
 
-        // Menutup panel jika klik di luar area panel
         window.addEventListener('click', function(e) {
             const filterBtn = document.getElementById('btnFilterToggle');
             const filterPnl = document.getElementById('filterPanel');
@@ -349,16 +354,15 @@
             }
         });
 
-        // FUNGSI UTAMA PENYARINGAN (MENGGABUNGKAN SEARCH BOX, TANGGAL & JENIS)
         function saringDataUtama() {
             const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
             const filterTgl = document.getElementById('filterTanggal').value;
             const filterJns = document.getElementById('filterJenis').value;
+            const filterStat = document.getElementById('filterStatus').value; 
             const indikator = document.getElementById('indikatorFilter');
 
             let hasil = dataUtama;
 
-            // 1. Saring berdasar teks pencarian
             if (kataKunci) {
                 hasil = hasil.filter(b => 
                     (b.nomor_pkrs_final||'').toLowerCase().includes(kataKunci) || 
@@ -366,27 +370,19 @@
                     (b.nama_peminta||'').toLowerCase().includes(kataKunci)
                 );
             }
+            if (filterTgl) hasil = hasil.filter(b => b.tanggal_permintaan === filterTgl);
+            if (filterJns) hasil = hasil.filter(b => b.jenis_cetak === filterJns);
+            if (filterStat) hasil = hasil.filter(b => (b.status || 'Menunggu') === filterStat);
 
-            // 2. Saring berdasar Tanggal (jika diisi)
-            if (filterTgl) {
-                hasil = hasil.filter(b => b.tanggal_permintaan === filterTgl);
-            }
+            if (filterTgl || filterJns || filterStat) indikator.classList.remove('hidden');
+            else indikator.classList.add('hidden');
 
-            // 3. Saring berdasar Jenis (jika dipilih)
-            if (filterJns) {
-                hasil = hasil.filter(b => b.jenis_cetak === filterJns);
-            }
-
-            // Munculkan titik biru kedip-kedip di tombol filter jika ada filter yang aktif
-            if (filterTgl || filterJns) {
-                indikator.classList.remove('hidden');
-            } else {
-                indikator.classList.add('hidden');
-            }
-
-            dataSaringanTerakhir = hasil; // Simpan ke variabel global untuk diunduh nanti
+            dataSaringanTerakhir = hasil; 
+            
+            // Set halaman kembali ke 1 setiap kali filter berubah
+            halamanSaatIni = 1;
             renderTabel(hasil);
-            updateDashboardStatistik(hasil); // Update kartu statistik di atas
+            updateDashboardStatistik(hasil); 
         }
 
         function terapkanFilterBaru() {
@@ -397,6 +393,7 @@
         function resetFilter() {
             document.getElementById('filterTanggal').value = '';
             document.getElementById('filterJenis').value = '';
+            document.getElementById('filterStatus').value = ''; 
             saringDataUtama();
             document.getElementById('filterPanel').classList.add('hidden');
         }
@@ -408,7 +405,6 @@
             document.getElementById('statSelesai').innerText = dataRender.filter(d => d.status === 'Selesai').length;
         }
 
-        // --- SISTEM MODAL FEEDBACK ANIMASI ---
         let aksiSetelahTutupModal = null; 
         function tampilkanFeedback(tipe, judul, pesan, reloadOnClose = false) {
             const dlg = document.getElementById('modalFeedback');
@@ -423,11 +419,8 @@
             document.getElementById('feedbackTitle').textContent = judul;
             document.getElementById('feedbackMsg').textContent = pesan;
             
-            if(tipe === 'ok') {
-                btnClose.className = "mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-blue-700 active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400";
-            } else {
-                btnClose.className = "mt-6 w-full rounded-xl bg-red-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-red-700 active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400";
-            }
+            if(tipe === 'ok') btnClose.className = "mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-blue-700 active:translate-y-px";
+            else btnClose.className = "mt-6 w-full rounded-xl bg-red-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-red-700 active:translate-y-px";
             
             dlg.showModal();
             void dlg.offsetWidth; 
@@ -440,7 +433,6 @@
             if (aksiSetelahTutupModal) aksiSetelahTutupModal();
         });
 
-        // --- SISTEM MODAL KONFIRMASI HAPUS ---
         let targetIdHapus = null;
         let targetJudulHapus = '';
 
@@ -464,8 +456,7 @@
 
         function cekInputHapus() {
             const inputVal = document.getElementById('inputKonfirmasiHapus').value;
-            const btn = document.getElementById('btnProsesHapus');
-            btn.disabled = (inputVal !== targetJudulHapus);
+            document.getElementById('btnProsesHapus').disabled = (inputVal !== targetJudulHapus);
         }
 
         async function prosesHapusData() {
@@ -476,15 +467,11 @@
             try {
                 const res = await fetch(`/api/pkrs?id=${id}`, { method: 'DELETE' });
                 const r = await res.json();
-                if (r.sukses) {
-                    tampilkanFeedback('ok', 'Data Terhapus!', `Antrean #${id} telah dibuang secara permanen dari sistem.`, true);
-                } else {
-                    tampilkanFeedback('err', 'Gagal Menghapus', r.error);
-                }
+                if (r.sukses) tampilkanFeedback('ok', 'Data Terhapus!', `Antrean #${id} telah dibuang.`, true);
+                else tampilkanFeedback('err', 'Gagal Menghapus', r.error);
             } catch (e) { tampilkanFeedback('err', 'Error Jaringan', 'Terjadi kesalahan pada server saat menghapus.'); }
         }
 
-        // --- FUNGSI STANDAR LAINNYA ---
         function toggleSidebar() { document.getElementById('appRoot').classList.toggle('is-pushed'); }
         function prosesLogout() { localStorage.removeItem('role_sistem'); window.location.reload(); }
         function bukaModal() { document.getElementById('modalTambah').classList.remove('hidden'); }
@@ -563,7 +550,51 @@
             printWindow.document.close();
         }
 
-        // --- RENDER TABEL ---
+        // --- FUNGSI GANTI HALAMAN (PAGINATION) ---
+        function gantiHalaman(halamanBaru) {
+            halamanSaatIni = halamanBaru;
+            renderTabel(dataSaringanTerakhir);
+            
+            // Scroll sedikit ke atas tabel agar rapi saat pindah halaman
+            document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderPagination(totalBaris) {
+            const wadah = document.getElementById('wadahPagination');
+            const totalHalaman = Math.ceil(totalBaris / barisPerHalaman);
+            
+            wadah.innerHTML = '';
+            
+            // Jika hanya 1 halaman atau kurang, sembunyikan tombol pagination
+            if (totalHalaman <= 1) return;
+
+            let html = '';
+            
+            // Tombol Previous
+            const classBtnPrev = halamanSaatIni === 1 
+                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
+            html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${classBtnPrev}">Sebelumnya</button>`;
+
+            // Deretan Angka Halaman
+            for(let i = 1; i <= totalHalaman; i++) {
+                if(i === halamanSaatIni) {
+                    html += `<button class="px-3 py-1.5 rounded-md border border-blue-600 bg-blue-600 text-white text-sm font-bold shadow-sm transition-colors">${i}</button>`;
+                } else {
+                    html += `<button onclick="gantiHalaman(${i})" class="px-3 py-1.5 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium transition-colors">${i}</button>`;
+                }
+            }
+
+            // Tombol Next
+            const classBtnNext = halamanSaatIni === totalHalaman 
+                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
+            html += `<button onclick="gantiHalaman(${halamanSaatIni + 1})" ${halamanSaatIni === totalHalaman ? 'disabled' : ''} class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${classBtnNext}">Berikutnya</button>`;
+
+            wadah.innerHTML = html;
+        }
+
+        // --- RENDER TABEL (DIPERBARUI DENGAN PAGINATION) ---
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -573,10 +604,16 @@
             if (dataRender.length === 0) {
                 wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan pencarian/filter.</td></tr>`;
                 wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan pencarian/filter.</div>';
+                document.getElementById('wadahPagination').innerHTML = ''; // Kosongkan pagination
                 return;
             }
 
-            dataRender.forEach(baris => {
+            // PEMOTONGAN DATA UNTUK HALAMAN SAAT INI
+            const indexAwal = (halamanSaatIni - 1) * barisPerHalaman;
+            const indexAkhir = indexAwal + barisPerHalaman;
+            const dataHalamanIni = dataRender.slice(indexAwal, indexAkhir);
+
+            dataHalamanIni.forEach(baris => {
                 const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum ada nomor</span>';
                 
                 let warnaStatus = 'bg-yellow-100 text-yellow-800 border-yellow-200'; 
@@ -621,19 +658,20 @@
                         ${divAksiMobile}
                     </div>`;
             });
+
+            // Tampilkan navigasi pagination berdasarkan total data saringan
+            renderPagination(dataRender.length);
         }
 
-        // PANGGILAN AWAL MEMUAT DATA
         fetch('/api/pkrs').then(r => r.json()).then(d => {
             document.getElementById('loadingState').style.display = 'none';
             if (!d.error) { 
                 dataUtama = d; 
                 dataSaringanTerakhir = d;
-                saringDataUtama(); // Langsung render sekaligus set nilai awal statistik
+                saringDataUtama(); 
             }
         }).catch(e => { document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>'; });
 
-        // EKSPOR CSV KINI MENGIKUTI DATA YANG TERSARING OLEH FILTER
         function eksporCSV() {
             if (dataSaringanTerakhir.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh pada filter ini.');
             
