@@ -108,28 +108,74 @@
 
                 <div class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
                     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
+                        
+                        <!-- ================= BARIS ALAT (PENCARIAN, FILTER, CSV) ================= -->
                         <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
                             <div>
                                 <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
                                 <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
                             </div>
-                            <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                                <div class="relative">
+                            
+                            <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
+                                
+                                <!-- Search Box -->
+                                <div class="relative w-full sm:w-auto">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     </div>
-                                    <input type="text" id="inputPencarian" onkeyup="terapkanFilter()" placeholder="Cari nama atau nomor..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                                    <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                                 </div>
-                                <button onclick="eksporCSV()" class="bg-green-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-green-700 shadow transition-colors flex items-center justify-center">
+                                
+                                <!-- Tombol & Panel Filter Dropdown -->
+                                <div class="relative w-full sm:w-auto">
+                                    <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-700 px-4 py-2 rounded-md font-medium text-sm border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                                        Filter
+                                        <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span></span>
+                                    </button>
+                                    
+                                    <!-- Kotak Popover Filter -->
+                                    <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-[70] p-5 origin-top-right transform transition-all">
+                                        <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+                                            <h4 class="font-bold text-gray-800 text-sm">Saring Data</h4>
+                                        </div>
+                                        
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
+                                                <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
+                                                <select id="filterJenis" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                    <option value="">Semua Jenis Cetak</option>
+                                                    <option value="Spanduk">Spanduk</option>
+                                                    <option value="Brosur">Brosur</option>
+                                                    <option value="Stiker">Stiker</option>
+                                                    <option value="Poster">Poster</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-6 flex space-x-2">
+                                            <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium text-xs transition-colors">Reset</button>
+                                            <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium text-xs shadow-sm transition-colors">Terapkan</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tombol CSV -->
+                                <button onclick="eksporCSV()" class="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors flex items-center justify-center">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     Unduh CSV
                                 </button>
                             </div>
                         </div>
 
-                        <!-- ================= DASHBOARD STATISTIK MINI (CLICKABLE) ================= -->
+                        <!-- ================= DASHBOARD STATISTIK (HANYA INFORMASI, DIKEMBALIKAN KE SEMULA) ================= -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div id="cardSemua" onclick="setFilterStatus('Semua')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400">
                                 <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statTotal">0</h3>
@@ -138,7 +184,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="cardMenunggu" onclick="setFilterStatus('Menunggu')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400">
                                 <p class="text-[11px] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statMenunggu">0</h3>
@@ -147,7 +193,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="cardDiproses" onclick="setFilterStatus('Diproses')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400">
                                 <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statDiproses">0</h3>
@@ -156,7 +202,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="cardSelesai" onclick="setFilterStatus('Selesai')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400">
                                 <p class="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-1">Selesai</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statSelesai">0</h3>
@@ -200,7 +246,6 @@
             <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h3>
             <form id="formTambah" onsubmit="simpanData(event)">
                 <input type="hidden" id="edit_id" value="">
-                
                 <div class="space-y-4">
                     <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-md border border-gray-200 mb-2">
                         <label class="block text-sm font-bold text-gray-700 mb-1">Ubah Status Pengerjaan</label>
@@ -251,20 +296,14 @@
     <dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(420px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 shadow-2xl z-[150]">
         <div class="px-8 pb-7 pt-9 text-left">
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
-                <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+                <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
             </div>
             <h3 class="text-xl font-bold text-gray-900 text-center mb-2">Hapus Permanen?</h3>
             <p class="text-[14px] text-gray-500 text-center mb-6 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Data beserta nomor PKRS ini akan dihapus permanen dari sistem.</p>
-            
             <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2 text-center">
-                    Ketik <span id="teksTargetHapus" class="font-bold text-red-600 select-all tracking-wide"></span> untuk mengonfirmasi:
-                </label>
+                <label class="block text-sm font-medium text-gray-700 mb-2 text-center">Ketik <span id="teksTargetHapus" class="font-bold text-red-600 select-all tracking-wide"></span> untuk mengonfirmasi:</label>
                 <input type="text" id="inputKonfirmasiHapus" oninput="cekInputHapus()" autocomplete="off" placeholder="Ketik persis seperti di atas..." class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center font-bold text-gray-900">
             </div>
-
             <div class="flex space-x-3">
                 <button type="button" onclick="tutupModalHapus()" class="w-full rounded-xl bg-gray-100 px-4 py-3 text-[15px] font-bold text-gray-700 transition hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">Batal</button>
                 <button type="button" id="btnProsesHapus" onclick="prosesHapusData()" disabled class="w-full rounded-xl bg-red-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400">Hapus Data</button>
@@ -276,10 +315,7 @@
     <dialog id="modalFeedback" class="feedback-dlg w-[min(360px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 text-center shadow-2xl z-[160]">
         <div class="px-8 pb-7 pt-9">
             <div class="feedback-icon mx-auto mb-5 grid h-20 w-20 place-items-center">
-                <svg viewBox="0 0 52 52" class="h-20 w-20">
-                    <circle class="feedback-ring" cx="26" cy="26" r="24" fill="none" stroke-width="3"></circle>
-                    <path class="feedback-mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path>
-                </svg>
+                <svg viewBox="0 0 52 52" class="h-20 w-20"><circle class="feedback-ring" cx="26" cy="26" r="24" fill="none" stroke-width="3"></circle><path class="feedback-mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path></svg>
             </div>
             <h2 id="feedbackTitle" class="text-[22px] font-extrabold tracking-tight text-gray-900">Tunggu...</h2>
             <p id="feedbackMsg" class="mt-2 text-[14.5px] leading-relaxed text-gray-500" role="status">Memproses permintaan Anda.</p>
@@ -290,91 +326,90 @@
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         let dataUtama = [];
-        let statusFilterAktif = 'Semua'; // Menyimpan filter yang sedang dipilih
-        const peranSistem = localStorage.getItem('role_sistem');
+        let dataSaringanTerakhir = []; // Variabel untuk menyimpan hasil saringan (berguna untuk CSV)
         
+        const peranSistem = localStorage.getItem('role_sistem');
         if (peranSistem === 'admin') {
             document.getElementById('panelAdminDesktop').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.add('flex');
         }
 
-        // --- FUNGSI FILTER BERBASIS KARTU (SMART FILTER) ---
-        function setFilterStatus(statusYangDiklik) {
-            // Jika mengeklik kartu yang sama (dan bukan Semua), maka matikan filter (kembali ke Semua)
-            if (statusFilterAktif === statusYangDiklik && statusYangDiklik !== 'Semua') {
-                statusFilterAktif = 'Semua';
-            } else {
-                statusFilterAktif = statusYangDiklik;
-            }
-            terapkanFilter();
+        // --- SISTEM PANEL FILTER MELAYANG ---
+        function toggleFilterPanel() {
+            document.getElementById('filterPanel').classList.toggle('hidden');
         }
 
-        function terapkanFilter() {
-            const k = document.getElementById('inputPencarian').value.toLowerCase();
-            
-            // 1. Filter Berdasarkan Kata Kunci Pencarian Dulu
-            let dataSaringKataKunci = dataUtama;
-            if (k) {
-                dataSaringKataKunci = dataUtama.filter(b => 
-                    (b.nomor_pkrs_final||'').toLowerCase().includes(k) || 
-                    (b.judul_keperluan||'').toLowerCase().includes(k) || 
-                    (b.nama_peminta||'').toLowerCase().includes(k)
+        // Menutup panel jika klik di luar area panel
+        window.addEventListener('click', function(e) {
+            const filterBtn = document.getElementById('btnFilterToggle');
+            const filterPnl = document.getElementById('filterPanel');
+            if (!filterBtn.contains(e.target) && !filterPnl.contains(e.target)) {
+                filterPnl.classList.add('hidden');
+            }
+        });
+
+        // FUNGSI UTAMA PENYARINGAN (MENGGABUNGKAN SEARCH BOX, TANGGAL & JENIS)
+        function saringDataUtama() {
+            const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
+            const filterTgl = document.getElementById('filterTanggal').value;
+            const filterJns = document.getElementById('filterJenis').value;
+            const indikator = document.getElementById('indikatorFilter');
+
+            let hasil = dataUtama;
+
+            // 1. Saring berdasar teks pencarian
+            if (kataKunci) {
+                hasil = hasil.filter(b => 
+                    (b.nomor_pkrs_final||'').toLowerCase().includes(kataKunci) || 
+                    (b.judul_keperluan||'').toLowerCase().includes(kataKunci) || 
+                    (b.nama_peminta||'').toLowerCase().includes(kataKunci)
                 );
             }
 
-            // 2. Perbarui Angka Statistik di Kartu (Berdasarkan Hasil Pencarian Kata Kunci)
-            document.getElementById('statTotal').innerText = dataSaringKataKunci.length;
-            document.getElementById('statMenunggu').innerText = dataSaringKataKunci.filter(d => (d.status || 'Menunggu') === 'Menunggu').length;
-            document.getElementById('statDiproses').innerText = dataSaringKataKunci.filter(d => d.status === 'Diproses').length;
-            document.getElementById('statSelesai').innerText = dataSaringKataKunci.filter(d => d.status === 'Selesai').length;
-
-            // 3. Filter Berdasarkan Status (Hanya untuk Tampilan Tabel)
-            let dataFinalUntukTabel = dataSaringKataKunci;
-            if (statusFilterAktif !== 'Semua') {
-                dataFinalUntukTabel = dataSaringKataKunci.filter(d => (d.status || 'Menunggu') === statusFilterAktif);
+            // 2. Saring berdasar Tanggal (jika diisi)
+            if (filterTgl) {
+                hasil = hasil.filter(b => b.tanggal_permintaan === filterTgl);
             }
 
-            // 4. Perbarui Visual Kartu (Mana yang menyala, mana yang redup)
-            perbaruiDesainKartu();
-
-            // 5. Render ke Tabel
-            renderTabel(dataFinalUntukTabel);
-        }
-
-        function perbaruiDesainKartu() {
-            const kartuSemua = document.getElementById('cardSemua');
-            const kartuMenunggu = document.getElementById('cardMenunggu');
-            const kartuDiproses = document.getElementById('cardDiproses');
-            const kartuSelesai = document.getElementById('cardSelesai');
-
-            // Reset semua kartu menjadi pudar
-            [kartuSemua, kartuMenunggu, kartuDiproses, kartuSelesai].forEach(k => {
-                k.classList.remove('ring-2', 'scale-[1.02]', 'shadow-md');
-                k.classList.add('opacity-40');
-            });
-
-            // Nyalakan kartu yang aktif
-            if (statusFilterAktif === 'Semua') {
-                // Jika "Semua", buat semuanya nyala terang, tapi "Total" dapat ring
-                [kartuSemua, kartuMenunggu, kartuDiproses, kartuSelesai].forEach(k => k.classList.remove('opacity-40'));
-                kartuSemua.classList.add('ring-2', 'ring-gray-400', 'scale-[1.02]', 'shadow-md');
-            } else if (statusFilterAktif === 'Menunggu') {
-                kartuMenunggu.classList.remove('opacity-40');
-                kartuMenunggu.classList.add('ring-2', 'ring-yellow-400', 'scale-[1.02]', 'shadow-md');
-            } else if (statusFilterAktif === 'Diproses') {
-                kartuDiproses.classList.remove('opacity-40');
-                kartuDiproses.classList.add('ring-2', 'ring-blue-400', 'scale-[1.02]', 'shadow-md');
-            } else if (statusFilterAktif === 'Selesai') {
-                kartuSelesai.classList.remove('opacity-40');
-                kartuSelesai.classList.add('ring-2', 'ring-green-400', 'scale-[1.02]', 'shadow-md');
+            // 3. Saring berdasar Jenis (jika dipilih)
+            if (filterJns) {
+                hasil = hasil.filter(b => b.jenis_cetak === filterJns);
             }
+
+            // Munculkan titik biru kedip-kedip di tombol filter jika ada filter yang aktif
+            if (filterTgl || filterJns) {
+                indikator.classList.remove('hidden');
+            } else {
+                indikator.classList.add('hidden');
+            }
+
+            dataSaringanTerakhir = hasil; // Simpan ke variabel global untuk diunduh nanti
+            renderTabel(hasil);
+            updateDashboardStatistik(hasil); // Update kartu statistik di atas
         }
 
+        function terapkanFilterBaru() {
+            saringDataUtama();
+            document.getElementById('filterPanel').classList.add('hidden');
+        }
+
+        function resetFilter() {
+            document.getElementById('filterTanggal').value = '';
+            document.getElementById('filterJenis').value = '';
+            saringDataUtama();
+            document.getElementById('filterPanel').classList.add('hidden');
+        }
+
+        function updateDashboardStatistik(dataRender) {
+            document.getElementById('statTotal').innerText = dataRender.length;
+            document.getElementById('statMenunggu').innerText = dataRender.filter(d => (d.status || 'Menunggu') === 'Menunggu').length;
+            document.getElementById('statDiproses').innerText = dataRender.filter(d => d.status === 'Diproses').length;
+            document.getElementById('statSelesai').innerText = dataRender.filter(d => d.status === 'Selesai').length;
+        }
 
         // --- SISTEM MODAL FEEDBACK ANIMASI ---
         let aksiSetelahTutupModal = null; 
-
         function tampilkanFeedback(tipe, judul, pesan, reloadOnClose = false) {
             const dlg = document.getElementById('modalFeedback');
             const markEl = dlg.querySelector('.feedback-mark');
@@ -397,7 +432,6 @@
             dlg.showModal();
             void dlg.offsetWidth; 
             dlg.classList.add(tipe === 'ok' ? 'is-ok' : 'is-err');
-            
             aksiSetelahTutupModal = reloadOnClose ? () => window.location.reload() : null;
         }
 
@@ -406,7 +440,7 @@
             if (aksiSetelahTutupModal) aksiSetelahTutupModal();
         });
 
-        // --- SISTEM MODAL KONFIRMASI HAPUS (DOUBLE VERIFICATION) ---
+        // --- SISTEM MODAL KONFIRMASI HAPUS ---
         let targetIdHapus = null;
         let targetJudulHapus = '';
 
@@ -420,24 +454,18 @@
             document.getElementById('teksTargetHapus').innerText = targetJudulHapus;
             document.getElementById('inputKonfirmasiHapus').value = '';
             document.getElementById('btnProsesHapus').disabled = true;
-            
             document.getElementById('modalKonfirmasiHapus').showModal();
         }
 
         function tutupModalHapus() {
             document.getElementById('modalKonfirmasiHapus').close();
-            targetIdHapus = null;
-            targetJudulHapus = '';
+            targetIdHapus = null; targetJudulHapus = '';
         }
 
         function cekInputHapus() {
             const inputVal = document.getElementById('inputKonfirmasiHapus').value;
             const btn = document.getElementById('btnProsesHapus');
-            if (inputVal === targetJudulHapus) {
-                btn.disabled = false;
-            } else {
-                btn.disabled = true;
-            }
+            btn.disabled = (inputVal !== targetJudulHapus);
         }
 
         async function prosesHapusData() {
@@ -453,9 +481,7 @@
                 } else {
                     tampilkanFeedback('err', 'Gagal Menghapus', r.error);
                 }
-            } catch (e) { 
-                tampilkanFeedback('err', 'Error Jaringan', 'Terjadi kesalahan pada server saat menghapus.'); 
-            }
+            } catch (e) { tampilkanFeedback('err', 'Error Jaringan', 'Terjadi kesalahan pada server saat menghapus.'); }
         }
 
         // --- FUNGSI STANDAR LAINNYA ---
@@ -482,10 +508,8 @@
                 document.getElementById('tanggal_permintaan').value = data.tanggal_permintaan;
                 document.getElementById('jenis_cetak').value = data.jenis_cetak;
                 document.getElementById('judul_keperluan').value = data.judul_keperluan;
-                
                 document.getElementById('status').value = data.status || 'Menunggu';
                 document.getElementById('wadahStatus').classList.remove('hidden');
-                
                 document.getElementById('modalTitle').innerText = 'Edit Data Antrean #' + id;
                 document.getElementById('btnSubmit').innerText = 'Simpan Perubahan';
                 bukaModal();
@@ -520,28 +544,17 @@
                 </head>
                 <body>
                     <div class="struk">
-                        <div class="header">
-                            <h2>RSUD PKRS HUB</h2>
-                            <p>BUKTI PERMINTAAN CETAK</p>
-                        </div>
-                        <div class="nomor">
-                            <h3>NOMOR ANTREAN:</h3>
-                            <h1>${nomor}</h1>
-                        </div>
+                        <div class="header"><h2>RSUD PKRS HUB</h2><p>BUKTI PERMINTAAN CETAK</p></div>
+                        <div class="nomor"><h3>NOMOR ANTREAN:</h3><h1>${nomor}</h1></div>
                         <div class="detail">
                             <div><span class="label">Peminta:</span> <span class="value">${data.nama_peminta}</span></div>
                             <div><span class="label">Tanggal:</span> <span class="value">${data.tanggal_permintaan}</span></div>
                             <div><span class="label">Format:</span> <span class="value">${data.jenis_cetak}</span></div>
                             <div><span class="label">Status:</span> <span class="value">${(data.status || 'Menunggu').toUpperCase()}</span></div>
                         </div>
-                        <div class="footer">
-                            <p>Harap simpan struk ini sebagai bukti antrean Anda.</p>
-                            <p>Dicetak: ${new Date().toLocaleString('id-ID')}</p>
-                        </div>
+                        <div class="footer"><p>Harap simpan struk ini sebagai bukti antrean Anda.</p><p>Dicetak: ${new Date().toLocaleString('id-ID')}</p></div>
                     </div>
-                    <script>
-                        window.onload = function() { window.print(); setTimeout(function(){ window.close(); }, 500); }
-                    <\/script>
+                    <script> window.onload = function() { window.print(); setTimeout(function(){ window.close(); }, 500); } <\/script>
                 </body>
                 </html>
             `;
@@ -550,7 +563,7 @@
             printWindow.document.close();
         }
 
-        // --- RENDER TABEL (Kini hanya fokus merender HTML, data sudah disaring oleh terapkanFilter) ---
+        // --- RENDER TABEL ---
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -558,8 +571,8 @@
             wadahDesktop.innerHTML = ''; wadahMobile.innerHTML = '';
 
             if (dataRender.length === 0) {
-                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan filter.</td></tr>`;
-                wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan filter.</div>';
+                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan pencarian/filter.</td></tr>`;
+                wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan pencarian/filter.</div>';
                 return;
             }
 
@@ -573,49 +586,14 @@
                 
                 const badgeStatus = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider ${warnaStatus}">${teksStatus}</span>`;
 
-                let btnCetakPDF = `
-                    <button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center justify-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 w-full mb-2">
-                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                        Struk
-                    </button>
-                `;
+                let btnCetakPDF = `<button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center justify-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
-                let selAksiDesktop = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center align-middle">
-                        <div class="flex flex-col w-full max-w-[120px] mx-auto">
-                            ${btnCetakPDF}
-                `;
-                
-                let divAksiMobile = `
-                    <div class="mt-3 pt-3 border-t border-gray-100 flex flex-wrap justify-end gap-2">
-                        <button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 flex-grow justify-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                            Struk
-                        </button>
-                `;
+                let selAksiDesktop = `<td class="px-6 py-4 whitespace-nowrap text-sm text-center align-middle"><div class="flex flex-col w-full max-w-[120px] mx-auto">${btnCetakPDF}`;
+                let divAksiMobile = `<div class="mt-3 pt-3 border-t border-gray-100 flex flex-wrap justify-end gap-2"><button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 flex-grow justify-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
                 if (peranSistem === 'admin') {
-                    selAksiDesktop += `
-                        <button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center justify-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100 w-full mb-2">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            Edit
-                        </button>
-                        <button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center justify-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100 w-full">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            Hapus
-                        </button>
-                    `;
-                    
-                    divAksiMobile += `
-                        <button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            Edit
-                        </button>
-                        <button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            Hapus
-                        </button>
-                    `;
+                    selAksiDesktop += `<button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center justify-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center justify-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100 w-full"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
+                    divAksiMobile += `<button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
                 }
                 
                 selAksiDesktop += `</div></td>`;
@@ -624,10 +602,7 @@
                 wadahDesktop.innerHTML += `
                     <tr class="hover:bg-blue-50/50">
                         <td class="px-6 py-4 text-sm text-gray-500">#${baris.id}</td>
-                        <td class="px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">
-                            ${nomorFinal}<br>
-                            <div class="mt-1">${badgeStatus}</div>
-                        </td>
+                        <td class="px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">${nomorFinal}<br><div class="mt-1">${badgeStatus}</div></td>
                         <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">${baris.tanggal_permintaan}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 font-medium">${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span></td>
                         <td class="px-6 py-4 text-sm text-gray-600"><div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${baris.jenis_cetak}</span></td>
@@ -637,57 +612,37 @@
                 wadahMobile.innerHTML += `
                     <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
                         <div class="flex justify-between items-start mb-3">
-                            <div class="flex items-center space-x-2">
-                                <span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>
-                                ${badgeStatus}
-                            </div>
+                            <div class="flex items-center space-x-2"><span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>${badgeStatus}</div>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">${baris.tanggal_permintaan}</span>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 mb-3">${baris.judul_keperluan}</h3>
-                        <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3">
-                            <p class="text-xs text-blue-600 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p>
-                            <p class="font-bold text-blue-900 break-words">${nomorFinal}</p>
-                        </div>
-                        <div class="text-sm text-gray-600 space-y-1">
-                            <p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p>
-                            <p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p>
-                        </div>
+                        <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3"><p class="text-xs text-blue-600 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p><p class="font-bold text-blue-900 break-words">${nomorFinal}</p></div>
+                        <div class="text-sm text-gray-600 space-y-1"><p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p><p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p></div>
                         ${divAksiMobile}
                     </div>`;
             });
         }
 
-        // PANGGILAN AWAL
+        // PANGGILAN AWAL MEMUAT DATA
         fetch('/api/pkrs').then(r => r.json()).then(d => {
             document.getElementById('loadingState').style.display = 'none';
             if (!d.error) { 
                 dataUtama = d; 
-                terapkanFilter(); // Gantikan pemanggilan renderTabel dengan terapkanFilter
+                dataSaringanTerakhir = d;
+                saringDataUtama(); // Langsung render sekaligus set nilai awal statistik
             }
         }).catch(e => { document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>'; });
 
-        // EKSPOR CSV JUGA MENGIKUTI FILTER STATUS
+        // EKSPOR CSV KINI MENGIKUTI DATA YANG TERSARING OLEH FILTER
         function eksporCSV() {
-            if (dataUtama.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh.');
+            if (dataSaringanTerakhir.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh pada filter ini.');
             
-            const k = document.getElementById('inputPencarian').value.toLowerCase();
-            let dataUnduh = dataUtama;
-            
-            if (k) {
-                dataUnduh = dataUnduh.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(k) || (b.judul_keperluan||'').toLowerCase().includes(k) || (b.nama_peminta||'').toLowerCase().includes(k));
-            }
-            if (statusFilterAktif !== 'Semua') {
-                dataUnduh = dataUnduh.filter(b => (b.status || 'Menunggu') === statusFilterAktif);
-            }
-
-            if(dataUnduh.length === 0) return tampilkanFeedback('err', 'Gagal', 'Data pada filter ini kosong.');
-
             let c = "ID,Nomor PKRS,Tanggal Permintaan,Nama Peminta,Email,Jenis Cetak,Judul Keperluan,Status\n";
-            dataUnduh.forEach(b => { c += `${b.id},"${b.nomor_pkrs_final||''}","${b.tanggal_permintaan||''}","${b.nama_peminta||''}","${b.email||''}","${b.jenis_cetak||''}","${b.judul_keperluan||''}","${b.status||'Menunggu'}"\n`; });
+            dataSaringanTerakhir.forEach(b => { c += `${b.id},"${b.nomor_pkrs_final||''}","${b.tanggal_permintaan||''}","${b.nama_peminta||''}","${b.email||''}","${b.jenis_cetak||''}","${b.judul_keperluan||''}","${b.status||'Menunggu'}"\n`; });
             
             const blob = new Blob([c], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a"); link.href = URL.createObjectURL(blob); 
-            link.download = `Data_Antrean_${statusFilterAktif}_${new Date().toISOString().split('T')[0]}.csv`;
+            link.download = `Laporan_Antrean_PKRS_${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
@@ -710,35 +665,18 @@
             try {
                 let url = '/api/pkrs';
                 let method = 'POST'; 
-                if (editId) {
-                    dataKirim.id = editId;
-                    method = 'PUT';
-                }
+                if (editId) { dataKirim.id = editId; method = 'PUT'; }
 
-                const response = await fetch(url, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dataKirim)
-                });
-                
+                const response = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataKirim) });
                 const result = await response.json();
                 tutupModal();
                 
                 if (result.sukses) { 
-                    if (editId) {
-                        tampilkanFeedback('ok', 'Berhasil Diperbarui!', 'Notifikasi revisi juga telah dikirim ke email peminta.', true);
-                    } else {
-                        tampilkanFeedback('ok', 'Berhasil!', `Nomor PKRS Anda: ${result.nomor_pkrs}`, true);
-                    }
-                } else { 
-                    tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); 
-                }
-            } catch (error) { 
-                tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
-            } finally { 
-                btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; 
-                btnSubmit.disabled = false; 
-            }
+                    if (editId) { tampilkanFeedback('ok', 'Berhasil Diperbarui!', 'Notifikasi revisi juga telah dikirim ke email peminta.', true); } 
+                    else { tampilkanFeedback('ok', 'Berhasil!', `Nomor PKRS Anda: ${result.nomor_pkrs}`, true); }
+                } else { tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); }
+            } catch (error) { tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
+            } finally { btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; btnSubmit.disabled = false; }
         }
     </script>
 </body>
