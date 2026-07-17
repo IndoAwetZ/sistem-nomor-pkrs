@@ -118,7 +118,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     </div>
-                                    <input type="text" id="inputPencarian" onkeyup="cariData()" placeholder="Cari nama atau nomor..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                                    <input type="text" id="inputPencarian" onkeyup="terapkanFilter()" placeholder="Cari nama atau nomor..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                                 </div>
                                 <button onclick="eksporCSV()" class="bg-green-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-green-700 shadow transition-colors flex items-center justify-center">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -127,9 +127,9 @@
                             </div>
                         </div>
 
-                        <!-- ================= BARU: DASHBOARD STATISTIK MINI ================= -->
+                        <!-- ================= DASHBOARD STATISTIK MINI (CLICKABLE) ================= -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400 hover:shadow-md transition-shadow">
+                            <div id="cardSemua" onclick="setFilterStatus('Semua')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400 transition-all duration-200">
                                 <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statTotal">0</h3>
@@ -138,7 +138,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400 hover:shadow-md transition-shadow">
+                            <div id="cardMenunggu" onclick="setFilterStatus('Menunggu')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400 transition-all duration-200">
                                 <p class="text-[11px] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statMenunggu">0</h3>
@@ -147,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400 hover:shadow-md transition-shadow">
+                            <div id="cardDiproses" onclick="setFilterStatus('Diproses')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400 transition-all duration-200">
                                 <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statDiproses">0</h3>
@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400 hover:shadow-md transition-shadow">
+                            <div id="cardSelesai" onclick="setFilterStatus('Selesai')" class="cursor-pointer bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400 transition-all duration-200">
                                 <p class="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-1">Selesai</p>
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-2xl font-black text-gray-800" id="statSelesai">0</h3>
@@ -166,7 +166,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- ================= AKHIR DASHBOARD STATISTIK MINI ================= -->
 
                         <div id="loadingState" class="text-center py-10">
                             <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
@@ -291,6 +290,7 @@
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         let dataUtama = [];
+        let statusFilterAktif = 'Semua'; // Menyimpan filter yang sedang dipilih
         const peranSistem = localStorage.getItem('role_sistem');
         
         if (peranSistem === 'admin') {
@@ -298,6 +298,79 @@
             document.getElementById('panelAdminMobile').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.add('flex');
         }
+
+        // --- FUNGSI FILTER BERBASIS KARTU (SMART FILTER) ---
+        function setFilterStatus(statusYangDiklik) {
+            // Jika mengeklik kartu yang sama (dan bukan Semua), maka matikan filter (kembali ke Semua)
+            if (statusFilterAktif === statusYangDiklik && statusYangDiklik !== 'Semua') {
+                statusFilterAktif = 'Semua';
+            } else {
+                statusFilterAktif = statusYangDiklik;
+            }
+            terapkanFilter();
+        }
+
+        function terapkanFilter() {
+            const k = document.getElementById('inputPencarian').value.toLowerCase();
+            
+            // 1. Filter Berdasarkan Kata Kunci Pencarian Dulu
+            let dataSaringKataKunci = dataUtama;
+            if (k) {
+                dataSaringKataKunci = dataUtama.filter(b => 
+                    (b.nomor_pkrs_final||'').toLowerCase().includes(k) || 
+                    (b.judul_keperluan||'').toLowerCase().includes(k) || 
+                    (b.nama_peminta||'').toLowerCase().includes(k)
+                );
+            }
+
+            // 2. Perbarui Angka Statistik di Kartu (Berdasarkan Hasil Pencarian Kata Kunci)
+            document.getElementById('statTotal').innerText = dataSaringKataKunci.length;
+            document.getElementById('statMenunggu').innerText = dataSaringKataKunci.filter(d => (d.status || 'Menunggu') === 'Menunggu').length;
+            document.getElementById('statDiproses').innerText = dataSaringKataKunci.filter(d => d.status === 'Diproses').length;
+            document.getElementById('statSelesai').innerText = dataSaringKataKunci.filter(d => d.status === 'Selesai').length;
+
+            // 3. Filter Berdasarkan Status (Hanya untuk Tampilan Tabel)
+            let dataFinalUntukTabel = dataSaringKataKunci;
+            if (statusFilterAktif !== 'Semua') {
+                dataFinalUntukTabel = dataSaringKataKunci.filter(d => (d.status || 'Menunggu') === statusFilterAktif);
+            }
+
+            // 4. Perbarui Visual Kartu (Mana yang menyala, mana yang redup)
+            perbaruiDesainKartu();
+
+            // 5. Render ke Tabel
+            renderTabel(dataFinalUntukTabel);
+        }
+
+        function perbaruiDesainKartu() {
+            const kartuSemua = document.getElementById('cardSemua');
+            const kartuMenunggu = document.getElementById('cardMenunggu');
+            const kartuDiproses = document.getElementById('cardDiproses');
+            const kartuSelesai = document.getElementById('cardSelesai');
+
+            // Reset semua kartu menjadi pudar
+            [kartuSemua, kartuMenunggu, kartuDiproses, kartuSelesai].forEach(k => {
+                k.classList.remove('ring-2', 'scale-[1.02]', 'shadow-md');
+                k.classList.add('opacity-40');
+            });
+
+            // Nyalakan kartu yang aktif
+            if (statusFilterAktif === 'Semua') {
+                // Jika "Semua", buat semuanya nyala terang, tapi "Total" dapat ring
+                [kartuSemua, kartuMenunggu, kartuDiproses, kartuSelesai].forEach(k => k.classList.remove('opacity-40'));
+                kartuSemua.classList.add('ring-2', 'ring-gray-400', 'scale-[1.02]', 'shadow-md');
+            } else if (statusFilterAktif === 'Menunggu') {
+                kartuMenunggu.classList.remove('opacity-40');
+                kartuMenunggu.classList.add('ring-2', 'ring-yellow-400', 'scale-[1.02]', 'shadow-md');
+            } else if (statusFilterAktif === 'Diproses') {
+                kartuDiproses.classList.remove('opacity-40');
+                kartuDiproses.classList.add('ring-2', 'ring-blue-400', 'scale-[1.02]', 'shadow-md');
+            } else if (statusFilterAktif === 'Selesai') {
+                kartuSelesai.classList.remove('opacity-40');
+                kartuSelesai.classList.add('ring-2', 'ring-green-400', 'scale-[1.02]', 'shadow-md');
+            }
+        }
+
 
         // --- SISTEM MODAL FEEDBACK ANIMASI ---
         let aksiSetelahTutupModal = null; 
@@ -477,32 +550,19 @@
             printWindow.document.close();
         }
 
-        // --- FUNGSI UPDATE DATA TABEL & STATISTIK ---
+        // --- RENDER TABEL (Kini hanya fokus merender HTML, data sudah disaring oleh terapkanFilter) ---
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
             
-            // 1. Hitung dan Tampilkan Statistik Terkini
-            const tTotal = dataRender.length;
-            const tMenunggu = dataRender.filter(d => (d.status || 'Menunggu') === 'Menunggu').length;
-            const tDiproses = dataRender.filter(d => d.status === 'Diproses').length;
-            const tSelesai = dataRender.filter(d => d.status === 'Selesai').length;
-
-            document.getElementById('statTotal').innerText = tTotal;
-            document.getElementById('statMenunggu').innerText = tMenunggu;
-            document.getElementById('statDiproses').innerText = tDiproses;
-            document.getElementById('statSelesai').innerText = tSelesai;
-
-            // 2. Kosongkan Tabel
             wadahDesktop.innerHTML = ''; wadahMobile.innerHTML = '';
 
             if (dataRender.length === 0) {
-                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Tidak ada data ditemukan.</td></tr>`;
-                wadahMobile.innerHTML = '<div class="text-center py-10 text-gray-500 bg-white rounded-lg border">Tidak ada data ditemukan.</div>';
+                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan filter.</td></tr>`;
+                wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan filter.</div>';
                 return;
             }
 
-            // 3. Masukkan Data ke Tabel
             dataRender.forEach(baris => {
                 const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum ada nomor</span>';
                 
@@ -597,24 +657,37 @@
             });
         }
 
+        // PANGGILAN AWAL
         fetch('/api/pkrs').then(r => r.json()).then(d => {
             document.getElementById('loadingState').style.display = 'none';
-            if (!d.error) { dataUtama = d; renderTabel(dataUtama); }
+            if (!d.error) { 
+                dataUtama = d; 
+                terapkanFilter(); // Gantikan pemanggilan renderTabel dengan terapkanFilter
+            }
         }).catch(e => { document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>'; });
 
-        function cariData() {
-            const k = document.getElementById('inputPencarian').value.toLowerCase();
-            renderTabel(dataUtama.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(k) || (b.judul_keperluan||'').toLowerCase().includes(k) || (b.nama_peminta||'').toLowerCase().includes(k)));
-        }
-
+        // EKSPOR CSV JUGA MENGIKUTI FILTER STATUS
         function eksporCSV() {
             if (dataUtama.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh.');
+            
             const k = document.getElementById('inputPencarian').value.toLowerCase();
-            const d = k ? dataUtama.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(k) || (b.judul_keperluan||'').toLowerCase().includes(k) || (b.nama_peminta||'').toLowerCase().includes(k)) : dataUtama;
+            let dataUnduh = dataUtama;
+            
+            if (k) {
+                dataUnduh = dataUnduh.filter(b => (b.nomor_pkrs_final||'').toLowerCase().includes(k) || (b.judul_keperluan||'').toLowerCase().includes(k) || (b.nama_peminta||'').toLowerCase().includes(k));
+            }
+            if (statusFilterAktif !== 'Semua') {
+                dataUnduh = dataUnduh.filter(b => (b.status || 'Menunggu') === statusFilterAktif);
+            }
+
+            if(dataUnduh.length === 0) return tampilkanFeedback('err', 'Gagal', 'Data pada filter ini kosong.');
+
             let c = "ID,Nomor PKRS,Tanggal Permintaan,Nama Peminta,Email,Jenis Cetak,Judul Keperluan,Status\n";
-            d.forEach(b => { c += `${b.id},"${b.nomor_pkrs_final||''}","${b.tanggal_permintaan||''}","${b.nama_peminta||''}","${b.email||''}","${b.jenis_cetak||''}","${b.judul_keperluan||''}","${b.status||'Menunggu'}"\n`; });
+            dataUnduh.forEach(b => { c += `${b.id},"${b.nomor_pkrs_final||''}","${b.tanggal_permintaan||''}","${b.nama_peminta||''}","${b.email||''}","${b.jenis_cetak||''}","${b.judul_keperluan||''}","${b.status||'Menunggu'}"\n`; });
+            
             const blob = new Blob([c], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `Data_Antrean_PKRS_${new Date().toISOString().split('T')[0]}.csv`;
+            const link = document.createElement("a"); link.href = URL.createObjectURL(blob); 
+            link.download = `Data_Antrean_${statusFilterAktif}_${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
@@ -649,7 +722,6 @@
                 });
                 
                 const result = await response.json();
-                
                 tutupModal();
                 
                 if (result.sukses) { 
