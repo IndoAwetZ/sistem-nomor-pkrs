@@ -8,11 +8,13 @@
     <style>
         .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
         
+        /* CUSTOM SCROLLBAR ELEGAN */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
+        /* --- CSS HAMBURGER & PUSH EFFECT --- */
         .chm-04, .chm-04 *, .chm-04 *::before, .chm-04 *::after { box-sizing: border-box; }
         .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f3f4f6; }
         .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
@@ -32,6 +34,9 @@
         .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e5e7eb; transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1); padding: 24px; display: flex; flex-direction: column; }
         .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
 
+        /* =========================================================
+           CSS MODAL FEEDBACK SUCCESS/ERROR
+           ========================================================= */
         .feedback-dlg { margin: auto; opacity: 0; transform: translateY(12px) scale(.96); transition: opacity .28s, transform .28s, overlay .28s allow-discrete, display .28s allow-discrete; }
         .feedback-dlg[open] { opacity: 1; transform: none; }
         @starting-style { .feedback-dlg[open] { opacity: 0; transform: translateY(12px) scale(.96); } }
@@ -48,199 +53,296 @@
         @keyframes feedback-ring { from { stroke-dasharray: 0 160; } to { stroke-dasharray: 160 160; } }
         @keyframes feedback-draw { to { stroke-dashoffset: 0; } }
         @keyframes feedback-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
-        @media (prefers-reduced-motion: reduce) {
-            .feedback-dlg, .feedback-dlg::backdrop { transition-duration: .001s; }
-            .feedback-mark { stroke-dashoffset: 0; }
-            .feedback-ring { stroke-dasharray: 160 160; }
-            .feedback-dlg .feedback-icon, .feedback-dlg .feedback-mark, .feedback-dlg .feedback-ring { animation: none !important; }
-        }
+
+        /* =========================================================
+           CSS HALAMAN LOGIN (SPLIT SCREEN SAAS CLASSIC)
+           ========================================================= */
+        .lf-01,.lf-01 *,.lf-01 *::before,.lf-01 *::after{box-sizing:border-box;margin:0;padding:0}
+        .lf-01{--accent:#2563eb;--brand-bg:#1e3a8a;--radius:14px;--field-h:48px;
+         font-family:inherit;width:100%;min-height:100vh;background:#eef0f5;
+         display:flex;align-items:center;justify-content:center;padding:24px}
+        .lf-01__shell{width:min(960px,100%);min-height:560px;display:grid;grid-template-columns:1.05fr 1fr;
+         background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(16,24,60,.5)}
+        .lf-01__brand{position:relative;background:var(--brand-bg);color:#fff;overflow:hidden;display:flex}
+        .lf-01__mesh{position:absolute;inset:0;background:
+         radial-gradient(60% 55% at 20% 20%,rgba(59,130,246,0.55),transparent 60%),
+         radial-gradient(55% 50% at 85% 30%,rgba(37,99,235,0.5),transparent 60%),
+         radial-gradient(70% 60% at 60% 100%,rgba(29,78,216,0.45),transparent 60%)}
+        .lf-01__brandbody{position:relative;padding:48px;display:flex;flex-direction:column;gap:24px;justify-content:space-between}
+        .lf-01__logo{font-size:22px;font-weight:800;letter-spacing:1px}
+        .lf-01__pitch{font-size:26px;line-height:1.28;font-weight:600;letter-spacing:-.01em;text-wrap:balance; margin-top: auto;}
+        .lf-01__quote blockquote{font-size:15px;line-height:1.5;color:#bfdbfe; font-style: italic;}
+        .lf-01__quote figcaption{margin-top:14px;font-size:13px;color:#93c5fd;display:flex;align-items:center;gap:10px}
+        .lf-01__av{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700}
+        .lf-01__panel{display:grid;place-items:center;padding:48px}
+        .lf-01__form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:16px}
+        .lf-01__h{font-size:28px;font-weight:700;color:#1e293b;letter-spacing:-.02em}
+        .lf-01__sub{font-size:14px;color:#64748b;margin-top:-8px;margin-bottom:6px}
+        .lf-01__field{display:flex;flex-direction:column;gap:7px}
+        .lf-01__label{font-size:13px;font-weight:600;color:#334155}
+        .lf-01__field input{height:var(--field-h);border:1.5px solid #cbd5e1;border-radius:var(--radius);
+         padding:0 14px;font-size:15px;color:#0f172a;background:#f8fafc;transition:border-color .18s,box-shadow .18s}
+        .lf-01__field input::placeholder{color:#94a3b8}
+        .lf-01__field input:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(37,99,235,0.16)}
+        .lf-01__submit{height:var(--field-h);margin-top:4px;border:0;border-radius:var(--radius);cursor:pointer;
+         background:var(--accent);color:#fff;font-size:15px;font-weight:600;
+         transition:transform .12s,filter .18s}
+        .lf-01__submit:hover{filter:brightness(1.06)}
+        .lf-01__submit:active{transform:scale(.985)}
+        .lf-01__submit:focus-visible{outline:3px solid rgba(37,99,235,0.5);outline-offset:3px}
+        .lf-01__foot{font-size:14px;color:#64748b;text-align:center; margin-top: 10px;}
+        .lf-01__foot a{color:var(--accent);font-weight:600;text-decoration:none; transition: color 0.2s;}
+        .lf-01__foot a:hover{color:#1d4ed8; text-decoration:underline}
+        @media (max-width:768px){.lf-01__shell{grid-template-columns:1fr;min-height:0}.lf-01__brand{display:none}.lf-01__panel{padding:36px 26px}}
     </style>
 </head>
 <body class="text-gray-800 font-sans antialiased overflow-hidden">
 
-    <div class="chm-04" id="appRoot">
-        <div class="chm-04__scene">
-            <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
-                <div class="chm-04__b"><i></i><i></i><i></i></div>
-            </div>
-
-            <aside class="chm-04__sidebar md:hidden">
-                <div class="space-y-4 pt-2">
-                    <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
-                        <span class="text-blue-600 font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
-                    </div>
-                    
-                    <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center transition-colors">
-                        + Buat Nomor Baru
-                    </button>
-                    
-                    <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode</span>
-                        <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Logout</button>
-                    </div>
+    <!-- ======================================================= -->
+    <!-- 1. DASHBOARD UTAMA (MUNCUL DEFAULT)                     -->
+    <!-- ======================================================= -->
+    <div id="mainDashboard" class="block">
+        <div class="chm-04" id="appRoot">
+            <div class="chm-04__scene">
+                <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+                    <div class="chm-04__b"><i></i><i></i><i></i></div>
                 </div>
-            </aside>
 
-            <div class="chm-04__shell flex flex-col">
-                <nav class="bg-blue-600 shadow-lg relative z-40 h-16 flex-shrink-0">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                        <div class="flex justify-center md:justify-between h-full items-center">
-                            <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
-                                <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
-                            </div>
-                            <div class="hidden md:flex items-center space-x-4">
-                                <div id="panelAdminDesktop" class="hidden flex items-center space-x-3">
-                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300 shadow-sm">ADMIN MODE</span>
-                                    <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
-                                </div>
-                                <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
-                                    + Nomor Baru
-                                </button>
-                            </div>
+                <aside class="chm-04__sidebar md:hidden">
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
+                            <span class="text-blue-600 font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
+                        </div>
+                        
+                        <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center transition-colors mb-2">
+                            + Buat Nomor Baru
+                        </button>
+                        
+                        <!-- Panel Sidebar Mobile (Admin / Non-Admin) -->
+                        <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode</span>
+                            <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Keluar (Logout)</button>
+                        </div>
+                        <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
+                            <button onclick="bukaLayarLogin()" class="w-full text-blue-600 font-bold py-2 border border-blue-100 hover:bg-blue-50 rounded transition-colors">Login Admin</button>
                         </div>
                     </div>
-                </nav>
+                </aside>
 
-                <div class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
-                    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
-                        
-                        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
-                            <div>
-                                <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
-                                <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
-                            </div>
-                            
-                            <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
-                                
-                                <div class="relative w-full sm:w-auto">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                    </div>
-                                    <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <div class="chm-04__shell flex flex-col">
+                    <nav class="bg-blue-600 shadow-lg relative z-40 h-16 flex-shrink-0">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                            <div class="flex justify-center md:justify-between h-full items-center">
+                                <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
+                                    <span class="text-white font-bold text-xl tracking-wider">RSUD PKRS HUB</span>
                                 </div>
-                                
-                                <div class="relative w-full sm:w-auto">
-                                    <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-700 px-4 py-2 rounded-md font-medium text-sm border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
-                                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                                        Filter
-                                        <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span></span>
-                                    </button>
+                                <div class="hidden md:flex items-center space-x-4">
                                     
-                                    <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-[70] p-5 origin-top-right transform transition-all">
-                                        <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
-                                            <h4 class="font-bold text-gray-800 text-sm">Saring Data</h4>
+                                    <!-- Panel Navbar PC (Admin) -->
+                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3 border-r border-blue-400 pr-4">
+                                        <span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded border border-yellow-300 shadow-sm uppercase">Admin Mode</span>
+                                        <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
+                                    </div>
+
+                                    <!-- Panel Navbar PC (Non-Admin) -->
+                                    <div id="panelNonAdminDesktop" class="flex items-center space-x-3 border-r border-blue-400 pr-4">
+                                        <button onclick="bukaLayarLogin()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Login Admin</button>
+                                    </div>
+
+                                    <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
+                                        + Nomor Baru
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
+                        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
+                            
+                            <!-- BARI ALAT (SEARCH & FILTER) -->
+                            <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
+                                <div>
+                                    <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
+                                    <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+                                </div>
+                                
+                                <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
+                                    <div class="relative w-full sm:w-auto">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                         </div>
+                                        <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                                    </div>
+                                    
+                                    <div class="relative w-full sm:w-auto">
+                                        <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-700 px-4 py-2 rounded-md font-medium text-sm border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                            <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                                            Filter
+                                            <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span></span>
+                                        </button>
                                         
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
-                                                <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                                        <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-[70] p-5 origin-top-right transform transition-all">
+                                            <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+                                                <h4 class="font-bold text-gray-800 text-sm">Saring Data</h4>
                                             </div>
-                                            <div>
-                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
-                                                <select id="filterJenis" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
-                                                    <option value="">Semua Jenis Cetak</option>
-                                                    <option value="Spanduk">Spanduk</option>
-                                                    <option value="Brosur">Brosur</option>
-                                                    <option value="Stiker">Stiker</option>
-                                                    <option value="Poster">Poster</option>
-                                                    <option value="Lainnya">Lainnya</option>
-                                                </select>
+                                            <div class="space-y-4">
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
+                                                    <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
+                                                    <select id="filterJenis" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                        <option value="">Semua Jenis Cetak</option>
+                                                        <option value="Spanduk">Spanduk</option>
+                                                        <option value="Brosur">Brosur</option>
+                                                        <option value="Stiker">Stiker</option>
+                                                        <option value="Poster">Poster</option>
+                                                        <option value="Lainnya">Lainnya</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Status Antrean</label>
+                                                    <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                        <option value="">Semua Status</option>
+                                                        <option value="Menunggu">🟡 Menunggu</option>
+                                                        <option value="Diproses">🔵 Diproses</option>
+                                                        <option value="Selesai">🟢 Selesai</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Status Antrean</label>
-                                                <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
-                                                    <option value="">Semua Status</option>
-                                                    <option value="Menunggu">🟡 Menunggu</option>
-                                                    <option value="Diproses">🔵 Diproses</option>
-                                                    <option value="Selesai">🟢 Selesai</option>
-                                                </select>
+                                            <div class="mt-6 flex space-x-2">
+                                                <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium text-xs transition-colors">Reset</button>
+                                                <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium text-xs shadow-sm transition-colors">Terapkan</button>
                                             </div>
                                         </div>
-                                        
-                                        <div class="mt-6 flex space-x-2">
-                                            <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium text-xs transition-colors">Reset</button>
-                                            <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium text-xs shadow-sm transition-colors">Terapkan</button>
+                                    </div>
+
+                                    <button onclick="eksporCSV()" class="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors flex items-center justify-center">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        Unduh CSV
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- DASHBOARD STATISTIK -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400">
+                                    <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-2xl font-black text-gray-800" id="statTotal">0</h3>
+                                        <div class="p-2 bg-gray-50 rounded-lg text-gray-400">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                                         </div>
                                     </div>
                                 </div>
-
-                                <button onclick="eksporCSV()" class="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors flex items-center justify-center">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    Unduh CSV
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400">
-                                <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-2xl font-black text-gray-800" id="statTotal">0</h3>
-                                    <div class="p-2 bg-gray-50 rounded-lg text-gray-400">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400">
+                                    <p class="text-[11px] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-2xl font-black text-gray-800" id="statMenunggu">0</h3>
+                                        <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400">
+                                    <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-2xl font-black text-gray-800" id="statDiproses">0</h3>
+                                        <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400">
+                                    <p class="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-1">Selesai</p>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-2xl font-black text-gray-800" id="statSelesai">0</h3>
+                                        <div class="p-2 bg-green-50 rounded-lg text-green-500">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400">
-                                <p class="text-[11px] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-2xl font-black text-gray-800" id="statMenunggu">0</h3>
-                                    <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </div>
-                                </div>
+
+                            <div id="loadingState" class="text-center py-10">
+                                <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400">
-                                <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-2xl font-black text-gray-800" id="statDiproses">0</h3>
-                                    <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                                    </div>
-                                </div>
+
+                            <!-- TABEL UTAMA -->
+                            <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor & Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
+                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
+                                </table>
                             </div>
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400">
-                                <p class="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-1">Selesai</p>
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-2xl font-black text-gray-800" id="statSelesai">0</h3>
-                                    <div class="p-2 bg-green-50 rounded-lg text-green-500">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div id="loadingState" class="text-center py-10">
-                            <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
-                        </div>
+                            <div id="isiTabelMobile" class="md:hidden space-y-4 pb-4"></div>
+                            
+                            <!-- WADAH PAGINATION -->
+                            <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1 pb-8"></div>
 
-                        <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor & Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
-                            </table>
-                        </div>
-
-                        <div id="isiTabelMobile" class="md:hidden space-y-4 pb-4"></div>
-                        
-                        <!-- ================= BARU: WADAH PAGINATION (HALAMAN) ================= -->
-                        <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1 pb-8"></div>
-
-                    </main>
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- ======================================================= -->
+    <!-- 2. LAYAR LOGIN ADMIN (MUNCUL SAAT DIKLIK)               -->
+    <!-- ======================================================= -->
+    <div id="loginScreen" class="hidden">
+        <section class="lf-01">
+          <div class="lf-01__shell">
+            <aside class="lf-01__brand" aria-hidden="true">
+              <div class="lf-01__mesh"></div>
+              <div class="lf-01__brandbody">
+                <div class="lf-01__logo">RSUD PKRS HUB</div>
+                <p class="lf-01__pitch">Pusat Manajemen Cetak & Desain Terpadu Rumah Sakit.</p>
+                <figure class="lf-01__quote">
+                  <blockquote>"Sistem antrean digital ini mempercepat alur kerja percetakan dan mengurangi antrean manual hingga 80%."</blockquote>
+                  <figcaption><span class="lf-01__av">IT</span> Tim IT / SIMRS</figcaption>
+                </figure>
+              </div>
+            </aside>
+            <div class="lf-01__panel">
+              <form class="lf-01__form" onsubmit="prosesLogin(event)">
+                <h1 class="lf-01__h">Selamat Datang</h1>
+                <p class="lf-01__sub">Masuk sebagai Admin PKRS Hub.</p>
+                
+                <div style="height: 20px;"></div>
+
+                <label class="lf-01__field">
+                  <span class="lf-01__label">Username</span>
+                  <input type="text" id="loginUser" autocomplete="off" placeholder="Masukkan username..." required>
+                </label>
+                <label class="lf-01__field">
+                  <span class="lf-01__label">Password</span>
+                  <input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••" required>
+                </label>
+                
+                <div style="height: 10px;"></div>
+
+                <button class="lf-01__submit" id="btnLoginSubmit" type="submit">Sign in</button>
+                <p class="lf-01__foot"><a href="#" onclick="tutupLayarLogin()">← Kembali ke Beranda</a></p>
+              </form>
+            </div>
+          </div>
+        </section>
+    </div>
+
 
     <!-- ================= MODAL TAMBAH & EDIT DATA ================= -->
     <div id="modalTambah" class="hidden fixed inset-0 z-[100] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
@@ -326,22 +428,66 @@
         </div>
     </dialog>
 
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- ================= JAVASCRIPT UTAMA ================= -->
     <script>
-        let dataUtama = [];
-        let dataSaringanTerakhir = []; 
-        
-        // --- KONFIGURASI PAGINATION ---
-        let halamanSaatIni = 1;
-        const barisPerHalaman = 10; 
-
+        // --- MANAJEMEN LOGIN / LOGOUT ---
         const peranSistem = localStorage.getItem('role_sistem');
+        
         if (peranSistem === 'admin') {
             document.getElementById('panelAdminDesktop').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.remove('hidden');
             document.getElementById('panelAdminMobile').classList.add('flex');
+            
+            document.getElementById('panelNonAdminDesktop').classList.add('hidden');
+            document.getElementById('panelNonAdminMobile').classList.add('hidden');
         }
 
+        function bukaLayarLogin() {
+            document.getElementById('mainDashboard').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        function tutupLayarLogin() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+        }
+
+        function prosesLogin(e) {
+            e.preventDefault();
+            const usr = document.getElementById('loginUser').value;
+            const pw = document.getElementById('loginPass').value;
+            const btn = document.getElementById('btnLoginSubmit');
+            
+            btn.innerHTML = 'Memeriksa...';
+            btn.disabled = true;
+
+            // Simulasi loading sejenak agar terlihat profesional
+            setTimeout(() => {
+                if (usr === 'admin' && pw === 'admin123') {
+                    localStorage.setItem('role_sistem', 'admin');
+                    window.location.reload();
+                } else {
+                    tampilkanFeedback('err', 'Akses Ditolak', 'Username atau Password yang Anda masukkan salah. Silakan coba lagi.');
+                    btn.innerHTML = 'Sign in';
+                    btn.disabled = false;
+                }
+            }, 800);
+        }
+
+        function prosesLogout() { 
+            localStorage.removeItem('role_sistem'); 
+            window.location.reload(); 
+        }
+
+        // --- DATA & PAGINATION ---
+        let dataUtama = [];
+        let dataSaringanTerakhir = []; 
+        let halamanSaatIni = 1;
+        const barisPerHalaman = 10; 
+
+        // --- FILTER ---
         function toggleFilterPanel() {
             document.getElementById('filterPanel').classList.toggle('hidden');
         }
@@ -349,7 +495,7 @@
         window.addEventListener('click', function(e) {
             const filterBtn = document.getElementById('btnFilterToggle');
             const filterPnl = document.getElementById('filterPanel');
-            if (!filterBtn.contains(e.target) && !filterPnl.contains(e.target)) {
+            if (filterBtn && filterPnl && !filterBtn.contains(e.target) && !filterPnl.contains(e.target)) {
                 filterPnl.classList.add('hidden');
             }
         });
@@ -378,8 +524,6 @@
             else indikator.classList.add('hidden');
 
             dataSaringanTerakhir = hasil; 
-            
-            // Set halaman kembali ke 1 setiap kali filter berubah
             halamanSaatIni = 1;
             renderTabel(hasil);
             updateDashboardStatistik(hasil); 
@@ -405,6 +549,7 @@
             document.getElementById('statSelesai').innerText = dataRender.filter(d => d.status === 'Selesai').length;
         }
 
+        // --- FEEDBACK & KONFIRMASI HAPUS ---
         let aksiSetelahTutupModal = null; 
         function tampilkanFeedback(tipe, judul, pesan, reloadOnClose = false) {
             const dlg = document.getElementById('modalFeedback');
@@ -473,7 +618,6 @@
         }
 
         function toggleSidebar() { document.getElementById('appRoot').classList.toggle('is-pushed'); }
-        function prosesLogout() { localStorage.removeItem('role_sistem'); window.location.reload(); }
         function bukaModal() { document.getElementById('modalTambah').classList.remove('hidden'); }
         function bukaModalDanTutupSidebar() { toggleSidebar(); setTimeout(bukaModal, 300); }
         
@@ -550,12 +694,10 @@
             printWindow.document.close();
         }
 
-        // --- FUNGSI GANTI HALAMAN (PAGINATION) ---
+        // --- RENDER & PAGINATION ---
         function gantiHalaman(halamanBaru) {
             halamanSaatIni = halamanBaru;
             renderTabel(dataSaringanTerakhir);
-            
-            // Scroll sedikit ke atas tabel agar rapi saat pindah halaman
             document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -564,19 +706,15 @@
             const totalHalaman = Math.ceil(totalBaris / barisPerHalaman);
             
             wadah.innerHTML = '';
-            
-            // Jika hanya 1 halaman atau kurang, sembunyikan tombol pagination
             if (totalHalaman <= 1) return;
 
             let html = '';
             
-            // Tombol Previous
             const classBtnPrev = halamanSaatIni === 1 
                 ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
             html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${classBtnPrev}">Sebelumnya</button>`;
 
-            // Deretan Angka Halaman
             for(let i = 1; i <= totalHalaman; i++) {
                 if(i === halamanSaatIni) {
                     html += `<button class="px-3 py-1.5 rounded-md border border-blue-600 bg-blue-600 text-white text-sm font-bold shadow-sm transition-colors">${i}</button>`;
@@ -585,7 +723,6 @@
                 }
             }
 
-            // Tombol Next
             const classBtnNext = halamanSaatIni === totalHalaman 
                 ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
@@ -594,7 +731,6 @@
             wadah.innerHTML = html;
         }
 
-        // --- RENDER TABEL (DIPERBARUI DENGAN PAGINATION) ---
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -604,11 +740,10 @@
             if (dataRender.length === 0) {
                 wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan pencarian/filter.</td></tr>`;
                 wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan pencarian/filter.</div>';
-                document.getElementById('wadahPagination').innerHTML = ''; // Kosongkan pagination
+                document.getElementById('wadahPagination').innerHTML = '';
                 return;
             }
 
-            // PEMOTONGAN DATA UNTUK HALAMAN SAAT INI
             const indexAwal = (halamanSaatIni - 1) * barisPerHalaman;
             const indexAkhir = indexAwal + barisPerHalaman;
             const dataHalamanIni = dataRender.slice(indexAwal, indexAkhir);
@@ -659,7 +794,6 @@
                     </div>`;
             });
 
-            // Tampilkan navigasi pagination berdasarkan total data saringan
             renderPagination(dataRender.length);
         }
 
