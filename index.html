@@ -4,99 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TIM PKRS RSUASF</title>
+    <!-- MENGGUNAKAN GOOGLE FONTS: INTER -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            500: '#0d8a72', /* Primary Emerald */
+                            600: '#0a6b58', /* Dark Emerald */
+                        },
+                        red: {
+                            500: '#e53e3e', /* Crimson Red */
+                            600: '#c53030', /* Dark Crimson */
+                        },
+                        gray: {
+                            50: '#f7faf9', /* Mint Ice / Light BG */
+                            500: '#718096', /* Muted Grey */
+                            900: '#1a202c', /* Charcoal Black */
+                        },
+                        badge: '#e6fffa' /* Mint Soft Tint */
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        body { background-color: #f7faf9; color: #1a202c; }
         .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
         
         /* CUSTOM SCROLLBAR ELEGAN */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #f7faf9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-thumb:hover { background: #0d8a72; }
 
         /* --- CSS HAMBURGER & PUSH EFFECT --- */
         .chm-04, .chm-04 *, .chm-04 *::before, .chm-04 *::after { box-sizing: border-box; }
-        .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f3f4f6; }
+        .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f7faf9; }
         .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
-        .chm-04__shell { position: relative; min-height: 100vh; background: #f9fafb; z-index: 2; transition: transform .65s cubic-bezier(.16,1,.3,1), filter .65s; will-change: transform; }
+        .chm-04__shell { position: relative; min-height: 100vh; background: #ffffff; z-index: 2; transition: transform .65s cubic-bezier(.16,1,.3,1), filter .65s; will-change: transform; }
         .chm-04.is-pushed .chm-04__shell { transform: translateX(260px) scale(.94); border-radius: 24px; overflow: hidden; filter: brightness(.8); box-shadow: -10px 0 30px rgba(0,0,0,0.15); }
         .chm-04__trg { position: absolute; top: 10px; left: 16px; z-index: 60; width: 44px; height: 44px; cursor: pointer; display: grid; place-items: center; transition: all .5s cubic-bezier(.16,1,.3,1); border-radius: 12px; background: transparent; border: 1px solid transparent; }
-        .chm-04.is-pushed .chm-04__trg { transform: translateX(270px); background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .chm-04.is-pushed .chm-04__trg { transform: translateX(270px); background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .chm-04__b { width: 24px; height: 14px; position: relative; }
         .chm-04__b i { position: absolute; left: 0; height: 2.5px; width: 100%; border-radius: 3px; background: #ffffff; transition: transform .5s cubic-bezier(.7,0,.2,1), opacity .3s, background .4s; }
         .chm-04__b i:nth-child(1) { top: 0; }
         .chm-04__b i:nth-child(2) { top: 6px; }
         .chm-04__b i:nth-child(3) { top: 12px; }
-        .chm-04.is-pushed .chm-04__b i { background: #2563eb; } 
+        .chm-04.is-pushed .chm-04__b i { background: #0d8a72; } 
         .chm-04.is-pushed .chm-04__b i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
         .chm-04.is-pushed .chm-04__b i:nth-child(2) { opacity: 0; }
         .chm-04.is-pushed .chm-04__b i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-        .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e5e7eb; transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1); padding: 24px; display: flex; flex-direction: column; }
+        .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e2e8f0; transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1); padding: 24px; display: flex; flex-direction: column; }
         .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
 
         /* =========================================================
-           CSS MODAL FEEDBACK SUCCESS/ERROR
+           CSS MODAL FEEDBACK SUCCESS/ERROR (Sesuai Panduan)
            ========================================================= */
         .feedback-dlg { margin: auto; opacity: 0; transform: translateY(12px) scale(.96); transition: opacity .28s, transform .28s, overlay .28s allow-discrete, display .28s allow-discrete; }
         .feedback-dlg[open] { opacity: 1; transform: none; }
         @starting-style { .feedback-dlg[open] { opacity: 0; transform: translateY(12px) scale(.96); } }
         .feedback-dlg::backdrop { background: rgba(0,0,0,0); backdrop-filter: blur(0); transition: background .3s, backdrop-filter .3s, overlay .3s allow-discrete, display .3s allow-discrete; }
-        .feedback-dlg[open]::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
+        .feedback-dlg[open]::backdrop { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); }
         @starting-style { .feedback-dlg[open]::backdrop { background: rgba(0,0,0,0); backdrop-filter: blur(0); } }
-        .feedback-ring { stroke: #e5e7eb; opacity: .5; }
+        .feedback-ring { stroke: #e2e8f0; opacity: .5; }
         .feedback-mark { stroke-dasharray: 48; stroke-dashoffset: 48; }
-        .feedback-dlg.is-ok .feedback-ring { stroke: #10b981; opacity: 1; animation: feedback-ring .5s ease forwards; }
-        .feedback-dlg.is-ok .feedback-mark { stroke: #10b981; animation: feedback-draw .45s .25s cubic-bezier(.2,1.3,.4,1) forwards; }
-        .feedback-dlg.is-err .feedback-ring { stroke: #ef4444; opacity: 1; animation: feedback-ring .5s ease forwards; }
-        .feedback-dlg.is-err .feedback-mark { stroke: #ef4444; animation: feedback-draw .45s .25s ease forwards; }
+        .feedback-dlg.is-ok .feedback-ring { stroke: #0d8a72; opacity: 1; animation: feedback-ring .5s ease forwards; }
+        .feedback-dlg.is-ok .feedback-mark { stroke: #0d8a72; animation: feedback-draw .45s .25s cubic-bezier(.2,1.3,.4,1) forwards; }
+        .feedback-dlg.is-err .feedback-ring { stroke: #e53e3e; opacity: 1; animation: feedback-ring .5s ease forwards; }
+        .feedback-dlg.is-err .feedback-mark { stroke: #e53e3e; animation: feedback-draw .45s .25s ease forwards; }
         .feedback-dlg.is-err .feedback-icon { animation: feedback-shake .4s .55s both; }
         @keyframes feedback-ring { from { stroke-dasharray: 0 160; } to { stroke-dasharray: 160 160; } }
         @keyframes feedback-draw { to { stroke-dashoffset: 0; } }
         @keyframes feedback-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 
         /* =========================================================
-           CSS HALAMAN LOGIN (SPLIT SCREEN SAAS CLASSIC)
+           CSS HALAMAN LOGIN (Sistem Emerald)
            ========================================================= */
         .lf-01,.lf-01 *,.lf-01 *::before,.lf-01 *::after{box-sizing:border-box;margin:0;padding:0}
-        .lf-01{--accent:#2563eb;--brand-bg:#1e3a8a;--radius:14px;--field-h:48px;
-         font-family:inherit;width:100%;min-height:100vh;background:#eef0f5;
+        .lf-01{--accent:#0d8a72;--brand-bg:#0a6b58;--radius:14px;--field-h:48px;
+         font-family:inherit;width:100%;min-height:100vh;background:#f7faf9;
          display:flex;align-items:center;justify-content:center;padding:24px}
         .lf-01__shell{width:min(960px,100%);min-height:560px;display:grid;grid-template-columns:1.05fr 1fr;
-         background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(16,24,60,.5)}
+         background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(13,138,114,.3)}
         .lf-01__brand{position:relative;background:var(--brand-bg);color:#fff;overflow:hidden;display:flex}
         .lf-01__mesh{position:absolute;inset:0;background:
-         radial-gradient(60% 55% at 20% 20%,rgba(59,130,246,0.55),transparent 60%),
-         radial-gradient(55% 50% at 85% 30%,rgba(37,99,235,0.5),transparent 60%),
-         radial-gradient(70% 60% at 60% 100%,rgba(29,78,216,0.45),transparent 60%)}
+         radial-gradient(60% 55% at 20% 20%,rgba(13,138,114,0.55),transparent 60%),
+         radial-gradient(55% 50% at 85% 30%,rgba(10,107,88,0.5),transparent 60%),
+         radial-gradient(70% 60% at 60% 100%,rgba(6,80,66,0.45),transparent 60%)}
         .lf-01__brandbody{position:relative;padding:48px;display:flex;flex-direction:column;gap:24px;justify-content:space-between}
-        .lf-01__logo{font-size:22px;font-weight:800;letter-spacing:1px}
+        .lf-01__logo{font-size:22px;font-weight:700;letter-spacing:1px}
         .lf-01__pitch{font-size:26px;line-height:1.28;font-weight:600;letter-spacing:-.01em;text-wrap:balance; margin-top: auto;}
-        .lf-01__quote blockquote{font-size:15px;line-height:1.5;color:#bfdbfe; font-style: italic;}
-        .lf-01__quote figcaption{margin-top:14px;font-size:13px;color:#93c5fd;display:flex;align-items:center;gap:10px}
+        .lf-01__quote blockquote{font-size:15px;line-height:1.5;color:#e6fffa; font-style: italic;}
+        .lf-01__quote figcaption{margin-top:14px;font-size:13px;color:#aeeadd;display:flex;align-items:center;gap:10px}
         .lf-01__av{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700}
         .lf-01__panel{display:grid;place-items:center;padding:48px}
         .lf-01__form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:16px}
-        .lf-01__h{font-size:28px;font-weight:700;color:#1e293b;letter-spacing:-.02em}
-        .lf-01__sub{font-size:14px;color:#64748b;margin-top:-8px;margin-bottom:6px}
+        .lf-01__h{font-size:28px;font-weight:700;color:#1a202c;letter-spacing:-.02em}
+        .lf-01__sub{font-size:14px;color:#718096;margin-top:-8px;margin-bottom:6px}
         .lf-01__field{display:flex;flex-direction:column;gap:7px}
-        .lf-01__label{font-size:13px;font-weight:600;color:#334155}
-        .lf-01__field input{height:var(--field-h);border:1.5px solid #cbd5e1;border-radius:var(--radius);
-         padding:0 14px;font-size:15px;color:#0f172a;background:#f8fafc;transition:border-color .18s,box-shadow .18s}
-        .lf-01__field input::placeholder{color:#94a3b8}
-        .lf-01__field input:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(37,99,235,0.16)}
+        .lf-01__label{font-size:13px;font-weight:600;color:#1a202c}
+        .lf-01__field input{height:var(--field-h);border:1px solid #e2e8f0;border-radius:var(--radius);
+         padding:0 14px;font-size:15px;color:#1a202c;background:#f8fafc;transition:border-color .18s,box-shadow .18s}
+        .lf-01__field input::placeholder{color:#a0aec0}
+        .lf-01__field input:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(13,138,114,0.16)}
         .lf-01__submit{height:var(--field-h);margin-top:4px;border:0;border-radius:var(--radius);cursor:pointer;
          background:var(--accent);color:#fff;font-size:15px;font-weight:600;
          transition:transform .12s,filter .18s}
-        .lf-01__submit:hover{filter:brightness(1.06)}
+        .lf-01__submit:hover{background:#0a6b58;}
         .lf-01__submit:active{transform:scale(.985)}
-        .lf-01__submit:focus-visible{outline:3px solid rgba(37,99,235,0.5);outline-offset:3px}
-        .lf-01__foot{font-size:14px;color:#64748b;text-align:center; margin-top: 10px;}
+        .lf-01__submit:focus-visible{outline:3px solid rgba(13,138,114,0.5);outline-offset:3px}
+        .lf-01__foot{font-size:14px;color:#718096;text-align:center; margin-top: 10px;}
         .lf-01__foot a{color:var(--accent);font-weight:600;text-decoration:none; transition: color 0.2s;}
-        .lf-01__foot a:hover{color:#1d4ed8; text-decoration:underline}
+        .lf-01__foot a:hover{color:#0a6b58; text-decoration:underline}
         @media (max-width:768px){.lf-01__shell{grid-template-columns:1fr;min-height:0}.lf-01__brand{display:none}.lf-01__panel{padding:36px 26px}}
+        
+        /* PRELOADER FULL SCREEN */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .spinner { width: 45px; height: 45px; border: 4px solid rgba(13, 138, 114, 0.2); border-left-color: #0d8a72; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="text-gray-800 font-sans antialiased overflow-hidden">
+<body class="font-sans antialiased overflow-hidden">
+
+    <!-- PRELOADER -->
+    <div id="preloader"><div class="spinner"></div></div>
 
     <!-- ======================================================= -->
     <!-- 1. DASHBOARD UTAMA (MUNCUL DEFAULT)                     -->
@@ -104,6 +144,7 @@
     <div id="mainDashboard" class="block">
         <div class="chm-04" id="appRoot">
             <div class="chm-04__scene">
+                <!-- Hamburger menu (mobile) -->
                 <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
                     <div class="chm-04__b"><i></i><i></i><i></i></div>
                 </div>
@@ -111,45 +152,41 @@
                 <aside class="chm-04__sidebar md:hidden">
                     <div class="space-y-4 pt-2">
                         <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
-                            <span class="text-blue-600 font-bold text-xl tracking-wider">TIM PKRS RSUASF</span>
+                            <span class="text-emerald-500 font-bold text-[1.5rem] tracking-tight">TIM PKRS RSUASF</span>
                         </div>
                         
-                        <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-blue-600 text-white px-4 py-3 rounded-md font-bold hover:bg-blue-700 shadow flex justify-center items-center transition-colors mb-2">
+                        <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-emerald-500 text-white px-4 py-3 rounded-[8px] font-semibold hover:bg-emerald-600 shadow flex justify-center items-center transition-colors mb-2">
                             + Buat Nomor Baru
                         </button>
                         
-                        <!-- Panel Sidebar Mobile (Admin / Non-Admin) -->
                         <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-2 rounded border border-yellow-300 text-center uppercase tracking-widest">Admin Mode</span>
-                            <button onclick="prosesLogout()" class="w-full text-red-500 font-bold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Keluar (Logout)</button>
+                            <span class="bg-[#e6fffa] text-emerald-600 text-xs font-semibold px-3 py-2 rounded border border-emerald-200 text-center uppercase tracking-widest">Admin Mode</span>
+                            <button onclick="prosesLogout()" class="w-full text-red-500 font-semibold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Keluar (Logout)</button>
                         </div>
                         <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                            <button onclick="bukaLayarLogin()" class="w-full text-blue-600 font-bold py-2 border border-blue-100 hover:bg-blue-50 rounded transition-colors">Login Admin</button>
+                            <button onclick="bukaLayarLogin()" class="w-full text-emerald-500 font-semibold py-2 border border-emerald-100 hover:bg-emerald-50 rounded transition-colors">Login Admin</button>
                         </div>
                     </div>
                 </aside>
 
                 <div class="chm-04__shell flex flex-col">
-                    <nav class="bg-blue-600 shadow-lg relative z-40 h-16 flex-shrink-0">
+                    <nav class="bg-emerald-500 shadow-lg relative z-40 h-16 flex-shrink-0">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                             <div class="flex justify-center md:justify-between h-full items-center">
                                 <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
-                                    <span class="text-white font-bold text-xl tracking-wider">TIM PKRS RSUASF</span>
+                                    <span class="text-white font-bold text-[1.5rem] tracking-tight">TIM PKRS RSUASF</span>
                                 </div>
                                 <div class="hidden md:flex items-center space-x-4">
-                                    
-                                    <!-- Panel Navbar PC (Admin) -->
-                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3 border-r border-blue-400 pr-4">
-                                        <span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded border border-yellow-300 shadow-sm uppercase">Admin Mode</span>
-                                        <button onclick="prosesLogout()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Logout</button>
+                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3 border-r border-emerald-400 pr-4">
+                                        <span class="bg-[#e6fffa] text-emerald-600 text-[10px] font-semibold px-2 py-1 rounded border border-emerald-200 shadow-sm uppercase">Admin Mode</span>
+                                        <button onclick="prosesLogout()" class="text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors">Logout</button>
                                     </div>
-
-                                    <!-- Panel Navbar PC (Non-Admin) -->
-                                    <div id="panelNonAdminDesktop" class="flex items-center space-x-3 border-r border-blue-400 pr-4">
-                                        <button onclick="bukaLayarLogin()" class="text-blue-100 text-sm hover:text-white font-medium transition-colors">Login Admin</button>
+                                    <div id="panelNonAdminDesktop" class="flex items-center space-x-3 border-r border-emerald-400 pr-4">
+                                        <button onclick="bukaLayarLogin()" class="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-[0_4px_10px_rgba(13,138,114,0.2)]" title="Login Admin">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                        </button>
                                     </div>
-
-                                    <button onclick="bukaModal()" class="bg-white text-blue-600 px-4 py-2 rounded-md font-medium text-sm hover:bg-gray-100 shadow transition-colors">
+                                    <button onclick="bukaModal()" class="bg-white text-emerald-500 px-4 py-2 rounded-[8px] font-semibold text-[0.85rem] hover:bg-gray-50 shadow transition-colors">
                                         + Nomor Baru
                                     </button>
                                 </div>
@@ -157,43 +194,43 @@
                         </div>
                     </nav>
 
-                    <div class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
+                    <div id="areaScroll" class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
                         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
                             
                             <!-- BARI ALAT (SEARCH & FILTER) -->
                             <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
                                 <div>
-                                    <h1 class="text-2xl font-bold text-gray-900">Daftar Permintaan</h1>
-                                    <p class="text-sm text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+                                    <h1 class="text-[1.8rem] md:text-[1.8rem] text-[1.5rem] font-bold text-gray-900 tracking-tight">Daftar Permintaan</h1>
+                                    <p class="text-[0.85rem] text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
                                 </div>
                                 
                                 <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
                                     <div class="relative w-full sm:w-auto">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                            <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                         </div>
-                                        <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                                        <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                                     </div>
                                     
                                     <div class="relative w-full sm:w-auto">
-                                        <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-700 px-4 py-2 rounded-md font-medium text-sm border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                        <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-900 px-4 py-2 rounded-[8px] font-medium text-[0.85rem] border border-[#e2e8f0] hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
                                             <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                                             Filter
-                                            <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span></span>
+                                            <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
                                         </button>
                                         
-                                        <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 z-[70] p-5 origin-top-right transform transition-all">
-                                            <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
-                                                <h4 class="font-bold text-gray-800 text-sm">Saring Data</h4>
+                                        <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] z-[70] p-5 origin-top-right transform transition-all">
+                                            <div class="flex justify-between items-center mb-4 border-b border-[#e2e8f0] pb-2">
+                                                <h4 class="font-bold text-gray-900 text-[0.85rem]">Saring Data</h4>
                                             </div>
                                             <div class="space-y-4">
                                                 <div>
-                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
-                                                    <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-gray-700">
+                                                    <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
+                                                    <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] text-gray-900">
                                                 </div>
                                                 <div>
-                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
-                                                    <select id="filterJenis" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                    <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
+                                                    <select id="filterJenis" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] bg-white text-gray-900">
                                                         <option value="">Semua Jenis Cetak</option>
                                                         <option value="Spanduk">Spanduk</option>
                                                         <option value="Brosur">Brosur</option>
@@ -203,8 +240,8 @@
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Status Antrean</label>
-                                                    <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white text-gray-700">
+                                                    <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status Antrean</label>
+                                                    <select id="filterStatus" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] bg-white text-gray-900">
                                                         <option value="">Semua Status</option>
                                                         <option value="Menunggu">🟡 Menunggu</option>
                                                         <option value="Diproses">🔵 Diproses</option>
@@ -213,13 +250,13 @@
                                                 </div>
                                             </div>
                                             <div class="mt-6 flex space-x-2">
-                                                <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium text-xs transition-colors">Reset</button>
-                                                <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium text-xs shadow-sm transition-colors">Terapkan</button>
+                                                <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-[8px] font-medium text-[0.85rem] transition-colors border border-[#e2e8f0]">Reset</button>
+                                                <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow-sm transition-colors">Terapkan</button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <button onclick="eksporCSV()" class="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-emerald-700 shadow-sm transition-colors flex items-center justify-center">
+                                    <button onclick="eksporCSV()" class="w-full sm:w-auto bg-gray-900 text-white px-4 py-2 rounded-[8px] font-medium text-[0.85rem] hover:bg-gray-800 shadow-sm transition-colors flex items-center justify-center">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                         Unduh CSV
                                     </button>
@@ -228,38 +265,38 @@
 
                             <!-- DASHBOARD STATISTIK -->
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-gray-400">
-                                    <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
+                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-gray-400">
+                                    <p class="text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
                                     <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-800" id="statTotal">0</h3>
-                                        <div class="p-2 bg-gray-50 rounded-lg text-gray-400">
+                                        <h3 class="text-2xl font-black text-gray-900" id="statTotal">0</h3>
+                                        <div class="p-2 bg-gray-50 rounded-lg text-gray-500">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-yellow-400">
-                                    <p class="text-[11px] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
+                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-yellow-400">
+                                    <p class="text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
                                     <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-800" id="statMenunggu">0</h3>
+                                        <h3 class="text-2xl font-black text-gray-900" id="statMenunggu">0</h3>
                                         <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-blue-400">
-                                    <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
+                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-blue-400">
+                                    <p class="text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
                                     <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-800" id="statDiproses">0</h3>
+                                        <h3 class="text-2xl font-black text-gray-900" id="statDiproses">0</h3>
                                         <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 border-l-4 border-l-green-400">
-                                    <p class="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-1">Selesai</p>
+                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-emerald-400">
+                                    <p class="text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
                                     <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-800" id="statSelesai">0</h3>
-                                        <div class="p-2 bg-green-50 rounded-lg text-green-500">
+                                        <h3 class="text-2xl font-black text-gray-900" id="statSelesai">0</h3>
+                                        <div class="p-2 bg-[#e6fffa] rounded-lg text-emerald-500">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         </div>
                                     </div>
@@ -267,29 +304,30 @@
                             </div>
 
                             <div id="loadingState" class="text-center py-10">
-                                <p class="text-gray-500 animate-pulse font-medium">Memuat data dari database...</p>
+                                <p class="text-gray-500 animate-pulse font-medium text-[0.85rem]">Memuat data dari database...</p>
                             </div>
 
-                            <div class="hidden md:block bg-white shadow rounded-lg overflow-hidden border border-gray-200">
-                                <table class="min-w-full divide-y divide-gray-200">
+                            <!-- PENGGUNAAN TABEL KEMBALI (Sesuai Permintaan) -->
+                            <div class="hidden md:block bg-white shadow-[0_4px_15px_rgba(0,0,0,0.03)] rounded-lg overflow-hidden border border-[#e2e8f0]">
+                                <table class="min-w-full divide-y divide-[#e2e8f0]">
                                     <thead class="bg-gray-50">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-800 uppercase">Nomor & Status</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Peminta</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Keperluan & Jenis</th>
-                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Nomor & Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminta</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keperluan & Jenis</th>
+                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-gray-200"></tbody>
+                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-[#e2e8f0]"></tbody>
                                 </table>
                             </div>
 
                             <div id="isiTabelMobile" class="md:hidden space-y-4 pb-4"></div>
                             
                             <!-- WADAH PAGINATION -->
-                            <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1 pb-8"></div>
+                            <div id="wadahPagination" class="mt-8 flex justify-center items-center space-x-1 pb-8"></div>
 
                         </main>
                     </div>
@@ -344,37 +382,38 @@
 
 
     <!-- ================= MODAL TAMBAH & EDIT DATA ================= -->
-    <div id="modalTambah" class="hidden fixed inset-0 z-[100] bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
-        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md mx-4 relative">
-            <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h3>
+    <div id="modalTambah" class="hidden fixed inset-0 z-[100] overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
+        <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm transition-opacity"></div>
+        <div class="bg-white p-6 rounded-[14px] shadow-2xl w-full max-w-[400px] mx-4 relative z-10 transform transition-all translate-y-0">
+            <h2 id="modalTitle" class="text-[1.3rem] font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h2>
             <form id="formTambah" onsubmit="simpanData(event)">
                 <input type="hidden" id="edit_id" value="">
                 
                 <div class="space-y-4">
-                    <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-md border border-gray-200 mb-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Ubah Status Pengerjaan</label>
-                        <select id="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-semibold text-gray-800">
+                    <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-[8px] border border-[#e2e8f0] mb-2">
+                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Ubah Status Pengerjaan</label>
+                        <select id="status" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white font-medium text-[0.85rem] text-gray-900">
                             <option value="Menunggu">🟡 Menunggu</option>
                             <option value="Diproses">🔵 Diproses</option>
                             <option value="Selesai">🟢 Selesai</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Peminta</label>
-                        <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Nama Peminta</label>
+                        <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Tujuan</label>
-                        <input type="email" id="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Email Tujuan</label>
+                        <input type="email" id="email" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Tanggal</label>
+                            <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Cetak</label>
-                            <select id="jenis_cetak" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                            <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Jenis Cetak</label>
+                            <select id="jenis_cetak" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem]">
                                 <option value="Spanduk">Spanduk</option>
                                 <option value="Brosur">Brosur</option>
                                 <option value="Stiker">Stiker</option>
@@ -384,51 +423,58 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Keperluan</label>
-                        <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Judul Keperluan</label>
+                        <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md font-medium">Batal</button>
-                    <button type="submit" id="btnSubmit" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md font-medium shadow flex items-center">Simpan & Generate</button>
+                    <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-100 text-gray-900 hover:bg-gray-200 rounded-[8px] font-medium text-[0.85rem]">Batal</button>
+                    <button type="submit" id="btnSubmit" class="px-4 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow flex items-center transition-colors">Simpan & Generate</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- ================= MODAL KONFIRMASI HAPUS ================= -->
-    <dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(420px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 shadow-2xl z-[150]">
+    <dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(400px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[150]">
         <div class="px-8 pb-7 pt-9 text-left">
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
-                <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 text-center mb-2">Hapus Permanen?</h3>
-            <p class="text-[14px] text-gray-500 text-center mb-6 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Data beserta nomor PKRS ini akan dihapus permanen dari sistem.</p>
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2 text-center">Ketik <span id="teksTargetHapus" class="font-bold text-red-600 select-all tracking-wide"></span> untuk mengonfirmasi:</label>
-                <input type="text" id="inputKonfirmasiHapus" oninput="cekInputHapus()" autocomplete="off" placeholder="Ketik persis seperti di atas..." class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center font-bold text-gray-900">
+            <h3 class="text-[1.3rem] font-bold text-gray-900 text-center mb-2">Hapus Permanen?</h3>
+            <p class="text-[0.85rem] text-gray-500 text-center mb-6 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Data beserta nomor PKRS ini akan dihapus permanen dari sistem.</p>
+            <div class="bg-gray-50 p-4 rounded-[8px] border border-[#e2e8f0] mb-6">
+                <label class="block text-[0.75rem] font-semibold text-gray-900 mb-2 text-center">Ketik <span id="teksTargetHapus" class="font-bold text-red-500 select-all tracking-wide"></span> untuk mengonfirmasi:</label>
+                <input type="text" id="inputKonfirmasiHapus" oninput="cekInputHapus()" autocomplete="off" placeholder="Ketik persis seperti di atas..." class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center font-bold text-gray-900 text-[0.85rem]">
             </div>
             <div class="flex space-x-3">
-                <button type="button" onclick="tutupModalHapus()" class="w-full rounded-xl bg-gray-100 px-4 py-3 text-[15px] font-bold text-gray-700 transition hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400">Batal</button>
-                <button type="button" id="btnProsesHapus" onclick="prosesHapusData()" disabled class="w-full rounded-xl bg-red-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400">Hapus Data</button>
+                <button type="button" onclick="tutupModalHapus()" class="w-full rounded-[8px] bg-gray-100 px-4 py-2.5 text-[0.85rem] font-medium text-gray-900 transition hover:bg-gray-200">Batal</button>
+                <button type="button" id="btnProsesHapus" onclick="prosesHapusData()" disabled class="w-full rounded-[8px] bg-red-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white transition hover:bg-red-600 disabled:opacity-40 disabled:cursor-not-allowed">Hapus Data</button>
             </div>
         </div>
     </dialog>
 
     <!-- ================= MODAL FEEDBACK ================= -->
-    <dialog id="modalFeedback" class="feedback-dlg w-[min(360px,92vw)] rounded-3xl border border-gray-200 bg-white p-0 text-center shadow-2xl z-[160]">
+    <dialog id="modalFeedback" class="feedback-dlg w-[min(360px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 text-center shadow-2xl z-[160]">
         <div class="px-8 pb-7 pt-9">
             <div class="feedback-icon mx-auto mb-5 grid h-20 w-20 place-items-center">
                 <svg viewBox="0 0 52 52" class="h-20 w-20"><circle class="feedback-ring" cx="26" cy="26" r="24" fill="none" stroke-width="3"></circle><path class="feedback-mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path></svg>
             </div>
-            <h2 id="feedbackTitle" class="text-[22px] font-extrabold tracking-tight text-gray-900">Tunggu...</h2>
-            <p id="feedbackMsg" class="mt-2 text-[14.5px] leading-relaxed text-gray-500" role="status">Memproses permintaan Anda.</p>
-            <button id="btnFeedbackClose" class="mt-6 w-full rounded-xl px-4 py-3 text-[15px] font-bold text-white transition active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" type="button">Tutup</button>
+            <h2 id="feedbackTitle" class="text-[1.3rem] font-bold tracking-tight text-gray-900">Tunggu...</h2>
+            <p id="feedbackMsg" class="mt-2 text-[0.85rem] leading-relaxed text-gray-500" role="status">Memproses permintaan Anda.</p>
+            <button id="btnFeedbackClose" class="mt-6 w-full rounded-[8px] px-4 py-2.5 text-[0.85rem] font-semibold text-white transition active:translate-y-px" type="button">Tutup</button>
         </div>
     </dialog>
 
     <!-- ================= JAVASCRIPT UTAMA ================= -->
     <script>
+        // Hapus Preloader setelah DOM dimuat
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        });
+
         // --- MANAJEMEN LOGIN / LOGOUT API TERBARU ---
         const peranSistem = localStorage.getItem('role_sistem');
         
@@ -495,7 +541,7 @@
         let dataUtama = [];
         let dataSaringanTerakhir = []; 
         let halamanSaatIni = 1;
-        const barisPerHalaman = 10; 
+        const barisPerHalaman = 10; // Dikembalikan ke 10 agar pas di tampilan Tabel
 
         // --- FILTER ---
         function toggleFilterPanel() {
@@ -574,8 +620,8 @@
             document.getElementById('feedbackTitle').textContent = judul;
             document.getElementById('feedbackMsg').textContent = pesan;
             
-            if(tipe === 'ok') btnClose.className = "mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-blue-700 active:translate-y-px";
-            else btnClose.className = "mt-6 w-full rounded-xl bg-red-600 px-4 py-3 text-[15px] font-bold text-white transition hover:bg-red-700 active:translate-y-px";
+            if(tipe === 'ok') btnClose.className = "mt-6 w-full rounded-[8px] bg-emerald-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white transition hover:bg-emerald-600 active:translate-y-px";
+            else btnClose.className = "mt-6 w-full rounded-[8px] bg-red-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white transition hover:bg-red-600 active:translate-y-px";
             
             dlg.showModal();
             void dlg.offsetWidth; 
@@ -668,14 +714,14 @@
                     <title>Struk Antrean PKRS #${data.id}</title>
                     <style>
                         @page { size: 80mm auto; margin: 0; }
-                        body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0; padding: 15px; color: #000; font-size: 13px; box-sizing: border-box; }
+                        body { font-family: 'Inter', 'Segoe UI', sans-serif; width: 80mm; margin: 0; padding: 15px; color: #000; font-size: 13px; box-sizing: border-box; }
                         .struk { width: 100%; }
                         .header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 15px; }
-                        .header h2 { margin: 0; font-size: 18px; font-weight: bold; font-family: sans-serif; }
+                        .header h2 { margin: 0; font-size: 18px; font-weight: bold; }
                         .header p { margin: 5px 0 0; font-size: 12px; }
                         .nomor { text-align: center; margin-bottom: 20px; }
                         .nomor h3 { margin: 0; font-size: 14px; font-weight: normal; }
-                        .nomor h1 { margin: 8px 0; font-size: 22px; font-weight: bold; font-family: sans-serif; }
+                        .nomor h1 { margin: 8px 0; font-size: 22px; font-weight: bold; }
                         .detail { font-size: 13px; line-height: 1.6; border-bottom: 2px dashed #000; padding-bottom: 15px; margin-bottom: 15px; }
                         .detail div { display: flex; justify-content: space-between; margin-bottom: 6px; }
                         .detail span.label { font-weight: bold; }
@@ -704,11 +750,11 @@
             printWindow.document.close();
         }
 
-        // --- RENDER & PAGINATION ---
+        // --- RENDER & PAGINATION (BUG SCROLL DIPERBAIKI) ---
         function gantiHalaman(halamanBaru) {
             halamanSaatIni = halamanBaru;
             renderTabel(dataSaringanTerakhir);
-            document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('areaScroll').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderPagination(totalBaris) {
@@ -721,26 +767,29 @@
             let html = '';
             
             const classBtnPrev = halamanSaatIni === 1 
-                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
-            html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${classBtnPrev}">Sebelumnya</button>`;
+                ? 'bg-gray-100 text-gray-400 border-[#e2e8f0] cursor-not-allowed' 
+                : 'bg-white text-gray-900 border-[#e2e8f0] hover:bg-gray-50';
+            html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-[8px] border text-[0.85rem] font-medium transition-colors ${classBtnPrev}">Sebelumnya</button>`;
 
             for(let i = 1; i <= totalHalaman; i++) {
                 if(i === halamanSaatIni) {
-                    html += `<button class="px-3 py-1.5 rounded-md border border-blue-600 bg-blue-600 text-white text-sm font-bold shadow-sm transition-colors">${i}</button>`;
+                    html += `<button class="px-3 py-1.5 rounded-[8px] border border-emerald-500 bg-emerald-500 text-white text-[0.85rem] font-bold shadow-sm transition-colors">${i}</button>`;
                 } else {
-                    html += `<button onclick="gantiHalaman(${i})" class="px-3 py-1.5 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium transition-colors">${i}</button>`;
+                    html += `<button onclick="gantiHalaman(${i})" class="px-3 py-1.5 rounded-[8px] border border-[#e2e8f0] bg-white text-gray-900 hover:bg-gray-50 text-[0.85rem] font-medium transition-colors">${i}</button>`;
                 }
             }
 
             const classBtnNext = halamanSaatIni === totalHalaman 
-                ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
-            html += `<button onclick="gantiHalaman(${halamanSaatIni + 1})" ${halamanSaatIni === totalHalaman ? 'disabled' : ''} class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${classBtnNext}">Berikutnya</button>`;
+                ? 'bg-gray-100 text-gray-400 border-[#e2e8f0] cursor-not-allowed' 
+                : 'bg-white text-gray-900 border-[#e2e8f0] hover:bg-gray-50';
+            html += `<button onclick="gantiHalaman(${halamanSaatIni + 1})" ${halamanSaatIni === totalHalaman ? 'disabled' : ''} class="px-3 py-1.5 rounded-[8px] border text-[0.85rem] font-medium transition-colors ${classBtnNext}">Berikutnya</button>`;
 
             wadah.innerHTML = html;
         }
 
+        // ============================================================
+        // PERUBAHAN UTAMA: DIKEMBALIKAN KE TABEL SESUAI PERMINTAAN
+        // ============================================================
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -748,8 +797,8 @@
             wadahDesktop.innerHTML = ''; wadahMobile.innerHTML = '';
 
             if (dataRender.length === 0) {
-                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Tidak ada antrean yang sesuai dengan pencarian/filter.</td></tr>`;
-                wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border">Tidak ada antrean yang sesuai dengan pencarian/filter.</div>';
+                wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500 text-[0.85rem]">Tidak ada antrean yang sesuai dengan pencarian/filter.</td></tr>`;
+                wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border border-[#e2e8f0] text-[0.85rem]">Tidak ada antrean yang sesuai dengan pencarian/filter.</div>';
                 document.getElementById('wadahPagination').innerHTML = '';
                 return;
             }
@@ -764,14 +813,15 @@
                 let warnaStatus = 'bg-yellow-100 text-yellow-800 border-yellow-200'; 
                 let teksStatus = baris.status || 'Menunggu';
                 if (teksStatus === 'Diproses') warnaStatus = 'bg-blue-100 text-blue-800 border-blue-200';
-                else if (teksStatus === 'Selesai') warnaStatus = 'bg-green-100 text-green-800 border-green-200';
+                else if (teksStatus === 'Selesai') warnaStatus = 'bg-[#e6fffa] text-emerald-800 border-emerald-200';
                 
                 const badgeStatus = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider ${warnaStatus}">${teksStatus}</span>`;
 
+                // TOMBOL DIKEMBALIKAN PERSIS SEPERTI SEBELUMNYA (Tanpa diubah)
                 let btnCetakPDF = `<button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center justify-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
                 let selAksiDesktop = `<td class="px-6 py-4 whitespace-nowrap text-sm text-center align-middle"><div class="flex flex-col w-full max-w-[120px] mx-auto">${btnCetakPDF}`;
-                let divAksiMobile = `<div class="mt-3 pt-3 border-t border-gray-100 flex flex-wrap justify-end gap-2"><button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 flex-grow justify-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
+                let divAksiMobile = `<div class="mt-3 pt-3 border-t border-[#e2e8f0] flex flex-wrap justify-end gap-2"><button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 flex-grow justify-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
                 if (peranSistem === 'admin') {
                     selAksiDesktop += `<button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center justify-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center justify-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100 w-full"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
@@ -782,24 +832,24 @@
                 divAksiMobile += `</div>`;
 
                 wadahDesktop.innerHTML += `
-                    <tr class="hover:bg-blue-50/50">
-                        <td class="px-6 py-4 text-sm text-gray-500">#${baris.id}</td>
-                        <td class="px-6 py-4 text-sm font-bold text-gray-900 whitespace-nowrap">${nomorFinal}<br><div class="mt-1">${badgeStatus}</div></td>
-                        <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">${baris.tanggal_permintaan}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 font-medium">${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span></td>
-                        <td class="px-6 py-4 text-sm text-gray-600"><div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div><span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${baris.jenis_cetak}</span></td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 text-[0.85rem] text-gray-500 font-medium">#${baris.id}</td>
+                        <td class="px-6 py-4 text-[0.85rem] font-bold text-gray-900 whitespace-nowrap">${nomorFinal}<br><div class="mt-1">${badgeStatus}</div></td>
+                        <td class="px-6 py-4 text-[0.85rem] text-gray-600 whitespace-nowrap">${baris.tanggal_permintaan}</td>
+                        <td class="px-6 py-4 text-[0.85rem] text-gray-900 font-medium">${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span></td>
+                        <td class="px-6 py-4 text-[0.85rem] text-gray-600"><div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#e6fffa] text-emerald-700 border border-emerald-200 tracking-wide">${baris.jenis_cetak}</span></td>
                         ${selAksiDesktop}
                     </tr>`;
 
                 wadahMobile.innerHTML += `
-                    <div class="bg-white shadow rounded-lg p-4 border border-gray-100 card-hover">
+                    <div class="bg-white shadow-[0_4px_15px_rgba(0,0,0,0.03)] rounded-[14px] p-4 border border-[#e2e8f0] card-hover">
                         <div class="flex justify-between items-start mb-3">
-                            <div class="flex items-center space-x-2"><span class="text-xs font-semibold text-blue-600 tracking-wider">#${baris.id}</span>${badgeStatus}</div>
+                            <div class="flex items-center space-x-2"><span class="text-xs font-semibold text-gray-400 tracking-wider">#${baris.id}</span>${badgeStatus}</div>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">${baris.tanggal_permintaan}</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-3">${baris.judul_keperluan}</h3>
-                        <div class="bg-blue-50/80 rounded border border-blue-100 p-3 mb-3"><p class="text-xs text-blue-600 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p><p class="font-bold text-blue-900 break-words">${nomorFinal}</p></div>
-                        <div class="text-sm text-gray-600 space-y-1"><p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p><p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p></div>
+                        <h3 class="text-[1.1rem] font-bold text-gray-900 mb-3">${baris.judul_keperluan}</h3>
+                        <div class="bg-[#f7faf9] rounded-[8px] border border-[#e2e8f0] p-3 mb-3"><p class="text-[10px] text-gray-500 font-semibold mb-1 uppercase tracking-wide">Nomor PKRS</p><p class="font-bold text-gray-900 break-words text-[0.95rem]">${nomorFinal}</p></div>
+                        <div class="text-[0.85rem] text-gray-600 space-y-1"><p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p><p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p></div>
                         ${divAksiMobile}
                     </div>`;
             });
@@ -808,13 +858,12 @@
         }
 
         fetch('/api/pkrs').then(r => r.json()).then(d => {
-            document.getElementById('loadingState').style.display = 'none';
             if (!d.error) { 
                 dataUtama = d; 
                 dataSaringanTerakhir = d;
                 saringDataUtama(); 
             }
-        }).catch(e => { document.getElementById('loadingState').innerHTML = '<span class="text-red-500">Gagal memuat data.</span>'; });
+        }).catch(e => { console.error('Gagal memuat data'); });
 
         function eksporCSV() {
             if (dataSaringanTerakhir.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh pada filter ini.');
