@@ -750,8 +750,10 @@
             
             dlg.classList.remove('is-ok', 'is-err');
             markEl.setAttribute('d', tipe === 'ok' ? CHECK : CROSS);
-            document.getElementById('feedbackTitle').textContent = judul;
-            document.getElementById('feedbackMsg').textContent = pesan;
+            
+            // PERUBAHAN: Menggunakan innerHTML agar bisa merender tag HTML seperti <br> dan <span>
+            document.getElementById('feedbackTitle').innerHTML = judul;
+            document.getElementById('feedbackMsg').innerHTML = pesan;
             
             if(tipe === 'ok') btnClose.className = "mt-6 w-full rounded-[8px] bg-emerald-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white transition hover:bg-emerald-600 active:translate-y-px";
             else btnClose.className = "mt-6 w-full rounded-[8px] bg-red-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white transition hover:bg-red-600 active:translate-y-px";
@@ -1064,11 +1066,22 @@
                 tutupModal();
                 
                 if (result.sukses) { 
-                    if (editId) { tampilkanFeedback('ok', 'Berhasil Diperbarui!', 'Notifikasi revisi juga telah dikirim ke email peminta.', true); } 
-                    else { tampilkanFeedback('ok', 'Berhasil!', `Nomor PKRS Anda: ${result.nomor_pkrs}`, true); }
-                } else { tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); }
-            } catch (error) { tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
-            } finally { btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; btnSubmit.disabled = false; }
+                    if (editId) { 
+                        tampilkanFeedback('ok', 'Berhasil Diperbarui!', 'Notifikasi revisi juga telah dikirim ke email peminta.', true); 
+                    } else { 
+                        // PERUBAHAN: Menambahkan <br>, gaya tebal untuk nomor, dan teks informasi email
+                        const pesanSukses = `Nomor PKRS Anda:<br><span class="block text-[1.1rem] font-bold text-gray-900 mt-1.5 mb-1.5 tracking-wide">${result.nomor_pkrs}</span><span class="text-xs text-emerald-600 font-medium">Telah berhasil dibuat & dikirim via email peminta.</span>`;
+                        tampilkanFeedback('ok', 'Berhasil!', pesanSukses, true); 
+                    }
+                } else { 
+                    tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); 
+                }
+            } catch (error) { 
+                tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
+            } finally { 
+                btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; 
+                btnSubmit.disabled = false; 
+            }
         }
     </script>
 </body>
