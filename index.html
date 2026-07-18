@@ -67,7 +67,7 @@
         .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
 
         /* =========================================================
-           CSS MODAL FEEDBACK SUCCESS/ERROR (Sesuai Panduan)
+           CSS MODAL FEEDBACK SUCCESS/ERROR
            ========================================================= */
         .feedback-dlg { margin: auto; opacity: 0; transform: translateY(12px) scale(.96); transition: opacity .28s, transform .28s, overlay .28s allow-discrete, display .28s allow-discrete; }
         .feedback-dlg[open] { opacity: 1; transform: none; }
@@ -87,7 +87,7 @@
         @keyframes feedback-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 
         /* =========================================================
-           CSS HALAMAN LOGIN (Sistem Emerald)
+           CSS HALAMAN LOGIN 
            ========================================================= */
         .lf-01,.lf-01 *,.lf-01 *::before,.lf-01 *::after{box-sizing:border-box;margin:0;padding:0}
         .lf-01{--accent:#0d8a72;--brand-bg:#0a6b58;--radius:14px;--field-h:48px;
@@ -156,13 +156,11 @@
                             <span class="text-emerald-500 font-bold text-[1.3rem] tracking-tight">TIM PKRS</span>
                         </div>
                         
-                        <!-- Tombol Nomor Baru (Mobile) -->
                         <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-3 rounded-[12px] font-semibold hover:bg-emerald-600 shadow-md transition-all active:scale-95 mb-2">
                             <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                             Buat Nomor Baru
                         </button>
                         
-                        <!-- Panel Admin Mobile (Desain Baru) -->
                         <div id="panelAdminMobile" class="hidden flex-col space-y-4 pt-6 border-t border-gray-100 mt-6">
                             <div class="flex items-center gap-3 px-1">
                                 <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm border border-emerald-200">AD</div>
@@ -176,8 +174,6 @@
                                 Keluar (Logout)
                             </button>
                         </div>
-
-                        <!-- Panel Guest Mobile (Desain Baru) -->
                         <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
                             <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 font-semibold py-2.5 border border-emerald-100 hover:bg-emerald-100 rounded-[12px] transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
@@ -188,40 +184,27 @@
                 </aside>
 
                 <div class="chm-04__shell flex flex-col">
-                    <nav class="bg-emerald-600 shadow-lg relative z-40 h-16 flex-shrink-0">
+                    <nav class="bg-emerald-600 shadow-lg relative z-50 h-16 flex-shrink-0">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                             <div class="flex justify-center md:justify-between h-full items-center">
-                                
-                                <!-- Logo Desktop -->
                                 <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-emerald-600 font-black text-lg shadow-sm">P</div>
                                         <span class="text-white font-bold text-[1.2rem] tracking-tight">TIM PKRS RSUASF</span>
                                     </div>
                                 </div>
-
                                 <div class="hidden md:flex items-center space-x-6">
-                                    
-                                    <!-- Panel Admin Desktop (Desain Avatar Pill) -->
                                     <div id="panelAdminDesktop" class="hidden flex items-center space-x-4">
                                         <div class="flex items-center gap-2 bg-emerald-700/50 py-1 pl-1 pr-3 rounded-full border border-emerald-500/50 shadow-inner">
-                                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
-                                                AD
-                                            </div>
+                                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">AD</div>
                                             <span class="text-[0.75rem] font-medium text-emerald-50 tracking-wide">Admin Mode</span>
                                         </div>
-                                        
-                                        <!-- Garis Pemisah Vertikal -->
                                         <div class="h-6 w-px bg-emerald-500"></div>
-
-                                        <!-- Tombol Logout -->
                                         <button onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
                                             <svg class="w-4 h-4 text-emerald-200 group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                             Logout
                                         </button>
                                     </div>
-
-                                    <!-- Panel Guest Desktop -->
                                     <div id="panelNonAdminDesktop" class="flex items-center space-x-4">
                                         <button onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
                                             <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 group-hover:bg-emerald-400 transition-colors shadow-sm">
@@ -230,10 +213,7 @@
                                             <span>Login Admin</span>
                                         </button>
                                     </div>
-
                                     <div class="h-6 w-px bg-emerald-500"></div>
-
-                                    <!-- Tombol Nomor Baru Desktop (Desain Mengambang/CTA) -->
                                     <button onclick="bukaModal()" class="group relative inline-flex items-center justify-center gap-2 bg-white text-emerald-600 px-5 py-2.5 rounded-[12px] font-bold text-[0.85rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 transition-all duration-200 active:scale-95">
                                         <svg class="w-4 h-4 text-emerald-500 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                                         Buat Nomor
@@ -243,15 +223,15 @@
                         </div>
                     </nav>
 
-                    <div id="areaScroll" class="w-full overflow-y-auto flex-grow" style="height: calc(100vh - 64px);">
-                        <!-- Hapus py-8 pada main, ganti menjadi hanya pb-16 -->
-                        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-
-                            <!-- === WADAH STICKY (Bagian yang menempel di atas) === -->
-                            <div class="sticky top-0 z-30 bg-[#f7faf9] pt-8 pb-6 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 mb-6 border-b border-[#e2e8f0] shadow-sm">
-                            
+                    <div id="areaScroll" class="w-full overflow-y-auto flex-grow bg-[#f7faf9]" style="height: calc(100vh - 64px);">
+                        
+                        <!-- ========================================== -->
+                        <!-- AREA STICKY (MELAYANG DI ATAS SAAT SCROLL) -->
+                        <!-- ========================================== -->
+                        <div class="sticky top-0 z-40 bg-[#f7faf9] pt-8 pb-6 px-4 sm:px-6 lg:px-8 border-b border-[#e2e8f0] shadow-sm">
+                            <div class="max-w-7xl mx-auto">
+                                
                                 <!-- BARIS ALAT (SEARCH & FILTER) -->
-                                <!-- (Biar kodenya tetap sama seperti milik Anda, letakkan blok div id="inputPencarian" dkk di sini) -->
                                 <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
                                     <div>
                                         <h1 class="text-[1.8rem] md:text-[1.8rem] text-[1.5rem] font-bold text-gray-900 tracking-tight">Daftar Permintaan</h1>
@@ -283,8 +263,6 @@
                                                         <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
                                                         <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] text-gray-900">
                                                     </div>
-                                                    
-                                                    <!-- DROPDOWN FILTER: JENIS CETAK -->
                                                     <div>
                                                         <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
                                                         <div class="relative">
@@ -303,8 +281,6 @@
                                                             <input type="hidden" id="inputFilterJenis" value="">
                                                         </div>
                                                     </div>
-
-                                                    <!-- DROPDOWN FILTER: STATUS -->
                                                     <div>
                                                         <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status Antrean</label>
                                                         <div class="relative">
@@ -335,50 +311,54 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- DASHBOARD STATISTIK -->
-                            <!-- (Biar kodenya tetap sama, letakkan blok div statTotal, statMenunggu dkk di sini) -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4"> 
-                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-gray-400">
-                                    <p class="text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-900" id="statTotal">0</h3>
-                                        <div class="p-2 bg-gray-50 rounded-lg text-gray-500">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                <!-- DASHBOARD STATISTIK -->
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-gray-400">
+                                        <p class="text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-2xl font-black text-gray-900" id="statTotal">0</h3>
+                                            <div class="p-2 bg-gray-50 rounded-lg text-gray-500">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-yellow-400">
-                                    <p class="text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-900" id="statMenunggu">0</h3>
-                                        <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-yellow-400">
+                                        <p class="text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-2xl font-black text-gray-900" id="statMenunggu">0</h3>
+                                            <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-blue-400">
-                                    <p class="text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-900" id="statDiproses">0</h3>
-                                        <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-blue-400">
+                                        <p class="text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-2xl font-black text-gray-900" id="statDiproses">0</h3>
+                                            <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-emerald-400">
-                                    <p class="text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="text-2xl font-black text-gray-900" id="statSelesai">0</h3>
-                                        <div class="p-2 bg-[#e6fffa] rounded-lg text-emerald-500">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-emerald-400">
+                                        <p class="text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-2xl font-black text-gray-900" id="statSelesai">0</h3>
+                                            <div class="p-2 bg-[#e6fffa] rounded-lg text-emerald-500">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- LOADING STATE & TABEL (Bagian ini yang akan bisa di-scroll) -->
+                        <!-- ========================================== -->
+                        <!-- AREA KONTEN (BAGIAN BAWAH YANG BISA DI-SCROLL) -->
+                        <!-- ========================================== -->
+                        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-16 relative z-10">
+                            
                             <div id="loadingState" class="text-center py-10">
                                 <p class="text-gray-500 animate-pulse font-medium text-[0.85rem]">Memuat data dari database...</p>
                             </div>
@@ -465,7 +445,6 @@
                 
                 <div class="space-y-4">
                     
-                    <!-- DROPDOWN CUSTOM MODAL: STATUS -->
                     <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-[8px] border border-[#e2e8f0] mb-2 relative">
                         <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Ubah Status Pengerjaan</label>
                         <button type="button" onclick="toggleDropdown('status')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white font-medium text-[0.85rem] text-gray-900">
@@ -494,7 +473,6 @@
                             <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                         </div>
                         
-                        <!-- DROPDOWN CUSTOM MODAL: JENIS CETAK -->
                         <div class="relative">
                             <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Jenis Cetak</label>
                             <button type="button" onclick="toggleDropdown('jenisCetak')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
@@ -564,6 +542,15 @@
             setTimeout(() => { preloader.style.display = 'none'; }, 500);
         });
 
+        // --- FUNGSI FORMAT TANGGAL INDO ---
+        function formatTanggalIndo(tanggal) {
+            if (!tanggal) return '-';
+            const namaBulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+            const p = tanggal.split('-');
+            if (p.length !== 3) return tanggal;
+            return `${p[2]} ${namaBulan[parseInt(p[1]) - 1]} ${p[0]}`;
+        }
+
         // --- LOGIKA DROPDOWN KUSTOM TAILWIND ---
         let dropdownAktif = null;
 
@@ -578,7 +565,6 @@
             }
         }
 
-        // FUNGSI DIPERBARUI: Ditambahkan parameter inputId agar bisa dipakai di Modal & Filter
         function pilihOpsi(nilaiReal, teksTampil, tipeDropdown, inputId) {
             document.getElementById(`teks-${tipeDropdown}`).innerText = teksTampil;
             document.getElementById(inputId).value = nilaiReal;
@@ -596,7 +582,6 @@
             }
         }
 
-        // Tutup dropdown jika klik sembarang tempat di luar area tombol/menu
         document.addEventListener('click', function(event) {
             if (dropdownAktif) {
                 const btn = document.querySelector(`button[onclick="toggleDropdown('${dropdownAktif}')"]`);
@@ -607,7 +592,7 @@
             }
         });
 
-        // --- MANAJEMEN LOGIN / LOGOUT API TERBARU ---
+        // --- MANAJEMEN LOGIN / LOGOUT ---
         const peranSistem = localStorage.getItem('role_sistem');
         
         if (peranSistem === 'admin') {
@@ -684,7 +669,6 @@
             const filterBtn = document.getElementById('btnFilterToggle');
             const filterPnl = document.getElementById('filterPanel');
             if (filterBtn && filterPnl && !filterBtn.contains(e.target) && !filterPnl.contains(e.target)) {
-                // Pastikan tidak menyembunyikan panel jika pengguna sedang mengklik dropdown custom di dalamnya
                 if (!e.target.closest('#menu-filterJenis') && !e.target.closest('#menu-filterStatus')) {
                     filterPnl.classList.add('hidden');
                 }
@@ -694,8 +678,8 @@
         function saringDataUtama() {
             const kataKunci = document.getElementById('inputPencarian').value.toLowerCase();
             const filterTgl = document.getElementById('filterTanggal').value;
-            const filterJns = document.getElementById('inputFilterJenis').value; // Mengambil value dari hidden input terbaru
-            const filterStat = document.getElementById('inputFilterStatus').value; // Mengambil value dari hidden input terbaru
+            const filterJns = document.getElementById('inputFilterJenis').value;
+            const filterStat = document.getElementById('inputFilterStatus').value;
             const indikator = document.getElementById('indikatorFilter');
 
             let hasil = dataUtama;
@@ -727,11 +711,8 @@
 
         function resetFilter() {
             document.getElementById('filterTanggal').value = '';
-            
-            // Reset Dropdown Filter Tampilan & Value
             document.getElementById('inputFilterJenis').value = '';
             document.getElementById('teks-filterJenis').innerText = 'Semua Jenis Cetak';
-            
             document.getElementById('inputFilterStatus').value = ''; 
             document.getElementById('teks-filterStatus').innerText = 'Semua Status';
             
@@ -759,7 +740,6 @@
             dlg.classList.remove('is-ok', 'is-err');
             markEl.setAttribute('d', tipe === 'ok' ? CHECK : CROSS);
             
-            // PERUBAHAN: Menggunakan innerHTML agar bisa merender tag HTML seperti <br> dan <span>
             document.getElementById('feedbackTitle').innerHTML = judul;
             document.getElementById('feedbackMsg').innerHTML = pesan;
             
@@ -825,7 +805,6 @@
             document.getElementById('formTambah').reset(); 
             document.getElementById('edit_id').value = ''; 
             
-            // RESET DROPDOWN KUSTOM MODAL
             document.getElementById('teks-jenisCetak').innerText = "Pilih Jenis...";
             document.getElementById('jenis_cetak').value = "";
             document.getElementById('teks-status').innerText = "🟡 Menunggu";
@@ -846,11 +825,9 @@
                 document.getElementById('tanggal_permintaan').value = data.tanggal_permintaan;
                 document.getElementById('judul_keperluan').value = data.judul_keperluan;
                 
-                // MENGISI DATA KE DROPDOWN KUSTOM JENIS CETAK (MODAL)
                 document.getElementById('jenis_cetak').value = data.jenis_cetak;
                 document.getElementById('teks-jenisCetak').innerText = data.jenis_cetak || "Pilih Jenis...";
 
-                // MENGISI DATA KE DROPDOWN KUSTOM STATUS (MODAL)
                 const statusData = data.status || 'Menunggu';
                 document.getElementById('status').value = statusData;
                 if(statusData === 'Menunggu') document.getElementById('teks-status').innerText = '🟡 Menunggu';
@@ -896,7 +873,7 @@
                         <div class="nomor"><h3>NOMOR ANTREAN:</h3><h1>${nomor}</h1></div>
                         <div class="detail">
                             <div><span class="label">Peminta:</span> <span class="value">${data.nama_peminta}</span></div>
-                            <div><span class="label">Tanggal:</span> <span class="value">${data.tanggal_permintaan}</span></div>
+                            <div><span class="label">Tanggal:</span> <span class="value">${formatTanggalIndo(data.tanggal_permintaan)}</span></div>
                             <div><span class="label">Format:</span> <span class="value">${data.jenis_cetak}</span></div>
                             <div><span class="label">Status:</span> <span class="value">${(data.status || 'Menunggu').toUpperCase()}</span></div>
                         </div>
@@ -911,7 +888,7 @@
             printWindow.document.close();
         }
 
-        // --- RENDER & PAGINATION (BUG SCROLL DIPERBAIKI) ---
+        // --- RENDER & PAGINATION ---
         function gantiHalaman(halamanBaru) {
             halamanSaatIni = halamanBaru;
             renderTabel(dataSaringanTerakhir);
@@ -926,7 +903,6 @@
             if (totalHalaman <= 1) return;
 
             let html = '';
-            
             const classBtnPrev = halamanSaatIni === 1 
                 ? 'bg-gray-100 text-gray-400 border-[#e2e8f0] cursor-not-allowed' 
                 : 'bg-white text-gray-900 border-[#e2e8f0] hover:bg-gray-50';
@@ -948,18 +924,6 @@
             wadah.innerHTML = html;
         }
 
-        function formatTanggalIndo(tanggal) {
-            if (!tanggal) return '-';
-            // Gunakan singkatan agar tabel tidak terlalu melebar
-            const namaBulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-            const p = tanggal.split('-');
-            if (p.length !== 3) return tanggal;
-            return `${p[2]} ${namaBulan[parseInt(p[1]) - 1]} ${p[0]}`;
-        }
-
-        // ============================================================
-        // PERUBAHAN UTAMA: DIKEMBALIKAN KE TABEL SESUAI PERMINTAAN
-        // ============================================================
         function renderTabel(dataRender) {
             const wadahDesktop = document.getElementById('isiTabelDesktop');
             const wadahMobile = document.getElementById('isiTabelMobile');
@@ -987,7 +951,6 @@
                 
                 const badgeStatus = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider ${warnaStatus}">${teksStatus}</span>`;
 
-                // TOMBOL DIKEMBALIKAN PERSIS SEPERTI SEBELUMNYA (Tanpa diubah)
                 let btnCetakPDF = `<button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center justify-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
                 let selAksiDesktop = `<td class="px-6 py-4 whitespace-nowrap text-sm text-center align-middle"><div class="flex flex-col w-full max-w-[120px] mx-auto">${btnCetakPDF}`;
@@ -1028,7 +991,7 @@
         }
 
         fetch('/api/pkrs').then(r => r.json()).then(d => {
-            document.getElementById('loadingState').style.display = 'none'; // Menghilangkan teks loading
+            document.getElementById('loadingState').style.display = 'none'; 
             if (!d.error) { 
                 dataUtama = d; 
                 dataSaringanTerakhir = d;
@@ -1055,7 +1018,6 @@
             const btnSubmit = document.getElementById('btnSubmit');
             const editId = document.getElementById('edit_id').value; 
             
-            // Validasi manual karena input type hidden tidak bisa ditangkap required HTML5 standar
             const cekJenis = document.getElementById('jenis_cetak').value;
             if(!cekJenis) {
                 tampilkanFeedback('err', 'Data Tidak Lengkap', 'Mohon pilih Jenis Cetak terlebih dahulu.');
@@ -1086,19 +1048,12 @@
                     if (editId) { 
                         tampilkanFeedback('ok', 'Berhasil Diperbarui!', 'Notifikasi revisi juga telah dikirim ke email peminta.', true); 
                     } else { 
-                        // PERUBAHAN: Menambahkan <br>, gaya tebal untuk nomor, dan teks informasi email
                         const pesanSukses = `Nomor PKRS Anda:<br><span class="block text-[1.1rem] font-bold text-gray-900 mt-1.5 mb-1.5 tracking-wide">${result.nomor_pkrs}</span><span class="text-xs text-emerald-600 font-medium">Telah berhasil dibuat & dikirim via email peminta.</span>`;
                         tampilkanFeedback('ok', 'Berhasil!', pesanSukses, true); 
                     }
-                } else { 
-                    tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); 
-                }
-            } catch (error) { 
-                tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
-            } finally { 
-                btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; 
-                btnSubmit.disabled = false; 
-            }
+                } else { tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); }
+            } catch (error) { tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
+            } finally { btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; btnSubmit.disabled = false; }
         }
     </script>
 </body>
