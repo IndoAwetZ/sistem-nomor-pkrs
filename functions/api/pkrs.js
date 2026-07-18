@@ -130,11 +130,23 @@ export async function onRequestDelete(context) {
 
 // --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT & STATUS) ---
 export async function onRequestPut(context) {
+  // 1. Definisikan header CORS
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
     const input = await context.request.json();
-    if (!input.id) return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
+    if (!input.id) {
+        return Response.json(
+            { error: "ID data tidak diberikan!" }, 
+            { status: 400, headers: corsHeaders } // <-- Tambahan Header
+        );
+    }
 
-    // INFO: Mengupdate kolom status sesuai inputan Admin
+    // Update Database D1
     await context.env.DB.prepare(
         "UPDATE nomor_pkrs SET nama_peminta = ?, tanggal_permintaan = ?, jenis_cetak = ?, judul_keperluan = ?, email = ?, status = ? WHERE id = ?"
     ).bind(
@@ -187,6 +199,16 @@ export async function onRequestPut(context) {
         throw new Error("Ditolak Resend: " + JSON.stringify(responError));
     }
 
-    return Response.json({ sukses: true, pesan: `Data ID #${input.id} berhasil diperbarui.` });
-  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
+    // Sukses: Balas dengan Header
+    return Response.json(
+        { sukses: true, pesan: `Data ID #${input.id} berhasil diperbarui.` },
+        { status: 200, headers: corsHeaders } // <-- Tambahan Header
+    );
+  } catch (error) { 
+      // Error: Balas dengan Header
+      return Response.json(
+          { error: error.message }, 
+          { status: 500, headers: corsHeaders } // <-- Tambahan Header
+      ); 
+  }
 }
