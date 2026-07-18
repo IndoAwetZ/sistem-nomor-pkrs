@@ -54,6 +54,13 @@ function angkaKeRomawi(num) {
 
 // --- 3. FUNGSI UNTUK MENYIMPAN DATA BARU ---
 export async function onRequestPost(context) {
+  // 1. Definisikan header CORS
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
     const input = await context.request.json();
     
@@ -113,8 +120,18 @@ export async function onRequestPost(context) {
           throw new Error("Ditolak Resend: " + JSON.stringify(responError));
       }
 
-    return Response.json({ sukses: true, pesan: "Data berhasil disimpan!", nomor_pkrs: nomorPKRSFinal });
-  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
+    // Sukses: Balas dengan Header
+    return Response.json(
+        { sukses: true, pesan: "Data berhasil disimpan!", nomor_pkrs: nomorPKRSFinal },
+        { status: 200, headers: corsHeaders }
+    );
+  } catch (error) { 
+      // Error: Balas dengan Header
+      return Response.json(
+          { error: error.message }, 
+          { status: 500, headers: corsHeaders }
+      ); 
+  }
 }
 
 // --- 4. FUNGSI UNTUK MENGHAPUS DATA ---
