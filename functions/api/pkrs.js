@@ -1,3 +1,16 @@
+// 1. TAMBAHKAN INI: Fungsi untuk melayani pra-pemeriksaan (Preflight) dari FlutLab/Browser
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+    }
+  });
+}
+
 // --- 1. FUNGSI UNTUK MEMBACA DATA ---
 export async function onRequestGet(context) {
   try {
