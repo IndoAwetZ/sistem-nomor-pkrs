@@ -11,17 +11,31 @@ export async function onRequestOptions() {
   });
 }
 
+// Variabel bantuan agar Anda tidak capek mengetik ulang
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 // --- 1. FUNGSI UNTUK MEMBACA DATA ---
 export async function onRequestGet(context) {
   try {
-    // INFO: Sekarang kita menarik kolom 'status' dari database
     const result = await context.env.DB.prepare(
         "SELECT id, timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status FROM nomor_pkrs ORDER BY id DESC"
     ).all();
     
-    return Response.json(result.results);
+    // KUNCINYA DI SINI: Tempelkan { headers: corsHeaders } pada balasan sukses
+    return Response.json(result.results, { 
+        status: 200, 
+        headers: corsHeaders 
+    });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    // Tempelkan juga pada balasan error
+    return Response.json({ error: error.message }, { 
+        status: 500, 
+        headers: corsHeaders 
+    });
   }
 }
 
