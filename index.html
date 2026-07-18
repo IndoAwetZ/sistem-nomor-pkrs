@@ -858,12 +858,15 @@
         }
 
         fetch('/api/pkrs').then(r => r.json()).then(d => {
+            document.getElementById('loadingState').style.display = 'none'; // Menghilangkan teks loading
             if (!d.error) { 
                 dataUtama = d; 
                 dataSaringanTerakhir = d;
                 saringDataUtama(); 
             }
-        }).catch(e => { console.error('Gagal memuat data'); });
+        }).catch(e => { 
+            document.getElementById('loadingState').innerHTML = '<span class="text-red-500 font-medium text-[0.85rem]">Gagal memuat data dari server.</span>'; 
+        });
 
         function eksporCSV() {
             if (dataSaringanTerakhir.length === 0) return tampilkanFeedback('err', 'Gagal', 'Tidak ada data untuk diunduh pada filter ini.');
