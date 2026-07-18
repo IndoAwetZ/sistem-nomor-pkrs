@@ -152,42 +152,91 @@
                 <aside class="chm-04__sidebar md:hidden">
                     <div class="space-y-4 pt-2">
                         <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
-                            <span class="text-emerald-500 font-bold text-[1.5rem] tracking-tight">TIM PKRS RSUASF</span>
+                            <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-black text-lg mr-2 shadow-sm">P</div>
+                            <span class="text-emerald-500 font-bold text-[1.3rem] tracking-tight">TIM PKRS</span>
                         </div>
                         
-                        <button onclick="bukaModalDanTutupSidebar()" class="w-full bg-emerald-500 text-white px-4 py-3 rounded-[8px] font-semibold hover:bg-emerald-600 shadow flex justify-center items-center transition-colors mb-2">
-                            + Buat Nomor Baru
+                        <!-- Tombol Nomor Baru (Mobile) -->
+                        <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-3 rounded-[12px] font-semibold hover:bg-emerald-600 shadow-md transition-all active:scale-95 mb-2">
+                            <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                            Buat Nomor Baru
                         </button>
                         
-                        <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                            <span class="bg-[#e6fffa] text-emerald-600 text-xs font-semibold px-3 py-2 rounded border border-emerald-200 text-center uppercase tracking-widest">Admin Mode</span>
-                            <button onclick="prosesLogout()" class="w-full text-red-500 font-semibold py-2 border border-red-100 hover:bg-red-50 rounded transition-colors">Keluar (Logout)</button>
+                        <!-- Panel Admin Mobile (Desain Baru) -->
+                        <div id="panelAdminMobile" class="hidden flex-col space-y-4 pt-6 border-t border-gray-100 mt-6">
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm border border-emerald-200">AD</div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">Admin System</p>
+                                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Sesi Aktif</p>
+                                </div>
+                            </div>
+                            <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-red-50 hover:bg-red-100 font-semibold py-2.5 rounded-[12px] border border-red-100 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                Keluar (Logout)
+                            </button>
                         </div>
+
+                        <!-- Panel Guest Mobile (Desain Baru) -->
                         <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                            <button onclick="bukaLayarLogin()" class="w-full text-emerald-500 font-semibold py-2 border border-emerald-100 hover:bg-emerald-50 rounded transition-colors">Login Admin</button>
+                            <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 font-semibold py-2.5 border border-emerald-100 hover:bg-emerald-100 rounded-[12px] transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                Login Admin
+                            </button>
                         </div>
                     </div>
                 </aside>
 
                 <div class="chm-04__shell flex flex-col">
-                    <nav class="bg-emerald-500 shadow-lg relative z-40 h-16 flex-shrink-0">
+                    <nav class="bg-emerald-600 shadow-lg relative z-40 h-16 flex-shrink-0">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                             <div class="flex justify-center md:justify-between h-full items-center">
+                                
+                                <!-- Logo Desktop -->
                                 <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
-                                    <span class="text-white font-bold text-[1.5rem] tracking-tight">TIM PKRS RSUASF</span>
-                                </div>
-                                <div class="hidden md:flex items-center space-x-4">
-                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-3 border-r border-emerald-400 pr-4">
-                                        <span class="bg-[#e6fffa] text-emerald-600 text-[10px] font-semibold px-2 py-1 rounded border border-emerald-200 shadow-sm uppercase">Admin Mode</span>
-                                        <button onclick="prosesLogout()" class="text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors">Logout</button>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-emerald-600 font-black text-lg shadow-sm">P</div>
+                                        <span class="text-white font-bold text-[1.2rem] tracking-tight">TIM PKRS RSUASF</span>
                                     </div>
-                                    <div id="panelNonAdminDesktop" class="flex items-center space-x-3 border-r border-emerald-400 pr-4">
-                                        <button onclick="bukaLayarLogin()" class="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-[0_4px_10px_rgba(13,138,114,0.2)]" title="Login Admin">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                </div>
+
+                                <div class="hidden md:flex items-center space-x-6">
+                                    
+                                    <!-- Panel Admin Desktop (Desain Avatar Pill) -->
+                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-4">
+                                        <div class="flex items-center gap-2 bg-emerald-700/50 py-1 pl-1 pr-3 rounded-full border border-emerald-500/50 shadow-inner">
+                                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                                                AD
+                                            </div>
+                                            <span class="text-[0.75rem] font-medium text-emerald-50 tracking-wide">Admin Mode</span>
+                                        </div>
+                                        
+                                        <!-- Garis Pemisah Vertikal -->
+                                        <div class="h-6 w-px bg-emerald-500"></div>
+
+                                        <!-- Tombol Logout -->
+                                        <button onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
+                                            <svg class="w-4 h-4 text-emerald-200 group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                            Logout
                                         </button>
                                     </div>
-                                    <button onclick="bukaModal()" class="bg-white text-emerald-500 px-4 py-2 rounded-[8px] font-semibold text-[0.85rem] hover:bg-gray-50 shadow transition-colors">
-                                        + Nomor Baru
+
+                                    <!-- Panel Guest Desktop -->
+                                    <div id="panelNonAdminDesktop" class="flex items-center space-x-4">
+                                        <button onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
+                                            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 group-hover:bg-emerald-400 transition-colors shadow-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                            </div>
+                                            <span>Login Admin</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="h-6 w-px bg-emerald-500"></div>
+
+                                    <!-- Tombol Nomor Baru Desktop (Desain Mengambang/CTA) -->
+                                    <button onclick="bukaModal()" class="group relative inline-flex items-center justify-center gap-2 bg-white text-emerald-600 px-5 py-2.5 rounded-[12px] font-bold text-[0.85rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 transition-all duration-200 active:scale-95">
+                                        <svg class="w-4 h-4 text-emerald-500 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                                        Buat Nomor
                                     </button>
                                 </div>
                             </div>
