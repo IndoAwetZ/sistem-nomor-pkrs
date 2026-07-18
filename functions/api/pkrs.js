@@ -119,14 +119,38 @@ export async function onRequestPost(context) {
 
 // --- 4. FUNGSI UNTUK MENGHAPUS DATA ---
 export async function onRequestDelete(context) {
+  // 1. Definisikan header CORS
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
     const url = new URL(context.request.url);
     const id = url.searchParams.get("id");
-    if (!id) return Response.json({ error: "ID data tidak diberikan!" }, { status: 400 });
+    
+    if (!id) {
+        return Response.json(
+            { error: "ID data tidak diberikan!" }, 
+            { status: 400, headers: corsHeaders } // <-- Tambahan Header
+        );
+    }
 
     await context.env.DB.prepare("DELETE FROM nomor_pkrs WHERE id = ?").bind(id).run();
-    return Response.json({ sukses: true, pesan: `Data ID #${id} berhasil dihapus.` });
-  } catch (error) { return Response.json({ error: error.message }, { status: 500 }); }
+    
+    // Sukses: Balas dengan Header
+    return Response.json(
+        { sukses: true, pesan: `Data ID #${id} berhasil dihapus.` },
+        { status: 200, headers: corsHeaders } // <-- Tambahan Header
+    );
+  } catch (error) { 
+      // Error: Balas dengan Header
+      return Response.json(
+          { error: error.message }, 
+          { status: 500, headers: corsHeaders } // <-- Tambahan Header
+      ); 
+  }
 }
 
 // --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT & STATUS) ---
