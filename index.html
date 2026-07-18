@@ -139,7 +139,7 @@
     <div id="preloader"><div class="spinner"></div></div>
 
     <!-- ======================================================= -->
-    <!-- 1. DASHBOARD UTAMA (MUNCUL DEFAULT)                     -->
+    <!-- 1. DASHBOARD UTAMA (MUNCUL DEFAULT)                    -->
     <!-- ======================================================= -->
     <div id="mainDashboard" class="block">
         <div class="chm-04" id="appRoot">
@@ -307,7 +307,7 @@
                                 <p class="text-gray-500 animate-pulse font-medium text-[0.85rem]">Memuat data dari database...</p>
                             </div>
 
-                            <!-- PENGGUNAAN TABEL KEMBALI (Sesuai Permintaan) -->
+                            <!-- PENGGUNAAN TABEL KEMBALI -->
                             <div class="hidden md:block bg-white shadow-[0_4px_15px_rgba(0,0,0,0.03)] rounded-lg overflow-hidden border border-[#e2e8f0]">
                                 <table class="min-w-full divide-y divide-[#e2e8f0]">
                                     <thead class="bg-gray-50">
@@ -335,7 +335,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- ======================================================= -->
     <!-- 2. LAYAR LOGIN ADMIN (MUNCUL SAAT DIKLIK)               -->
@@ -380,7 +379,6 @@
         </section>
     </div>
 
-
     <!-- ================= MODAL TAMBAH & EDIT DATA ================= -->
     <div id="modalTambah" class="hidden fixed inset-0 z-[100] overflow-y-auto h-full w-full flex items-center justify-center transition-opacity">
         <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm transition-opacity"></div>
@@ -390,14 +388,22 @@
                 <input type="hidden" id="edit_id" value="">
                 
                 <div class="space-y-4">
-                    <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-[8px] border border-[#e2e8f0] mb-2">
+                    
+                    <!-- DROPDOWN CUSTOM: STATUS -->
+                    <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-[8px] border border-[#e2e8f0] mb-2 relative">
                         <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Ubah Status Pengerjaan</label>
-                        <select id="status" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white font-medium text-[0.85rem] text-gray-900">
-                            <option value="Menunggu">🟡 Menunggu</option>
-                            <option value="Diproses">🔵 Diproses</option>
-                            <option value="Selesai">🟢 Selesai</option>
-                        </select>
+                        <button type="button" onclick="toggleDropdown('status')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white font-medium text-[0.85rem] text-gray-900">
+                            <span id="teks-status">🟡 Menunggu</span>
+                            <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <ul id="menu-status" class="absolute z-[200] left-3 right-3 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
+                            <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'status')"><span class="block truncate">🟡 Menunggu</span></li>
+                            <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'status')"><span class="block truncate">🔵 Diproses</span></li>
+                            <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'status')"><span class="block truncate">🟢 Selesai</span></li>
+                        </ul>
+                        <input type="hidden" id="status" value="Menunggu">
                     </div>
+
                     <div>
                         <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Nama Peminta</label>
                         <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
@@ -406,20 +412,27 @@
                         <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Email Tujuan</label>
                         <input type="email" id="email" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 relative">
                         <div>
                             <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Tanggal</label>
                             <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
                         </div>
-                        <div>
+                        
+                        <!-- DROPDOWN CUSTOM: JENIS CETAK -->
+                        <div class="relative">
                             <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Jenis Cetak</label>
-                            <select id="jenis_cetak" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem]">
-                                <option value="Spanduk">Spanduk</option>
-                                <option value="Brosur">Brosur</option>
-                                <option value="Stiker">Stiker</option>
-                                <option value="Poster">Poster</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
+                            <button type="button" onclick="toggleDropdown('jenisCetak')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
+                                <span id="teks-jenisCetak">Pilih Jenis...</span>
+                                <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                            </button>
+                            <ul id="menu-jenisCetak" class="absolute z-[200] w-full mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
+                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'jenisCetak')"><span class="block truncate">Spanduk</span></li>
+                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'jenisCetak')"><span class="block truncate">Brosur</span></li>
+                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'jenisCetak')"><span class="block truncate">Stiker</span></li>
+                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'jenisCetak')"><span class="block truncate">Poster</span></li>
+                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'jenisCetak')"><span class="block truncate">Lainnya</span></li>
+                            </ul>
+                            <input type="hidden" id="jenis_cetak" required>
                         </div>
                     </div>
                     <div>
@@ -473,6 +486,49 @@
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
             setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        });
+
+        // --- LOGIKA DROPDOWN KUSTOM TAILWIND ---
+        let dropdownAktif = null;
+
+        function toggleDropdown(tipe) {
+            const menu = document.getElementById(`menu-${tipe}`);
+            const isTerbuka = !menu.classList.contains('opacity-0');
+            tutupSemuaDropdown();
+            if (!isTerbuka) {
+                menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                menu.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+                dropdownAktif = tipe;
+            }
+        }
+
+        function pilihOpsi(nilaiReal, teksTampil, tipe) {
+            document.getElementById(`teks-${tipe}`).innerText = teksTampil;
+            const inputId = tipe === 'jenisCetak' ? 'jenis_cetak' : 'status';
+            document.getElementById(inputId).value = nilaiReal;
+            tutupSemuaDropdown();
+        }
+
+        function tutupSemuaDropdown() {
+            if(dropdownAktif) {
+                const menu = document.getElementById(`menu-${dropdownAktif}`);
+                if(menu) {
+                    menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                    menu.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+                }
+                dropdownAktif = null;
+            }
+        }
+
+        // Tutup dropdown jika klik sembarang tempat di luar area tombol/menu
+        document.addEventListener('click', function(event) {
+            if (dropdownAktif) {
+                const btn = document.querySelector(`button[onclick="toggleDropdown('${dropdownAktif}')"]`);
+                const menu = document.getElementById(`menu-${dropdownAktif}`);
+                if (btn && menu && !btn.contains(event.target) && !menu.contains(event.target)) {
+                    tutupSemuaDropdown();
+                }
+            }
         });
 
         // --- MANAJEMEN LOGIN / LOGOUT API TERBARU ---
@@ -541,7 +597,7 @@
         let dataUtama = [];
         let dataSaringanTerakhir = []; 
         let halamanSaatIni = 1;
-        const barisPerHalaman = 10; // Dikembalikan ke 10 agar pas di tampilan Tabel
+        const barisPerHalaman = 10; 
 
         // --- FILTER ---
         function toggleFilterPanel() {
@@ -681,6 +737,14 @@
             document.getElementById('modalTambah').classList.add('hidden');
             document.getElementById('formTambah').reset(); 
             document.getElementById('edit_id').value = ''; 
+            
+            // RESET DROPDOWN KUSTOM
+            document.getElementById('teks-jenisCetak').innerText = "Pilih Jenis...";
+            document.getElementById('jenis_cetak').value = "";
+            document.getElementById('teks-status').innerText = "🟡 Menunggu";
+            document.getElementById('status').value = "Menunggu";
+            tutupSemuaDropdown();
+
             document.getElementById('wadahStatus').classList.add('hidden');
             document.getElementById('modalTitle').innerText = 'Buat Nomor PKRS Baru';
             document.getElementById('btnSubmit').innerText = 'Simpan & Generate';
@@ -693,9 +757,19 @@
                 document.getElementById('nama_peminta').value = data.nama_peminta;
                 document.getElementById('email').value = data.email;
                 document.getElementById('tanggal_permintaan').value = data.tanggal_permintaan;
-                document.getElementById('jenis_cetak').value = data.jenis_cetak;
                 document.getElementById('judul_keperluan').value = data.judul_keperluan;
-                document.getElementById('status').value = data.status || 'Menunggu';
+                
+                // MENGISI DATA KE DROPDOWN KUSTOM JENIS CETAK
+                document.getElementById('jenis_cetak').value = data.jenis_cetak;
+                document.getElementById('teks-jenisCetak').innerText = data.jenis_cetak || "Pilih Jenis...";
+
+                // MENGISI DATA KE DROPDOWN KUSTOM STATUS
+                const statusData = data.status || 'Menunggu';
+                document.getElementById('status').value = statusData;
+                if(statusData === 'Menunggu') document.getElementById('teks-status').innerText = '🟡 Menunggu';
+                if(statusData === 'Diproses') document.getElementById('teks-status').innerText = '🔵 Diproses';
+                if(statusData === 'Selesai') document.getElementById('teks-status').innerText = '🟢 Selesai';
+
                 document.getElementById('wadahStatus').classList.remove('hidden');
                 document.getElementById('modalTitle').innerText = 'Edit Data Antrean #' + id;
                 document.getElementById('btnSubmit').innerText = 'Simpan Perubahan';
@@ -885,12 +959,19 @@
             const btnSubmit = document.getElementById('btnSubmit');
             const editId = document.getElementById('edit_id').value; 
             
+            // Validasi manual karena input type hidden tidak bisa ditangkap required HTML5 standar
+            const cekJenis = document.getElementById('jenis_cetak').value;
+            if(!cekJenis) {
+                tampilkanFeedback('err', 'Data Tidak Lengkap', 'Mohon pilih Jenis Cetak terlebih dahulu.');
+                return;
+            }
+
             btnSubmit.innerHTML = 'Menyimpan...'; btnSubmit.disabled = true;
 
             const dataKirim = {
                 nama_peminta: document.getElementById('nama_peminta').value,
                 tanggal_permintaan: document.getElementById('tanggal_permintaan').value,
-                jenis_cetak: document.getElementById('jenis_cetak').value,
+                jenis_cetak: cekJenis,
                 judul_keperluan: document.getElementById('judul_keperluan').value,
                 email: document.getElementById('email').value,
                 status: editId ? document.getElementById('status').value : 'Menunggu'
