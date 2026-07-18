@@ -1,10 +1,11 @@
-// 1. TAMBAHKAN INI: Fungsi untuk melayani pra-pemeriksaan (Preflight) dari FlutLab/Browser
+// 1. Fungsi untuk melayani pra-pemeriksaan (Preflight) dari FlutLab/Browser
 export async function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      // INI KUNCINYA: Tambahkan GET, PUT, dan DELETE ke dalam daftar izin
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", 
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Max-Age": "86400",
     }
