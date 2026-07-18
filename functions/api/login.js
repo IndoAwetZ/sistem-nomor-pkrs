@@ -1,4 +1,25 @@
+// 1. TAMBAHKAN INI: Fungsi untuk melayani pra-pemeriksaan (Preflight) dari FlutLab/Browser
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+    }
+  });
+}
+
+// 2. FUNGSI UTAMA ANDA
 export async function onRequestPost(context) {
+  // Variabel Header CORS yang harus selalu menempel di setiap Response
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
     // 1. Tangkap ketikan dari pengguna
     const input = await context.request.json();
@@ -6,7 +27,10 @@ export async function onRequestPost(context) {
     const passwordInput = input.password;
 
     if (!usernameInput || !passwordInput) {
-      return Response.json({ sukses: false, error: "Username dan password wajib diisi!" }, { status: 400 });
+      return Response.json(
+        { sukses: false, error: "Username dan password wajib diisi!" },
+        { status: 400, headers: corsHeaders } // <-- Tumbelkan header di sini
+      );
     }
 
     // 2. Cocokkan dengan database D1
@@ -16,23 +40,21 @@ export async function onRequestPost(context) {
 
     // 3. Beri Keputusan (Izin Masuk / Tolak)
     if (cekUser) {
-      return Response.json({ sukses: true, pesan: "Login diizinkan." });
+      return Response.json(
+        { sukses: true, pesan: "Login diizinkan." },
+        { status: 200, headers: corsHeaders } // <-- Tempelkan header di sini
+      );
     } else {
-      return Response.json({ sukses: false, error: "Username atau Password salah!" }, { status: 401 });
+      return Response.json(
+        { sukses: false, error: "Username atau Password salah!" },
+        { status: 401, headers: corsHeaders } // <-- Tempelkan header di sini
+      );
     }
 
   } catch (error) {
-    return Response.json({ sukses: false, error: "Terjadi gangguan pada server." }, { status: 500 });
+    return Response.json(
+      { sukses: false, error: "Terjadi gangguan pada server." },
+      { status: 500, headers: corsHeaders } // <-- Tempelkan header di sini
+    );
   }
-
-  return new Response(JSON.stringify({ sukses: true }), {
-  status: 200,
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*", // INI KUNCINYA: Mengizinkan akses dari FlutLab
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  }
-});
 }
-
