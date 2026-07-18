@@ -24,4 +24,15 @@ export async function onRequestPost(context) {
   } catch (error) {
     return Response.json({ sukses: false, error: "Terjadi gangguan pada server." }, { status: 500 });
   }
+
+  return new Response(JSON.stringify({ sukses: true }), {
+  status: 200,
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*", // INI KUNCINYA: Mengizinkan akses dari FlutLab
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  }
+});
 }
+
