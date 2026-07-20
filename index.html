@@ -228,124 +228,127 @@
                         <!-- ========================================== -->
                         <!-- AREA STICKY (MELAYANG DI ATAS SAAT SCROLL) -->
                         <!-- ========================================== -->
-                        <div class="sticky top-0 z-40 bg-[#f7faf9] pt-8 pb-6 px-4 sm:px-6 lg:px-8 border-b border-[#e2e8f0] shadow-sm">
+                        <div class="sticky top-0 z-40 bg-[#f7faf9] pt-4 pb-3 md:pt-8 md:pb-6 px-4 sm:px-6 lg:px-8 border-b border-[#e2e8f0] shadow-sm">
                             <div class="max-w-7xl mx-auto">
                                 
                                 <!-- BARIS ALAT (SEARCH & FILTER) -->
-                                <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-4 md:space-y-0">
+                                <div class="mb-3 md:mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-3 md:space-y-0">
                                     <div>
-                                        <h1 class="text-[1.8rem] md:text-[1.8rem] text-[1.5rem] font-bold text-gray-900 tracking-tight">Daftar Permintaan</h1>
-                                        <p class="text-[0.85rem] text-gray-500 mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+                                        <h1 class="text-[1.25rem] md:text-[1.8rem] font-bold text-gray-900 tracking-tight leading-tight">Daftar Permintaan</h1>
+                                        <p class="text-[0.75rem] md:text-[0.85rem] text-gray-500 mt-0.5 md:mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
                                     </div>
                                     
-                                    <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center">
+                                    <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
                                         <div class="relative w-full sm:w-auto">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                 <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                             </div>
-                                            <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem]">
+                                            <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-1.5 md:py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.8rem] md:text-[0.85rem]">
                                         </div>
                                         
-                                        <div class="relative w-full sm:w-auto">
-                                            <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full sm:w-auto bg-white text-gray-900 px-4 py-2 rounded-[8px] font-medium text-[0.85rem] border border-[#e2e8f0] hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
-                                                <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                                                Filter
-                                                <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
-                                            </button>
-                                            
-                                            <!-- PANEL FILTER DENGAN DROPDOWN KUSTOM -->
-                                            <div id="filterPanel" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] z-[70] p-5 origin-top-right transform transition-all">
-                                                <div class="flex justify-between items-center mb-4 border-b border-[#e2e8f0] pb-2">
-                                                    <h4 class="font-bold text-gray-900 text-[0.85rem]">Saring Data</h4>
-                                                </div>
-                                                <div class="space-y-4">
-                                                    <div>
-                                                        <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
-                                                        <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] text-gray-900">
+                                        <!-- Container Filter & CSV (Sejajar di Mobile) -->
+                                        <div class="w-full flex space-x-2 sm:w-auto">
+                                            <div class="relative w-1/2 sm:w-auto">
+                                                <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full bg-white text-gray-900 px-3 py-1.5 md:px-4 md:py-2 rounded-[8px] font-medium text-[0.8rem] md:text-[0.85rem] border border-[#e2e8f0] hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                                    <svg class="w-4 h-4 mr-1.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                                                    Filter
+                                                    <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
+                                                </button>
+                                                
+                                                <!-- PANEL FILTER DENGAN DROPDOWN KUSTOM -->
+                                                <div id="filterPanel" class="hidden absolute right-0 mt-2 w-[calc(100vw-32px)] max-w-[280px] sm:w-72 bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] z-[70] p-4 md:p-5 origin-top-right transform transition-all">
+                                                    <div class="flex justify-between items-center mb-4 border-b border-[#e2e8f0] pb-2">
+                                                        <h4 class="font-bold text-gray-900 text-[0.85rem]">Saring Data</h4>
                                                     </div>
-                                                    <div>
-                                                        <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
-                                                        <div class="relative">
-                                                            <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
-                                                                <span id="teks-filterJenis">Semua Jenis Cetak</span>
-                                                                <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
-                                                            </button>
-                                                            <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Semua Jenis Cetak</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Spanduk</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Brosur</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Stiker</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Poster</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Lainnya</span></li>
-                                                            </ul>
-                                                            <input type="hidden" id="inputFilterJenis" value="">
+                                                    <div class="space-y-4">
+                                                        <div>
+                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
+                                                            <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] text-gray-900">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
+                                                            <div class="relative">
+                                                                <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
+                                                                    <span id="teks-filterJenis">Semua Jenis Cetak</span>
+                                                                    <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                                </button>
+                                                                <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Semua Jenis Cetak</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Spanduk</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Brosur</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Stiker</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Poster</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')"><span class="block truncate">Lainnya</span></li>
+                                                                </ul>
+                                                                <input type="hidden" id="inputFilterJenis" value="">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status Antrean</label>
+                                                            <div class="relative">
+                                                                <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
+                                                                    <span id="teks-filterStatus">Semua Status</span>
+                                                                    <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                                </button>
+                                                                <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">Semua Status</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🟡 Menunggu</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🔵 Diproses</span></li>
+                                                                    <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🟢 Selesai</span></li>
+                                                                </ul>
+                                                                <input type="hidden" id="inputFilterStatus" value="">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status Antrean</label>
-                                                        <div class="relative">
-                                                            <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-[0.85rem] text-gray-900">
-                                                                <span id="teks-filterStatus">Semua Status</span>
-                                                                <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
-                                                            </button>
-                                                            <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-200 opacity-0 scale-95 pointer-events-none origin-top">
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">Semua Status</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🟡 Menunggu</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🔵 Diproses</span></li>
-                                                                <li class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')"><span class="block truncate">🟢 Selesai</span></li>
-                                                            </ul>
-                                                            <input type="hidden" id="inputFilterStatus" value="">
-                                                        </div>
+                                                    <div class="mt-6 flex space-x-2">
+                                                        <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-[8px] font-medium text-[0.85rem] transition-colors border border-[#e2e8f0]">Reset</button>
+                                                        <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow-sm transition-colors">Terapkan</button>
                                                     </div>
-                                                </div>
-                                                <div class="mt-6 flex space-x-2">
-                                                    <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-[8px] font-medium text-[0.85rem] transition-colors border border-[#e2e8f0]">Reset</button>
-                                                    <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow-sm transition-colors">Terapkan</button>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <button onclick="eksporCSV()" class="w-full sm:w-auto bg-gray-900 text-white px-4 py-2 rounded-[8px] font-medium text-[0.85rem] hover:bg-gray-800 shadow-sm transition-colors flex items-center justify-center">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                            Unduh CSV
-                                        </button>
+                                            <button onclick="eksporCSV()" class="w-1/2 sm:w-auto bg-gray-900 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-[8px] font-medium text-[0.8rem] md:text-[0.85rem] hover:bg-gray-800 shadow-sm transition-colors flex items-center justify-center">
+                                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                                CSV
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- DASHBOARD STATISTIK -->
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-gray-400">
-                                        <p class="text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Antrean</p>
+                                <!-- DASHBOARD STATISTIK (DIPERKECIL DI MOBILE) -->
+                                <div class="grid grid-cols-4 gap-2 md:gap-4">
+                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-gray-400">
+                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Total</p>
                                         <div class="flex items-center justify-between">
-                                            <h3 class="text-2xl font-black text-gray-900" id="statTotal">0</h3>
-                                            <div class="p-2 bg-gray-50 rounded-lg text-gray-500">
+                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statTotal">0</h3>
+                                            <div class="hidden md:block p-2 bg-gray-50 rounded-lg text-gray-500">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-yellow-400">
-                                        <p class="text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-1">Menunggu</p>
+                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-yellow-400">
+                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Tunggu</p>
                                         <div class="flex items-center justify-between">
-                                            <h3 class="text-2xl font-black text-gray-900" id="statMenunggu">0</h3>
-                                            <div class="p-2 bg-yellow-50 rounded-lg text-yellow-500">
+                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statMenunggu">0</h3>
+                                            <div class="hidden md:block p-2 bg-yellow-50 rounded-lg text-yellow-500">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-blue-400">
-                                        <p class="text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-1">Diproses</p>
+                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-blue-400">
+                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Proses</p>
                                         <div class="flex items-center justify-between">
-                                            <h3 class="text-2xl font-black text-gray-900" id="statDiproses">0</h3>
-                                            <div class="p-2 bg-blue-50 rounded-lg text-blue-500">
+                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statDiproses">0</h3>
+                                            <div class="hidden md:block p-2 bg-blue-50 rounded-lg text-blue-500">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-[14px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-[#e2e8f0] p-4 border-l-4 border-l-emerald-400">
-                                        <p class="text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
+                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-emerald-400">
+                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Selesai</p>
                                         <div class="flex items-center justify-between">
-                                            <h3 class="text-2xl font-black text-gray-900" id="statSelesai">0</h3>
-                                            <div class="p-2 bg-[#e6fffa] rounded-lg text-emerald-500">
+                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statSelesai">0</h3>
+                                            <div class="hidden md:block p-2 bg-[#e6fffa] rounded-lg text-emerald-500">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                             </div>
                                         </div>
