@@ -169,6 +169,13 @@
                                     <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Sesi Aktif</p>
                                 </div>
                             </div>
+                            
+                            <!-- Tombol Purge Data (Baru) -->
+                            <button onclick="bukaModalPurge()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-white hover:bg-red-50 font-semibold py-2.5 rounded-[12px] border border-red-200 shadow-sm transition-colors mt-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                Reset / Purge Data
+                            </button>
+
                             <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-red-50 hover:bg-red-100 font-semibold py-2.5 rounded-[12px] border border-red-100 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                 Keluar (Logout)
@@ -200,8 +207,17 @@
                                             <span class="text-[0.75rem] font-medium text-emerald-50 tracking-wide">Admin Mode</span>
                                         </div>
                                         <div class="h-6 w-px bg-emerald-500"></div>
+                                        
+                                        <!-- Tombol Purge Data Desktop (Baru) -->
+                                        <button onclick="bukaModalPurge()" class="group flex items-center gap-1.5 text-red-300 hover:text-red-100 font-medium text-[0.85rem] transition-colors" title="Kosongkan database dan reset nomor">
+                                            <svg class="w-4 h-4 text-red-400 group-hover:text-red-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            Purge Data
+                                        </button>
+
+                                        <div class="h-6 w-px bg-emerald-500"></div>
+
                                         <button onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
-                                            <svg class="w-4 h-4 text-emerald-200 group-hover:text-red-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                            <svg class="w-4 h-4 text-emerald-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                             Logout
                                         </button>
                                     </div>
@@ -524,6 +540,26 @@
         </div>
     </dialog>
 
+    <!-- ================= MODAL KONFIRMASI PURGE (RESET DATABASE) ================= -->
+    <dialog id="modalKonfirmasiPurge" class="feedback-dlg w-[min(400px,90vw)] rounded-[14px] border border-red-200 bg-white p-0 shadow-2xl z-[150]">
+        <div class="px-8 pb-7 pt-9 text-left">
+            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100 border-4 border-red-50">
+                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <h3 class="text-[1.3rem] font-black text-gray-900 text-center mb-2 uppercase tracking-tight">Peringatan Kritis!</h3>
+            <p class="text-[0.85rem] text-red-600 font-semibold text-center mb-1 leading-relaxed">Anda akan menghapus SELURUH data antrean.</p>
+            <p class="text-[0.8rem] text-gray-500 text-center mb-6 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Sistem akan dikosongkan dan nomor urut akan direset kembali menjadi 1.</p>
+            <div class="bg-gray-50 p-4 rounded-[8px] border border-[#e2e8f0] mb-6">
+                <label class="block text-[0.75rem] font-semibold text-gray-900 mb-2 text-center">Ketik <span class="font-bold text-red-500 select-all tracking-wide">RESET DATABASE</span> di bawah ini:</label>
+                <input type="text" id="inputKonfirmasiPurge" oninput="cekInputPurge()" autocomplete="off" placeholder="Ketik di sini..." class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center font-bold text-gray-900 text-[0.85rem]">
+            </div>
+            <div class="flex space-x-3">
+                <button type="button" onclick="tutupModalPurge()" class="w-full rounded-[8px] bg-gray-100 px-4 py-2.5 text-[0.85rem] font-medium text-gray-900 transition hover:bg-gray-200">Batal</button>
+                <button type="button" id="btnProsesPurge" onclick="prosesPurgeData()" disabled class="w-full rounded-[8px] bg-red-600 px-4 py-2.5 text-[0.85rem] font-bold text-white transition hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed">Reset Sistem</button>
+            </div>
+        </div>
+    </dialog>
+
     <!-- ================= MODAL FEEDBACK ================= -->
     <dialog id="modalFeedback" class="feedback-dlg w-[min(360px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 text-center shadow-2xl z-[160]">
         <div class="px-8 pb-7 pt-9">
@@ -538,6 +574,44 @@
 
     <!-- ================= JAVASCRIPT UTAMA ================= -->
     <script>
+        // --- LOGIKA PURGE / RESET DATABASE ---
+        function bukaModalPurge() {
+            document.getElementById('inputKonfirmasiPurge').value = '';
+            document.getElementById('btnProsesPurge').disabled = true;
+            document.getElementById('modalKonfirmasiPurge').showModal();
+            
+            // Tutup sidebar jika sedang terbuka di mode mobile
+            const root = document.getElementById('appRoot');
+            if(root.classList.contains('is-pushed')) toggleSidebar();
+        }
+
+        function tutupModalPurge() {
+            document.getElementById('modalKonfirmasiPurge').close();
+        }
+
+        function cekInputPurge() {
+            const inputVal = document.getElementById('inputKonfirmasiPurge').value;
+            // Validasi sensitif kapital untuk memastikan keamanan
+            document.getElementById('btnProsesPurge').disabled = (inputVal !== 'RESET DATABASE');
+        }
+
+        async function prosesPurgeData() {
+            tutupModalPurge(); 
+            try {
+                // Menembak endpoint API reset yang baru kita buat
+                const res = await fetch('/api/pkrs/reset', { method: 'POST' });
+                const r = await res.json();
+                
+                if (r.sukses) {
+                    tampilkanFeedback('ok', 'Sistem Direset!', 'Seluruh data telah dikosongkan dan nomor antrean kembali ke 1.', true);
+                } else {
+                    tampilkanFeedback('err', 'Gagal Mereset', r.error);
+                }
+            } catch (e) { 
+                tampilkanFeedback('err', 'Error Jaringan', 'Terjadi kesalahan pada server saat melakukan Purge.'); 
+            }
+        }
+
         // Hapus Preloader setelah DOM dimuat
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
