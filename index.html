@@ -694,35 +694,53 @@
             document.getElementById('modalLogin').close();
         }
 
-        async function prosesLogin(e) {
-            e.preventDefault();
-            const usr = document.getElementById('loginUser').value;
-            const pw = document.getElementById('loginPass').value;
-            const btn = document.getElementById('btnLoginSubmit');
+        async function prosesLogin(event) {
+            event.preventDefault();
             
-            btn.innerHTML = 'Memeriksa...';
+            const btn = document.getElementById('btnLoginSubmit');
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+
+            // Ubah teks tombol saat loading
+            btn.innerText = "Memeriksa...";
             btn.disabled = true;
 
             try {
-                const response = await fetch('/api/login', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: usr, password: pw })
+                    body: JSON.stringify({ username: user, password: pass })
                 });
-                
+
                 const result = await response.json();
 
                 if (result.sukses) {
-                    localStorage.setItem('role_sistem', 'admin');
-                    window.location.reload();
+                    if (result.is_new_user === 1) {
+                        // LOGIKA USER BARU: Tahan login, minta ganti password
+                        alert("Ini adalah login pertama Anda. Anda wajib mengganti password sementara ini!");
+                        
+                        // (Untuk selanjutnya, di sini kita akan memanggil Modal Ganti Password)
+                        
+                    } else {
+                        // LOGIKA USER LAMA: Login berhasil seperti biasa
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('role_sistem', result.role);
+                        localStorage.setItem('username', result.username);
+                        
+                        document.getElementById('modalLogin').close();
+                        
+                        // Muat ulang halaman agar tampilan berubah ke mode Admin
+                        location.reload(); 
+                    }
                 } else {
-                    tampilkanFeedback('err', 'Akses Ditolak', result.error || 'Username atau Password salah.');
-                    btn.innerHTML = 'Sign in';
-                    btn.disabled = false;
+                    alert(result.pesan || "Login gagal.");
                 }
             } catch (error) {
-                tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server database.');
-                btn.innerHTML = 'Sign in';
+                console.error(error);
+                alert("Terjadi kesalahan jaringan saat mencoba login.");
+            } finally {
+                // Kembalikan tombol ke keadaan semula
+                btn.innerText = "Sign in";
                 btn.disabled = false;
             }
         }
