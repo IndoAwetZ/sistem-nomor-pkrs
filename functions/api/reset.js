@@ -1,10 +1,12 @@
-// Contoh penambahan rute pada Cloudflare Worker Anda
-if (url.pathname === '/api/pkrs/reset' && request.method === 'POST') {
+export async function onRequestPost(context) {
+    const { env } = context;
+
     try {
-        // 1. Hapus semua data di tabel (ganti 'tabel_pkrs' dengan nama tabel asli Anda)
+        // 1. Hapus semua data di tabel 
+        // (PENTING: Ganti 'tabel_pkrs' dengan nama tabel asli di database D1 Anda jika berbeda)
         await env.DB.prepare("DELETE FROM tabel_pkrs").run();
         
-        // 2. Reset hitungan auto-increment kembali ke 0/1
+        // 2. Reset hitungan auto-increment kembali ke awal
         await env.DB.prepare("DELETE FROM sqlite_sequence WHERE name='tabel_pkrs'").run();
 
         return new Response(JSON.stringify({ sukses: true }), {
