@@ -412,33 +412,53 @@
     </div>
 
     <!-- ======================================================= -->
-    <!-- 2. LAYAR LOGIN ADMIN (MUNCUL SAAT DIKLIK)               -->
+    <!-- 2. MODAL LOGIN ADMIN POP-UP                             -->
     <!-- ======================================================= -->
-    <!-- ================= MODAL LOGIN POP-UP ================= -->
-    <dialog id="modalLogin" class="feedback-dlg w-[min(900px,90vw)] rounded-[20px] bg-transparent p-0 backdrop:bg-black/60 z-[200]">
-        <section class="lf-01 rounded-[20px] shadow-2xl overflow-hidden m-0 min-h-0">
-        <div class="lf-01__shell min-h-[450px]">
-            <!-- ... (Isi layout gambar branding TIM PKRS Anda di sini tetap sama) ... -->
-            
-            <div class="lf-01__panel relative">
-            <!-- Tombol silang untuk menutup pop-up login -->
-            <button onclick="document.getElementById('modalLogin').close()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            
-            <form class="lf-01__form" onsubmit="prosesLogin(event)">
-                <!-- ... (Input Username & Password Anda tetap sama) ... -->
-            </form>
+    <dialog id="modalLogin" class="feedback-dlg w-[min(900px,95vw)] rounded-[20px] bg-transparent p-0 backdrop:bg-black/60 z-[200] overflow-hidden shadow-2xl">
+        <section class="lf-01 m-0 h-full">
+          <div class="lf-01__shell min-h-[450px]">
+            <aside class="lf-01__brand" aria-hidden="true">
+              <div class="lf-01__mesh"></div>
+              <div class="lf-01__brandbody">
+                <div class="lf-01__logo">TIM PKRS RSUASF</div>
+                <p class="lf-01__pitch">Pusat Manajemen Cetak & Desain Terpadu Rumah Sakit.</p>
+                <figure class="lf-01__quote">
+                  <blockquote>"Sistem antrean digital ini mempercepat alur kerja percetakan dan mengurangi antrean manual hingga 80%."</blockquote>
+                  <figcaption><span class="lf-01__av">IT</span> Tim IT / SIMRS</figcaption>
+                </figure>
+              </div>
+            </aside>
+
+            <div class="lf-01__panel relative bg-white">
+              <!-- Tombol Silang (Close) di Pojok Kanan Atas -->
+              <button type="button" onclick="document.getElementById('modalLogin').close()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors outline-none">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+
+              <form class="lf-01__form" onsubmit="prosesLogin(event)">
+                <h1 class="lf-01__h">Selamat Datang</h1>
+                <p class="lf-01__sub">Masuk sebagai Admin PKRS Hub.</p>
+                
+                <div style="height: 20px;"></div>
+
+                <label class="lf-01__field">
+                  <span class="lf-01__label">Username</span>
+                  <input type="text" id="loginUser" autocomplete="off" placeholder="Masukkan username..." required>
+                </label>
+                <label class="lf-01__field">
+                  <span class="lf-01__label">Password</span>
+                  <input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••" required>
+                </label>
+                
+                <div style="height: 10px;"></div>
+
+                <button class="lf-01__submit" id="btnLoginSubmit" type="submit">Sign in</button>
+                <p class="lf-01__foot"><a href="#" onclick="document.getElementById('modalLogin').close(); return false;">← Kembali ke Beranda</a></p>
+              </form>
             </div>
-        </div>
+          </div>
         </section>
     </dialog>
-
-    <script>
-        function bukaLayarLoginPopUp() {
-            document.getElementById('modalLogin').showModal();
-        }
-    </script>
 
     <!-- ================= MODAL TAMBAH & EDIT DATA ================= -->
     <dialog id="modalTambah" class="feedback-dlg overflow-visible w-[min(400px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[150]">
