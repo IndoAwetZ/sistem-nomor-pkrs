@@ -687,15 +687,11 @@
         }
 
         function bukaLayarLogin() {
-            document.getElementById('mainDashboard').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('modalLogin').showModal();
         }
 
         function tutupLayarLogin() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainDashboard').classList.remove('hidden');
-            document.getElementById('loginUser').value = '';
-            document.getElementById('loginPass').value = '';
+            document.getElementById('modalLogin').close();
         }
 
         async function prosesLogin(e) {
