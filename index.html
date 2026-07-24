@@ -580,17 +580,6 @@
     <!-- ================= JAVASCRIPT UTAMA ================= -->
     <script>
         // --- LOGIKA PURGE / RESET DATABASE ---
-        function cekAksesBuatNomor() {
-            const peranSistem = localStorage.getItem('role_sistem');
-            
-            if (peranSistem === 'admin' || peranSistem === 'super_admin') {
-                bukaModal(); // Langsung buka form jika sudah login
-            } else {
-                // Jika belum login, buka pop-up login
-                bukaLayarLoginPopUp();
-            }
-        }
-
         function bukaModalPurge() {
             document.getElementById('inputKonfirmasiPurge').value = '';
             document.getElementById('btnProsesPurge').disabled = true;
@@ -1151,6 +1140,20 @@
                 } else { tampilkanFeedback('err', 'Ups, Gagal Menyimpan!', result.error); }
             } catch (error) { tampilkanFeedback('err', 'Gangguan Jaringan', 'Tidak dapat terhubung ke server.');
             } finally { btnSubmit.innerHTML = editId ? 'Simpan Perubahan' : 'Simpan & Generate'; btnSubmit.disabled = false; }
+        }
+
+        // Fungsi untuk mengecek akses saat klik "Buat Nomor"
+        function cekAksesBuatNomor() {
+            // Sesuaikan pengecekan ini dengan sistem login yang Anda gunakan (contoh: localStorage)
+            const statusLogin = localStorage.getItem('isLoggedIn'); 
+            
+            if (statusLogin === 'true') {
+                // Jika sudah login, langsung buka form Buat Nomor
+                bukaModal(); 
+            } else {
+                // Jika belum login, buka pop-up Login
+                document.getElementById('modalLogin').showModal(); 
+            }
         }
     </script>
 </body>
