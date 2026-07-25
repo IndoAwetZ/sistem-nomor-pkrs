@@ -213,7 +213,7 @@
                                     <div id="panelAdminDesktop" class="hidden flex items-center space-x-4 relative">
                                         <div class="relative inline-block text-left">
                                             <!-- Tombol Profil -->
-                                            <button type="button" onclick="toggleDropdownProfil()" id="menu-button-profil" class="group flex items-center gap-2 bg-emerald-700/50 hover:bg-emerald-700/70 py-1.5 pl-1.5 pr-3 rounded-full border border-emerald-500/50 shadow-inner transition-colors focus:outline-none">
+                                            <button type="button" onclick="toggleDropdownProfil(event)" id="menu-button-profil" class="group flex items-center gap-2 bg-emerald-700/50 hover:bg-emerald-700/70 py-1.5 pl-1.5 pr-3 rounded-full border border-emerald-500/50 shadow-inner transition-colors focus:outline-none">
                                                 <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shadow-sm group-hover:scale-105 transition-transform">AD</div>
                                                 <span id="txtUserDesk" class="text-[0.8rem] font-medium text-emerald-50 tracking-wide capitalize">Admin</span>
                                                 <!-- Icon Chevron Down dari desain Anda -->
@@ -231,11 +231,11 @@
                                                 
                                                 <!-- Section 2: Opsi Admin -->
                                                 <div class="py-1">
-                                                    <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); toggleDropdownProfil()" class="hidden w-full text-left px-4 py-2 text-[0.85rem] text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center gap-2">
+                                                    <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); toggleDropdownProfil(event)" class="hidden w-full text-left px-4 py-2 text-[0.85rem] text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center gap-2">
                                                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                                         Kelola Admin
                                                     </button>
-                                                    <button onclick="bukaModalPurge(); toggleDropdownProfil()" class="w-full text-left px-4 py-2 text-[0.85rem] text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center gap-2">
+                                                    <button onclick="bukaModalPurge(); toggleDropdownProfil(event)" class="w-full text-left px-4 py-2 text-[0.85rem] text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center gap-2">
                                                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                                         Purge Data
                                                     </button>
@@ -243,7 +243,7 @@
 
                                                 <!-- Section 3: Logout -->
                                                 <div class="py-1">
-                                                    <button onclick="prosesLogout(); toggleDropdownProfil()" class="w-full text-left px-4 py-2 text-[0.85rem] text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium">
+                                                    <button onclick="prosesLogout(); toggleDropdownProfil(event)" class="w-full text-left px-4 py-2 text-[0.85rem] text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium">
                                                         <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                                         Sign out
                                                     </button>
@@ -656,24 +656,37 @@
     <!-- ================= JAVASCRIPT UTAMA ================= -->
     <script>
         // Animasi Dropdown Profil
-        function toggleDropdownProfil() {
+        function toggleDropdownProfil(event) {
+            // Hentikan event agar tidak memicu klik 'di luar area' saat tombol diklik
+            if (event) event.stopPropagation(); 
+            
             const menu = document.getElementById('menuAdminDesktop');
-            if (menu.classList.contains('opacity-0')) {
+            const isClosed = menu.classList.contains('opacity-0');
+
+            if (isClosed) {
+                // BUKA DROPDOWN
                 menu.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
                 menu.classList.add('opacity-100', 'scale-100');
             } else {
+                // TUTUP DROPDOWN
                 menu.classList.remove('opacity-100', 'scale-100');
                 menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             }
         }
 
-        // Tutup dropdown saat klik di luar area
+        // Menutup dropdown saat area di luar diklik
         document.addEventListener('click', (event) => {
             const menu = document.getElementById('menuAdminDesktop');
             const btn = document.getElementById('menu-button-profil');
-            if (menu && btn && !btn.contains(event.target) && !menu.contains(event.target)) {
-                menu.classList.remove('opacity-100', 'scale-100');
-                menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            
+            // Pastikan elemen ada dan menu tidak sedang disembunyikan (opacity-0)
+            if (menu && btn && !menu.classList.contains('opacity-0')) {
+                // Jika klik BUKAN berasal dari dalam menu dropdown atau tombol profil
+                if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                    // Tutup secara paksa
+                    menu.classList.remove('opacity-100', 'scale-100');
+                    menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                }
             }
         });
 
