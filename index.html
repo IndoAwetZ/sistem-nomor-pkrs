@@ -1252,42 +1252,57 @@
             const statusLogin = localStorage.getItem('isLoggedIn');
             const roleSistem = localStorage.getItem('role_sistem');
             
-            // Ambil elemen tombol
+            // 1. Ambil elemen Panel Desktop
+            const panelAdminDesktop = document.getElementById('panelAdminDesktop');
+            const panelNonAdminDesktop = document.getElementById('panelNonAdminDesktop');
+            
+            // 2. Ambil elemen Panel Mobile
+            const panelAdminMobile = document.getElementById('panelAdminMobile');
+            const panelNonAdminMobile = document.getElementById('panelNonAdminMobile');
+            
+            // 3. Ambil elemen khusus Super Admin
             const btnManajemenAkun = document.getElementById('btnManajemenAkun');
-            const btnLoginGuest = document.getElementById('btnLoginGuest');
-            const btnLogout = document.getElementById('btnLogout');
 
             if (statusLogin === 'true') {
-                // Jika sedang login, sembunyikan tombol Login, munculkan Logout
-                if (btnLoginGuest) btnLoginGuest.classList.add('hidden');
-                if (btnLogout) btnLogout.classList.remove('hidden');
+                // --- MODE ADMIN AKTIF ---
+                
+                // Sembunyikan panel Guest (Login)
+                if (panelNonAdminDesktop) panelNonAdminDesktop.classList.add('hidden');
+                if (panelNonAdminMobile) panelNonAdminMobile.classList.add('hidden');
+                
+                // Munculkan panel Admin (termasuk tombol Logout & Purge)
+                if (panelAdminDesktop) {
+                    panelAdminDesktop.classList.remove('hidden');
+                    // Pastikan layout flexbox tetap berjalan
+                    panelAdminDesktop.classList.add('flex'); 
+                }
+                if (panelAdminMobile) {
+                    panelAdminMobile.classList.remove('hidden');
+                    panelAdminMobile.classList.add('flex');
+                }
 
-                // Jika yang login adalah SUPER ADMIN, munculkan tombol Kelola Admin
-                if (roleSistem === 'super_admin') {
-                    if (btnManajemenAkun) btnManajemenAkun.classList.remove('hidden');
+                // Khusus Super Admin: Munculkan tombol ⚙️ Kelola Admin
+                if (roleSistem === 'super_admin' && btnManajemenAkun) {
+                    btnManajemenAkun.classList.remove('hidden');
                 }
             } else {
-                // Jika Guest (belum login)
-                if (btnLoginGuest) btnLoginGuest.classList.remove('hidden');
-                if (btnLogout) btnLogout.classList.add('hidden');
-                if (btnManajemenAkun) btnManajemenAkun.classList.add('hidden');
+                // --- MODE GUEST (BELUM LOGIN) ---
+                
+                // Munculkan panel Guest
+                if (panelNonAdminDesktop) {
+                    panelNonAdminDesktop.classList.remove('hidden');
+                    panelNonAdminDesktop.classList.add('flex');
+                }
+                if (panelNonAdminMobile) {
+                    panelNonAdminMobile.classList.remove('hidden');
+                    panelNonAdminMobile.classList.add('flex');
+                }
+                
+                // Sembunyikan panel Admin
+                if (panelAdminDesktop) panelAdminDesktop.classList.add('hidden');
+                if (panelAdminMobile) panelAdminMobile.classList.add('hidden');
             }
         });
-
-        // ==========================================
-        // FUNGSI LOGOUT
-        // ==========================================
-        function prosesLogout() {
-            if (confirm('Apakah Anda yakin ingin keluar?')) {
-                // Hapus semua data sesi dari browser
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('role_sistem');
-                localStorage.removeItem('username');
-                
-                // Refresh halaman kembali ke tampilan Guest
-                location.reload();
-            }
-        }
     </script>
 </body>
 </html>
