@@ -161,23 +161,32 @@
                             Buat Nomor Baru
                         </button>
                         
-                        <div id="panelAdminMobile" class="hidden flex-col space-y-4 pt-6 border-t border-gray-100 mt-6">
-                            <div class="flex items-center gap-3 px-1">
-                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm border border-emerald-200">AD</div>
+                        <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
+                            <!-- Profil Info -->
+                            <div class="flex items-center gap-3 px-1 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm border border-emerald-200 shadow-sm">AD</div>
                                 <div>
-                                    <p class="text-sm font-bold text-gray-900">Admin System</p>
-                                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Sesi Aktif</p>
+                                    <!-- Nama Admin (Akan diisi otomatis oleh JS) -->
+                                    <p id="txtUserMob" class="text-[0.95rem] font-bold text-gray-900 leading-tight capitalize">Admin</p>
+                                    <p class="text-[0.65rem] text-emerald-600 font-bold uppercase tracking-widest mt-0.5">Sesi Aktif</p>
                                 </div>
                             </div>
                             
-                            <!-- Tombol Purge Data (Baru) -->
-                            <button onclick="bukaModalPurge()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-white hover:bg-red-50 font-semibold py-2.5 rounded-[12px] border border-red-200 shadow-sm transition-colors mt-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            <!-- Tombol Kelola Admin (Super Admin) -->
+                            <button id="btnManajemenAkunMobile" onclick="bukaManajemenAkun(); toggleSidebar()" class="hidden w-full flex items-center justify-center gap-2 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 font-semibold py-2.5 rounded-[12px] border border-indigo-100 shadow-sm transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                Kelola Admin
+                            </button>
+                            
+                            <!-- Tombol Purge Data -->
+                            <button onclick="bukaModalPurge(); toggleSidebar()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-white hover:bg-red-50 font-semibold py-2.5 rounded-[12px] border border-red-200 shadow-sm transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Reset / Purge Data
                             </button>
 
-                            <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-red-50 hover:bg-red-100 font-semibold py-2.5 rounded-[12px] border border-red-100 transition-colors">
-                                <svg id="btnLogout" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                            <!-- Tombol Logout -->
+                            <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-gray-600 bg-gray-50 hover:bg-gray-100 font-semibold py-2.5 rounded-[12px] border border-gray-200 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                 Keluar (Logout)
                             </button>
                         </div>
@@ -201,31 +210,41 @@
                                     </div>
                                 </div>
                                 <div class="hidden md:flex items-center space-x-6">
-                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-4">
-                                        <div class="flex items-center gap-2 bg-emerald-700/50 py-1 pl-1 pr-3 rounded-full border border-emerald-500/50 shadow-inner">
-                                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">AD</div>
-                                            <span class="text-[0.75rem] font-medium text-emerald-50 tracking-wide">Admin Mode</span>
+                                    <div id="panelAdminDesktop" class="hidden flex items-center space-x-4 relative">
+                                        <!-- Profil Admin & Dropdown Menu -->
+                                        <div class="relative">
+                                            <button type="button" onclick="document.getElementById('menuAdminDesktop').classList.toggle('hidden')" class="group flex items-center gap-2 bg-emerald-700/50 hover:bg-emerald-700/70 py-1.5 pl-1.5 pr-3 rounded-full border border-emerald-500/50 shadow-inner transition-colors focus:outline-none">
+                                                <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shadow-sm group-hover:scale-105 transition-transform">
+                                                    AD
+                                                </div>
+                                                <!-- Nama Admin (Akan diisi otomatis oleh JS) -->
+                                                <span id="txtUserDesk" class="text-[0.8rem] font-medium text-emerald-50 tracking-wide capitalize">Admin</span>
+                                                <svg class="w-3.5 h-3.5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                            </button>
+
+                                            <!-- Kotak Menu Dropdown -->
+                                            <div id="menuAdminDesktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100] origin-top-right">
+                                                <!-- Tombol Kelola Admin (Super Admin) -->
+                                                <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-4 py-2.5 text-[0.85rem] text-indigo-700 hover:bg-indigo-50 font-semibold flex items-center gap-2 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                                    Kelola Admin
+                                                </button>
+                                                
+                                                <!-- Tombol Purge Data -->
+                                                <button onclick="bukaModalPurge(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-red-600 hover:bg-red-50 font-semibold flex items-center gap-2 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                    Purge Data
+                                                </button>
+                                                
+                                                <div class="h-px bg-gray-100 my-1"></div>
+                                                
+                                                <!-- Tombol Logout -->
+                                                <button onclick="prosesLogout()" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-gray-700 hover:bg-gray-100 font-semibold flex items-center gap-2 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                                    Logout
+                                                </button>
+                                            </div>
                                         </div>
-
-                                        <!-- Tombol ini hanya muncul jika Super Admin yang login -->
-                                        <button id="btnManajemenAkun" onclick="bukaManajemenAkun()" class="hidden px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-[8px] font-semibold text-[0.85rem] transition-colors">
-                                            ⚙️ Kelola Admin
-                                        </button>
-
-                                        <div class="h-6 w-px bg-emerald-500"></div>
-                                        
-                                        <!-- Tombol Purge Data Desktop (Baru) -->
-                                        <button onclick="bukaModalPurge()" class="group flex items-center gap-1.5 text-red-300 hover:text-red-100 font-medium text-[0.85rem] transition-colors" title="Kosongkan database dan reset nomor">
-                                            <svg class="w-4 h-4 text-red-400 group-hover:text-red-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            Purge Data
-                                        </button>
-
-                                        <div class="h-6 w-px bg-emerald-500"></div>
-
-                                        <button id="btnLogout" onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
-                                            <svg class="w-4 h-4 text-emerald-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                            Logout
-                                        </button>
                                     </div>
                                     <div id="panelNonAdminDesktop" class="flex items-center space-x-4">
                                         <button id="btnLoginGuest" onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
@@ -820,9 +839,17 @@
             }
         }
 
-        function prosesLogout() { 
-            localStorage.removeItem('role_sistem'); 
-            window.location.reload(); 
+        // ==========================================
+        // FUNGSI LOGOUT (VERSI BERSIH/CLEAN)
+        // ==========================================
+        function prosesLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                // Hapus SEMUA data di localStorage (Lebih bersih dan aman)
+                localStorage.clear();
+                
+                // Pindah paksa ke halaman root agar browser tidak nyangkut di cache reload
+                window.location.href = '/';
+            }
         }
 
         // --- DATA & PAGINATION ---
@@ -1251,58 +1278,54 @@
         document.addEventListener('DOMContentLoaded', () => {
             const statusLogin = localStorage.getItem('isLoggedIn');
             const roleSistem = localStorage.getItem('role_sistem');
+            const usernameAktif = localStorage.getItem('username'); // Ambil nama user
             
-            // 1. Ambil elemen Panel Desktop
             const panelAdminDesktop = document.getElementById('panelAdminDesktop');
             const panelNonAdminDesktop = document.getElementById('panelNonAdminDesktop');
-            
-            // 2. Ambil elemen Panel Mobile
             const panelAdminMobile = document.getElementById('panelAdminMobile');
             const panelNonAdminMobile = document.getElementById('panelNonAdminMobile');
             
-            // 3. Ambil elemen khusus Super Admin
             const btnManajemenAkun = document.getElementById('btnManajemenAkun');
+            const btnManajemenAkunMobile = document.getElementById('btnManajemenAkunMobile');
 
             if (statusLogin === 'true') {
+                // --- TAMPILKAN NAMA USER DI PROFIL ---
+                if (usernameAktif) {
+                    if (document.getElementById('txtUserDesk')) document.getElementById('txtUserDesk').innerText = usernameAktif;
+                    if (document.getElementById('txtUserMob')) document.getElementById('txtUserMob').innerText = usernameAktif;
+                }
+
                 // --- MODE ADMIN AKTIF ---
-                
-                // Sembunyikan panel Guest (Login)
                 if (panelNonAdminDesktop) panelNonAdminDesktop.classList.add('hidden');
                 if (panelNonAdminMobile) panelNonAdminMobile.classList.add('hidden');
                 
-                // Munculkan panel Admin (termasuk tombol Logout & Purge)
-                if (panelAdminDesktop) {
-                    panelAdminDesktop.classList.remove('hidden');
-                    // Pastikan layout flexbox tetap berjalan
-                    panelAdminDesktop.classList.add('flex'); 
-                }
-                if (panelAdminMobile) {
-                    panelAdminMobile.classList.remove('hidden');
-                    panelAdminMobile.classList.add('flex');
-                }
+                if (panelAdminDesktop) { panelAdminDesktop.classList.remove('hidden'); panelAdminDesktop.classList.add('flex'); }
+                if (panelAdminMobile) { panelAdminMobile.classList.remove('hidden'); panelAdminMobile.classList.add('flex'); }
 
-                // Khusus Super Admin: Munculkan tombol ⚙️ Kelola Admin
-                if (roleSistem === 'super_admin' && btnManajemenAkun) {
-                    btnManajemenAkun.classList.remove('hidden');
+                // Khusus Super Admin
+                if (roleSistem === 'super_admin') {
+                    if (btnManajemenAkun) btnManajemenAkun.classList.remove('hidden');
+                    if (btnManajemenAkunMobile) btnManajemenAkunMobile.classList.remove('hidden');
                 }
             } else {
                 // --- MODE GUEST (BELUM LOGIN) ---
+                if (panelNonAdminDesktop) { panelNonAdminDesktop.classList.remove('hidden'); panelNonAdminDesktop.classList.add('flex'); }
+                if (panelNonAdminMobile) { panelNonAdminMobile.classList.remove('hidden'); panelNonAdminMobile.classList.add('flex'); }
                 
-                // Munculkan panel Guest
-                if (panelNonAdminDesktop) {
-                    panelNonAdminDesktop.classList.remove('hidden');
-                    panelNonAdminDesktop.classList.add('flex');
-                }
-                if (panelNonAdminMobile) {
-                    panelNonAdminMobile.classList.remove('hidden');
-                    panelNonAdminMobile.classList.add('flex');
-                }
-                
-                // Sembunyikan panel Admin
                 if (panelAdminDesktop) panelAdminDesktop.classList.add('hidden');
                 if (panelAdminMobile) panelAdminMobile.classList.add('hidden');
             }
         });
+
+        // Tutup menu dropdown jika diklik di luar area (Desktop)
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('menuAdminDesktop');
+            const panel = document.getElementById('panelAdminDesktop');
+            if (menu && panel && !panel.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
     </script>
 </body>
 </html>
