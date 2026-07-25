@@ -177,12 +177,12 @@
                             </button>
 
                             <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-red-50 hover:bg-red-100 font-semibold py-2.5 rounded-[12px] border border-red-100 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                <svg id="btnLogout" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                 Keluar (Logout)
                             </button>
                         </div>
                         <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-6">
-                            <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 font-semibold py-2.5 border border-emerald-100 hover:bg-emerald-100 rounded-[12px] transition-colors">
+                            <button id="btnLoginGuest" onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 font-semibold py-2.5 border border-emerald-100 hover:bg-emerald-100 rounded-[12px] transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
                                 Login Admin
                             </button>
@@ -206,6 +206,12 @@
                                             <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">AD</div>
                                             <span class="text-[0.75rem] font-medium text-emerald-50 tracking-wide">Admin Mode</span>
                                         </div>
+
+                                        <!-- Tombol ini hanya muncul jika Super Admin yang login -->
+                                        <button id="btnManajemenAkun" onclick="bukaManajemenAkun()" class="hidden px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-[8px] font-semibold text-[0.85rem] transition-colors">
+                                            ⚙️ Kelola Admin
+                                        </button>
+
                                         <div class="h-6 w-px bg-emerald-500"></div>
                                         
                                         <!-- Tombol Purge Data Desktop (Baru) -->
@@ -216,13 +222,13 @@
 
                                         <div class="h-6 w-px bg-emerald-500"></div>
 
-                                        <button onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
+                                        <button id="btnLogout" onclick="prosesLogout()" class="group flex items-center gap-1.5 text-emerald-50 text-[0.85rem] hover:text-white font-medium transition-colors" title="Logout dari sistem">
                                             <svg class="w-4 h-4 text-emerald-200 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                             Logout
                                         </button>
                                     </div>
                                     <div id="panelNonAdminDesktop" class="flex items-center space-x-4">
-                                        <button onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
+                                        <button id="btnLoginGuest" onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
                                             <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 group-hover:bg-emerald-400 transition-colors shadow-sm">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
                                             </div>
@@ -1236,6 +1242,50 @@
             } else {
                 // Jika belum login, buka pop-up Login
                 document.getElementById('modalLogin').showModal(); 
+            }
+        }
+
+        // ==========================================
+        // PENDETEKSI SESI LOGIN OTOMATIS
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusLogin = localStorage.getItem('isLoggedIn');
+            const roleSistem = localStorage.getItem('role_sistem');
+            
+            // Ambil elemen tombol
+            const btnManajemenAkun = document.getElementById('btnManajemenAkun');
+            const btnLoginGuest = document.getElementById('btnLoginGuest');
+            const btnLogout = document.getElementById('btnLogout');
+
+            if (statusLogin === 'true') {
+                // Jika sedang login, sembunyikan tombol Login, munculkan Logout
+                if (btnLoginGuest) btnLoginGuest.classList.add('hidden');
+                if (btnLogout) btnLogout.classList.remove('hidden');
+
+                // Jika yang login adalah SUPER ADMIN, munculkan tombol Kelola Admin
+                if (roleSistem === 'super_admin') {
+                    if (btnManajemenAkun) btnManajemenAkun.classList.remove('hidden');
+                }
+            } else {
+                // Jika Guest (belum login)
+                if (btnLoginGuest) btnLoginGuest.classList.remove('hidden');
+                if (btnLogout) btnLogout.classList.add('hidden');
+                if (btnManajemenAkun) btnManajemenAkun.classList.add('hidden');
+            }
+        });
+
+        // ==========================================
+        // FUNGSI LOGOUT
+        // ==========================================
+        function prosesLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                // Hapus semua data sesi dari browser
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('role_sistem');
+                localStorage.removeItem('username');
+                
+                // Refresh halaman kembali ke tampilan Guest
+                location.reload();
             }
         }
     </script>
