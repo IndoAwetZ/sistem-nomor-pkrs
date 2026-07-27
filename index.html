@@ -1457,7 +1457,8 @@
             const modal = document.getElementById('modalManajemenAkun');
             modal.showModal();
             
-            // Nanti kita akan tambahkan fungsi muatDaftarAdmin() di sini untuk menarik data dari database
+            // Panggil fungsi penarik data SEGERA setelah modal terbuka
+            muatDaftarAdmin(); 
         }
 
         function bukaModalTambahAdmin() {
@@ -1476,6 +1477,67 @@
         function simpanAdminBaru(event) {
             event.preventDefault();
             alert("Tombol berfungsi! Tapi API belum dibuat. Kita akan menyambungkannya ke Database di tahap selanjutnya.");
+        }
+
+        async function muatDaftarAdmin() {
+            const tbody = document.getElementById('tabelDaftarAdmin');
+            tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Memuat data dari database...</td></tr>`;
+
+            try {
+                const response = await fetch('/api/admin/users');
+                const result = await response.json();
+
+                if (result.sukses) {
+                    tbody.innerHTML = ''; // Bersihkan tulisan loading
+                    
+                    if (result.data.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Belum ada data admin.</td></tr>`;
+                        return;
+                    }
+
+                    // Looping/Ulangi untuk setiap data user yang ditemukan
+                    result.data.forEach(user => {
+                        const isSuper = user.role === 'super_admin';
+                        const isSaya = user.username === localStorage.getItem('username'); // Tandai jika itu diri sendiri
+
+                        // Desain Badge Role
+                        const badgeRole = isSuper 
+                            ? `<span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-md text-[0.7rem] font-bold uppercase tracking-wider">Super Admin</span>` 
+                            : `<span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-[0.7rem] font-bold uppercase tracking-wider">Admin</span>`;
+                        
+                        // Desain Badge Status
+                        const badgeStatus = user.is_new_user === 1
+                            ? `<span class="text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full text-[0.7rem] font-semibold flex items-center gap-1 w-max mx-auto"><div class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></div> Pending</span>`
+                            : `<span class="text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full text-[0.7rem] font-semibold flex items-center gap-1 w-max mx-auto"><div class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div> Aktif</span>`;
+
+                        // Tombol hapus disembunyikan untuk akun sendiri agar tidak bunuh diri (terhapus sendiri)
+                        const tombolHapus = isSaya 
+                            ? `<span class="text-[0.7rem] text-gray-400 italic">Akun Anda</span>` 
+                            : `<button onclick="hapusAdmin('${user.username}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Hapus Admin">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>`;
+
+                        // Rangkai baris HTML
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td class="px-4 py-3">
+                                <div class="font-semibold text-gray-900">${user.username}</div>
+                                <div class="text-[0.75rem] text-gray-500">${user.email || '-'}</div>
+                            </td>
+                            <td class="px-4 py-3 text-center align-middle">${badgeRole}</td>
+                            <td class="px-4 py-3 text-center align-middle">${badgeStatus}</td>
+                            <td class="px-4 py-3 text-right align-middle">${tombolHapus}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-red-500 font-semibold">Gagal memuat data jaringan.</td></tr>`;
+            }
+        }
+
+        function hapusAdmin(username) {
+            alert("Tombol hapus berfungsi untuk user: " + username + ". API hapus akan kita buat nanti.");
         }
     </script>
 </body>
