@@ -26,7 +26,7 @@ export async function onRequestPost(context) {
         // 4. Simpan ke Database D1
         await env.DB.prepare(
             "INSERT INTO users (username, email, password_hash, role, is_new_user) VALUES (?, ?, ?, ?, 1)"
-        ).bind(username, email, role).run();
+        ).bind(username, email, passwordHash, role).run();
 
         // 5. Kirim Email via Resend API
         const emailHtml = `
@@ -49,7 +49,7 @@ export async function onRequestPost(context) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'TIM PKRS RSUASF <onboarding@resend.dev>', // Ganti dengan domain Anda jika sudah verifikasi di Resend
+                from: 'TIM PKRS RSUASF <onboarding@hnm.my.id>', // Ganti dengan domain Anda jika sudah verifikasi di Resend
                 to: email,
                 subject: 'Akses Admin Sistem TIM PKRS',
                 html: emailHtml
