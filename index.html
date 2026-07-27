@@ -1474,9 +1474,41 @@
             document.getElementById('modalManajemenAkun').showModal();
         }
 
-        function simpanAdminBaru(event) {
+        async function simpanAdminBaru(event) {
             event.preventDefault();
-            alert("Tombol berfungsi! Tapi API belum dibuat. Kita akan menyambungkannya ke Database di tahap selanjutnya.");
+            
+            const username = document.getElementById('addUsername').value;
+            const email = document.getElementById('addEmail').value;
+            const role = document.getElementById('addRole').value;
+            const btnSubmit = document.getElementById('btnSubmitAdmin');
+
+            btnSubmit.innerText = "Memproses...";
+            btnSubmit.disabled = true;
+
+            try {
+                const response = await fetch('/api/admin/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, role })
+                });
+
+                const result = await response.json();
+
+                if (result.sukses) {
+                    // Berhasil! 
+                    alert("Admin baru berhasil ditambahkan! Password sementara telah dikirim ke email tujuan.");
+                    tutupModalTambahAdmin(); // Tutup form
+                    muatDaftarAdmin();       // Refresh tabel agar user baru langsung muncul
+                } else {
+                    alert("Gagal: " + (result.pesan || result.error));
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Terjadi kesalahan jaringan.");
+            } finally {
+                btnSubmit.innerText = "Simpan & Kirim";
+                btnSubmit.disabled = false;
+            }
         }
 
         async function muatDaftarAdmin() {
