@@ -1568,8 +1568,33 @@
             }
         }
 
-        function hapusAdmin(username) {
-            alert("Tombol hapus berfungsi untuk user: " + username + ". API hapus akan kita buat nanti.");
+        async function hapusAdmin(username) {
+            // 1. Munculkan peringatan konfirmasi agar tidak terhapus tak sengaja
+            if (!confirm(`Apakah Anda yakin ingin mencabut akses admin untuk user '${username}'? Tindakan ini tidak dapat dibatalkan.`)) {
+                return; // Batal jika user memilih 'Cancel'
+            }
+
+            try {
+                // 2. Tembak API Delete
+                const response = await fetch('/api/admin/delete', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: username })
+                });
+
+                const result = await response.json();
+
+                if (result.sukses) {
+                    alert(`Akses untuk ${username} berhasil dicabut.`);
+                    // 3. Refresh tabel otomatis agar nama tersebut hilang dari daftar
+                    muatDaftarAdmin(); 
+                } else {
+                    alert("Gagal menghapus admin: " + (result.pesan || result.error));
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan jaringan saat mencoba menghapus admin.");
+            }
         }
     </script>
 </body>
