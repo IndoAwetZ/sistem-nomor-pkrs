@@ -52,7 +52,19 @@ function angkaKeRomawi(num) {
     return hasil;
 }
 
-// --- 3. FUNGSI UNTUK MENYIMPAN DATA BARU ---
+// 3. Tarik format prefix dinamis dari tabel settings
+let prefixNomor = "TIM PKRS/RSASF/"; // Ini hanya nilai default/cadangan
+
+try {
+    const dataPrefix = await env.DB.prepare("SELECT setting_value FROM settings WHERE setting_key = 'prefix_nomor'").first();
+    if (dataPrefix && dataPrefix.setting_value) {
+        prefixNomor = dataPrefix.setting_value; 
+    }
+} catch (err) {
+    console.log("Gagal mengambil prefix dari settings, menggunakan default.");
+}
+
+// --- 4. FUNGSI UNTUK MENYIMPAN DATA BARU ---
 export async function onRequestPost(context) {
   // 1. Definisikan header CORS
   const corsHeaders = {
@@ -202,7 +214,7 @@ export async function onRequestPut(context) {
     ).run();
 
     const dataTerupdate = await context.env.DB.prepare("SELECT nomor_pkrs_final FROM nomor_pkrs WHERE id = ?").bind(input.id).first();
-    const nomorPKRSFinal = dataTerupdate.nomor_pkrs_final;
+    const nomor_pkrs_final = `${prefixNomor}${urutan}/${bulanRomawi}/${tahun}`;
 
     const desainEmail = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">

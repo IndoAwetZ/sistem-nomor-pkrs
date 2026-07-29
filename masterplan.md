@@ -11,11 +11,11 @@ Dokumen ini berisi peta jalan (*roadmap*) dan target pengembangan fitur untuk me
   - [x] Pencabutan hak akses (hapus akun) terintegrasi dengan database Cloudflare D1.
   - [x] Pengamanan berlapis dengan *hashing* SHA-256.
 
-- [ ] **2. Pengaturan Identitas RS & Format Nomor**
+- [x] **2. Pengaturan Identitas RS & Format Nomor**
   - [x] Pembuatan tabel `settings` terpusat di database D1.
-  - [ ] Antarmuka Super Admin untuk mengubah Nama instansi (misal: "SIMRS RSUD Kota").
-  - [ ] Kustomisasi format *prefix* nomor antrean/dokumen (misal: `CETAK-RSX/01/VII/2026`).
-  - [ ] Pembaruan teks dinamis pada *navbar* dan format cetak dokumen/struk.
+  - [x] Antarmuka Super Admin untuk mengubah Nama instansi (misal: "SIMRS RSUD Kota").
+  - [x] Kustomisasi format *prefix* nomor antrean/dokumen (misal: `CETAK-RSX/01/VII/2026`).
+  - [x] Pembaruan teks dinamis pada *navbar* dan format cetak dokumen/struk.
 
 - [ ] **3. Kustomisasi Template Email (Resend API)**
   - [ ] Form *textarea* pada pengaturan untuk mengustomisasi isi pesan *email* notifikasi.
