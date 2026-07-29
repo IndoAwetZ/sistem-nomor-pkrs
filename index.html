@@ -153,7 +153,7 @@
                     <div class="space-y-4 pt-2">
                         <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
                             <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-black text-lg mr-2 shadow-sm">P</div>
-                            <span class="text-emerald-500 font-bold text-[1.3rem] tracking-tight">TIM PKRS</span>
+                            <span id="teksNamaInstansiMobile" class="text-emerald-500 font-bold text-[1.3rem] tracking-tight">TIM PKRS RSUASF</span>
                         </div>
                         
                         <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-3 rounded-[12px] font-semibold hover:bg-emerald-600 shadow-md transition-all active:scale-95 mb-2">
@@ -176,6 +176,11 @@
                             <button id="btnManajemenAkunMobile" onclick="bukaManajemenAkun(); toggleSidebar()" class="hidden w-full flex items-center justify-center gap-2 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 font-semibold py-2.5 rounded-[12px] border border-indigo-100 shadow-sm transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 Kelola Admin
+                            </button>
+
+                            <button id="btnPengaturanSistemMobile" onclick="bukaModalPengaturan(); toggleSidebar()" class="hidden w-full flex items-center justify-center gap-2 text-blue-700 bg-blue-50 hover:bg-blue-100 font-semibold py-2.5 rounded-[12px] border border-blue-100 shadow-sm transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Pengaturan Sistem
                             </button>
                             
                             <!-- Tombol Purge Data -->
@@ -206,7 +211,7 @@
                                 <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-emerald-600 font-black text-lg shadow-sm">P</div>
-                                        <span class="text-white font-bold text-[1.2rem] tracking-tight">TIM PKRS RSUASF</span>
+                                        <span id="teksNamaInstansiDesktop" class="text-white font-bold text-[1.2rem] tracking-tight">TIM PKRS RSUASF</span>
                                     </div>
                                 </div>
                                 <div class="hidden md:flex items-center space-x-6">
@@ -227,6 +232,11 @@
                                                 <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-4 py-2.5 text-[0.85rem] text-indigo-700 hover:bg-indigo-50 font-semibold flex items-center gap-2 transition-colors">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                                     Kelola Admin
+                                                </button>
+
+                                                <button id="btnPengaturanSistem" onclick="bukaModalPengaturan(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-4 py-2.5 text-[0.85rem] text-blue-600 hover:bg-blue-50 font-semibold flex items-center gap-2 transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                                    Pengaturan Sistem
                                                 </button>
                                                 
                                                 <button onclick="bukaModalPurge(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-red-600 hover:bg-red-50 font-semibold flex items-center gap-2 transition-colors">
@@ -725,6 +735,41 @@
             <h2 id="feedbackTitle" class="text-[1.3rem] font-bold tracking-tight text-gray-900">Tunggu...</h2>
             <p id="feedbackMsg" class="mt-2 text-[0.85rem] leading-relaxed text-gray-500" role="status">Memproses permintaan Anda.</p>
             <button id="btnFeedbackClose" class="mt-6 w-full rounded-[8px] px-4 py-2.5 text-[0.85rem] font-semibold text-white transition active:translate-y-px" type="button">Tutup</button>
+        </div>
+    </dialog>
+
+    <!-- ================= MODAL PENGATURAN SISTEM ================= -->
+    <dialog id="modalPengaturanSistem" class="feedback-dlg w-[min(500px,95vw)] rounded-[16px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[250]">
+        <div class="p-6 relative text-left">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-3">
+                <div>
+                    <h2 class="text-[1.3rem] font-bold text-gray-900 leading-tight">Pengaturan Sistem</h2>
+                    <p class="text-[0.85rem] text-gray-500 mt-1">Sesuaikan identitas aplikasi White-Label Anda.</p>
+                </div>
+                <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <form id="formPengaturanSistem" onsubmit="simpanPengaturan(event)">
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Nama Instansi / Rumah Sakit</label>
+                        <p class="text-[0.75rem] text-gray-500 mb-2">Teks ini akan muncul di pojok kiri atas aplikasi (Navbar).</p>
+                        <input type="text" id="setNamaInstansi" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-[0.85rem]" placeholder="Contoh: SIMRS RSUD Kota">
+                    </div>
+                    <div>
+                        <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Awalan (Prefix) Nomor Antrean</label>
+                        <p class="text-[0.75rem] text-gray-500 mb-2">Format kode yang mendahului urutan angka (misal: <span class="font-bold">TIM PKRS/RSASF/</span>01/VII/2026).</p>
+                        <input type="text" id="setPrefixNomor" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-[0.85rem]" placeholder="Contoh: CETAK-RSX/">
+                    </div>
+                </div>
+                
+                <div class="mt-8 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="px-4 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-[10px] font-semibold text-[0.85rem] transition-colors">Batal</button>
+                    <button type="submit" id="btnSubmitPengaturan" class="px-5 py-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-[10px] font-semibold text-[0.85rem] shadow-sm transition-colors">Simpan Pengaturan</button>
+                </div>
+            </form>
         </div>
     </dialog>
 
@@ -1410,6 +1455,12 @@
                 if (roleSistem === 'super_admin') {
                     if (btnManajemenAkun) btnManajemenAkun.classList.remove('hidden');
                     if (btnManajemenAkunMobile) btnManajemenAkunMobile.classList.remove('hidden');
+                    
+                // --- TAMBAHAN UNTUK FITUR PENGATURAN ---
+                    const btnPengaturan = document.getElementById('btnPengaturanSistem');
+                    const btnPengaturanMobile = document.getElementById('btnPengaturanSistemMobile');
+                    if (btnPengaturan) btnPengaturan.classList.remove('hidden');
+                    if (btnPengaturanMobile) btnPengaturanMobile.classList.remove('hidden');
                 }
             } else {
                 // --- MODE GUEST (BELUM LOGIN) ---
@@ -1420,6 +1471,78 @@
                 if (panelAdminMobile) panelAdminMobile.classList.add('hidden');
             }
         });
+
+        // ==========================================
+        // FITUR PENGATURAN SISTEM (WHITE-LABEL)
+        // ==========================================
+        let pengaturanGlobal = {}; // Variabel untuk menyimpan pengaturan di memori browser
+
+        // Fungsi yang dipanggil saat web pertama kali dimuat
+        async function muatPengaturanSistem() {
+            try {
+                const response = await fetch('/api/settings');
+                const result = await response.json();
+
+                if (result.sukses && result.data) {
+                    pengaturanGlobal = result.data; // Simpan di memori
+
+                    // 1. Ubah teks di Navbar Desktop & Mobile
+                    const namaInstansi = pengaturanGlobal.nama_instansi || 'TIM PKRS RSUASF';
+                    if(document.getElementById('teksNamaInstansiDesktop')) document.getElementById('teksNamaInstansiDesktop').innerText = namaInstansi;
+                    if(document.getElementById('teksNamaInstansiMobile')) document.getElementById('teksNamaInstansiMobile').innerText = namaInstansi;
+                    
+                    // (Opsional) Mengubah judul halaman <title>
+                    document.title = namaInstansi + " - Manajemen Cetak";
+                }
+            } catch (error) {
+                console.error("Gagal memuat pengaturan:", error);
+            }
+        }
+
+        // Panggil fungsi segera setelah script dieksekusi
+        muatPengaturanSistem();
+
+        // Buka modal dan isi input dengan data yang ada
+        function bukaModalPengaturan() {
+            document.getElementById('setNamaInstansi').value = pengaturanGlobal.nama_instansi || '';
+            document.getElementById('setPrefixNomor').value = pengaturanGlobal.prefix_nomor || '';
+            document.getElementById('modalPengaturanSistem').showModal();
+        }
+
+        // Simpan perubahan ke API
+        async function simpanPengaturan(event) {
+            event.preventDefault();
+            const btnSubmit = document.getElementById('btnSubmitPengaturan');
+            
+            const payload = {
+                nama_instansi: document.getElementById('setNamaInstansi').value,
+                prefix_nomor: document.getElementById('setPrefixNomor').value
+            };
+
+            btnSubmit.innerText = "Menyimpan...";
+            btnSubmit.disabled = true;
+
+            try {
+                const response = await fetch('/api/settings', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.sukses) {
+                    tampilkanFeedback('ok', 'Berhasil!', 'Pengaturan sistem telah diperbarui.', true);
+                } else {
+                    tampilkanFeedback('err', 'Gagal', result.pesan || result.error);
+                }
+            } catch (error) {
+                tampilkanFeedback('err', 'Gangguan Jaringan', 'Gagal menyimpan pengaturan.');
+            } finally {
+                btnSubmit.innerText = "Simpan Pengaturan";
+                btnSubmit.disabled = false;
+            }
+        }
 
         // Tutup menu dropdown jika diklik di luar area (Desktop)
         document.addEventListener('click', (event) => {
