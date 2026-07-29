@@ -12,7 +12,7 @@ Dokumen ini berisi peta jalan (*roadmap*) dan target pengembangan fitur untuk me
   - [x] Pengamanan berlapis dengan *hashing* SHA-256.
 
 - [ ] **2. Pengaturan Identitas RS & Format Nomor**
-  - [ ] Pembuatan tabel `settings` terpusat di database D1.
+  - [x] Pembuatan tabel `settings` terpusat di database D1.
   - [ ] Antarmuka Super Admin untuk mengubah Nama instansi (misal: "SIMRS RSUD Kota").
   - [ ] Kustomisasi format *prefix* nomor antrean/dokumen (misal: `CETAK-RSX/01/VII/2026`).
   - [ ] Pembaruan teks dinamis pada *navbar* dan format cetak dokumen/struk.
