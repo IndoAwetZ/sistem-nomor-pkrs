@@ -1,11 +1,11 @@
-// Contoh Endpoint: GET /api/settings
-async function getSettings(env) {
+// 1. Endpoint untuk MENGAMBIL data pengaturan (GET /api/settings)
+export async function onRequestGet(context) {
+    const { env } = context;
     try {
         // Ambil semua data dari tabel settings
         const { results } = await env.DB.prepare("SELECT * FROM settings").all();
         
-        // Ubah array [{'setting_key': 'nama_instansi', 'setting_value': 'TIM PKRS RSUASF'}, ...] 
-        // Menjadi format objek yang rapi: { "nama_instansi": "TIM PKRS RSUASF", "prefix_nomor": "..." }
+        // Ubah format data menjadi objek yang mudah dibaca Frontend
         const settingsObj = {};
         if (results) {
             results.forEach(row => {
@@ -25,15 +25,14 @@ async function getSettings(env) {
     }
 }
 
-// Contoh Endpoint: PUT (atau POST) /api/settings
-async function updateSettings(request, env) {
+// 2. Endpoint untuk MEMPERBARUI data pengaturan (PUT /api/settings)
+export async function onRequestPut(context) {
+    const { request, env } = context;
     try {
         const body = await request.json();
-        
-        // Siapkan array query untuk update massal
         const statements = [];
         
-        // Loop setiap pengaturan yang dikirimkan
+        // Loop setiap pengaturan yang dikirimkan dari frontend
         for (const [key, value] of Object.entries(body)) {
             statements.push(
                 env.DB.prepare(
@@ -42,7 +41,7 @@ async function updateSettings(request, env) {
             );
         }
         
-        // Eksekusi semua query secara bersamaan (batch)
+        // Eksekusi semua query secara bersamaan (batch) agar lebih cepat
         await env.DB.batch(statements);
         
         return new Response(JSON.stringify({ sukses: true, pesan: "Pengaturan berhasil diperbarui" }), {
