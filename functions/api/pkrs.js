@@ -1,10 +1,9 @@
-// 1. Fungsi untuk melayani pra-pemeriksaan (Preflight) dari FlutLab/Browser
+// 1. Fungsi untuk melayani pra-pemeriksaan (Preflight)
 export async function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      // INI KUNCINYA: Tambahkan GET, PUT, dan DELETE ke dalam daftar izin
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", 
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Max-Age": "86400",
@@ -19,28 +18,25 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-// --- 1. FUNGSI UNTUK MEMBACA DATA ---
-export async function onRequestGet(context) {
-  try {
-    const result = await context.env.DB.prepare(
-        "SELECT id, timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status FROM nomor_pkrs ORDER BY id DESC"
-    ).all();
-    
-    // KUNCINYA DI SINI: Tempelkan { headers: corsHeaders } pada balasan sukses
-    return Response.json(result.results, { 
-        status: 200, 
-        headers: corsHeaders 
-    });
-  } catch (error) {
-    // Tempelkan juga pada balasan error
-    return Response.json({ error: error.message }, { 
-        status: 500, 
-        headers: corsHeaders 
-    });
-  }
+// =====================================================================
+// FUNGSI PEMBANTU: Tarik Pengaturan (Prefix & Nama Instansi) dari D1
+// =====================================================================
+async function getSettings(db) {
+    let settings = { prefix_nomor: "TIM PKRS/RSASF/", nama_instansi: "TIM PKRS" }; // Fallback jika DB kosong
+    try {
+        const { results } = await db.prepare("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('prefix_nomor', 'nama_instansi')").all();
+        if (results) {
+            results.forEach(row => {
+                if (row.setting_value) settings[row.setting_key] = row.setting_value;
+            });
+        }
+    } catch (err) {
+        console.log("Gagal mengambil settings, menggunakan default.", err);
+    }
+    return settings;
 }
 
-// --- 2. FUNGSI PEMBANTU (Konversi Bulan Romawi) ---
+// --- FUNGSI PEMBANTU (Konversi Bulan Romawi) ---
 function angkaKeRomawi(num) {
     const romawi = {X:10, IX:9, V:5, IV:4, I:1};
     let hasil = '';
@@ -52,30 +48,34 @@ function angkaKeRomawi(num) {
     return hasil;
 }
 
-// 3. Tarik format prefix dinamis dari tabel settings
-let prefixNomor = "TIM PKRS/RSASF/"; // Ini hanya nilai default/cadangan
-
-try {
-    const dataPrefix = await env.DB.prepare("SELECT setting_value FROM settings WHERE setting_key = 'prefix_nomor'").first();
-    if (dataPrefix && dataPrefix.setting_value) {
-        prefixNomor = dataPrefix.setting_value; 
-    }
-} catch (err) {
-    console.log("Gagal mengambil prefix dari settings, menggunakan default.");
+// --- 1. FUNGSI UNTUK MEMBACA DATA (GET) ---
+export async function onRequestGet(context) {
+  try {
+    const result = await context.env.DB.prepare(
+        "SELECT id, timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status FROM nomor_pkrs ORDER BY id DESC"
+    ).all();
+    
+    return Response.json(result.results, { 
+        status: 200, 
+        headers: corsHeaders 
+    });
+  } catch (error) {
+    return Response.json({ error: error.message }, { 
+        status: 500, 
+        headers: corsHeaders 
+    });
+  }
 }
 
-// --- 4. FUNGSI UNTUK MENYIMPAN DATA BARU ---
+// --- 2. FUNGSI UNTUK MENYIMPAN DATA BARU (POST) ---
 export async function onRequestPost(context) {
-  // 1. Definisikan header CORS
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
   try {
     const input = await context.request.json();
     
+    // 1. Ambil pengaturan dinamis dari database (Pemanggilan DB harus DI DALAM fungsi)
+    const settings = await getSettings(context.env.DB);
+    
+    // 2. Generate Nomor PKRS
     const cekIdTerakhir = await context.env.DB.prepare("SELECT MAX(id) as lastId FROM nomor_pkrs").first();
     const idTerakhir = cekIdTerakhir.lastId || 0; 
     const nomorUrut = idTerakhir + 1;
@@ -84,9 +84,10 @@ export async function onRequestPost(context) {
     const bulan = angkaKeRomawi(tanggal.getMonth() + 1); 
     const tahun = tanggal.getFullYear(); 
     
-    const nomorPKRSFinal = `TIM PKRS/RSASF/${nomorUrut}/${bulan}/${tahun}`;
+    // RANGKAI NOMOR BERDASARKAN PREFIX SETTINGS (Sesuai dengan gambar UI Anda)
+    const nomorPKRSFinal = `${settings.prefix_nomor}${nomorUrut}/${bulan}/${tahun}`;
 
-    // INFO: Menyisipkan 'Menunggu' sebagai status awal
+    // 3. Simpan ke Database
     await context.env.DB.prepare(
         "INSERT INTO nomor_pkrs (timestamp, nama_peminta, tanggal_permintaan, jenis_cetak, judul_keperluan, email, nomor_pkrs_final, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     ).bind(
@@ -100,16 +101,17 @@ export async function onRequestPost(context) {
         'Menunggu'
     ).run();
 
+      // 4. Kustomisasi Email menggunakan Nama Instansi (Dinamic Sender Name)
       const desainEmail = `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-              <h2 style="color: #2563eb;">Permintaan PKRS Berhasil Diproses!</h2>
+              <h2 style="color: #2563eb;">Permintaan Cetak Berhasil Diproses!</h2>
               <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
               <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
               <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor PKRS Anda:</p>
+                  <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
                   <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
               </div>
-              <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem PKRS Hub.</p>
+              <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
           </div>
       `;
 
@@ -120,9 +122,9 @@ export async function onRequestPost(context) {
               "Content-Type": "application/json"
           },
           body: JSON.stringify({
-              from: "TIM PKRS <no-reply@hnm.my.id>", 
+              from: `${settings.nama_instansi} <no-reply@hnm.my.id>`, // NAMA PENGIRIM BERUBAH MENJADI "IT RSUASF"
               to: [input.email],
-              subject: `[PKRS Hub] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
+              subject: `[${settings.nama_instansi}] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
               html: desainEmail
           })
       });
@@ -132,13 +134,13 @@ export async function onRequestPost(context) {
           throw new Error("Ditolak Resend: " + JSON.stringify(responError));
       }
 
-    // Sukses: Balas dengan Header
+    // Sukses
     return Response.json(
         { sukses: true, pesan: "Data berhasil disimpan!", nomor_pkrs: nomorPKRSFinal },
         { status: 200, headers: corsHeaders }
     );
   } catch (error) { 
-      // Error: Balas dengan Header
+      // Error
       return Response.json(
           { error: error.message }, 
           { status: 500, headers: corsHeaders }
@@ -146,59 +148,34 @@ export async function onRequestPost(context) {
   }
 }
 
-// --- 4. FUNGSI UNTUK MENGHAPUS DATA ---
+// --- 3. FUNGSI UNTUK MENGHAPUS DATA (DELETE) ---
 export async function onRequestDelete(context) {
-  // 1. Definisikan header CORS
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
   try {
     const url = new URL(context.request.url);
     const id = url.searchParams.get("id");
     
     if (!id) {
-        return Response.json(
-            { error: "ID data tidak diberikan!" }, 
-            { status: 400, headers: corsHeaders } // <-- Tambahan Header
-        );
+        return Response.json({ error: "ID data tidak diberikan!" }, { status: 400, headers: corsHeaders });
     }
 
     await context.env.DB.prepare("DELETE FROM nomor_pkrs WHERE id = ?").bind(id).run();
     
-    // Sukses: Balas dengan Header
-    return Response.json(
-        { sukses: true, pesan: `Data ID #${id} berhasil dihapus.` },
-        { status: 200, headers: corsHeaders } // <-- Tambahan Header
-    );
+    return Response.json({ sukses: true, pesan: `Data ID #${id} berhasil dihapus.` }, { status: 200, headers: corsHeaders });
   } catch (error) { 
-      // Error: Balas dengan Header
-      return Response.json(
-          { error: error.message }, 
-          { status: 500, headers: corsHeaders } // <-- Tambahan Header
-      ); 
+      return Response.json({ error: error.message }, { status: 500, headers: corsHeaders }); 
   }
 }
 
-// --- 5. FUNGSI UNTUK MENGUBAH DATA (EDIT & STATUS) ---
+// --- 4. FUNGSI UNTUK MENGUBAH DATA (PUT) ---
 export async function onRequestPut(context) {
-  // 1. Definisikan header CORS
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
   try {
     const input = await context.request.json();
     if (!input.id) {
-        return Response.json(
-            { error: "ID data tidak diberikan!" }, 
-            { status: 400, headers: corsHeaders } // <-- Tambahan Header
-        );
+        return Response.json({ error: "ID data tidak diberikan!" }, { status: 400, headers: corsHeaders });
     }
+
+    // Ambil settings untuk footer & subject email
+    const settings = await getSettings(context.env.DB);
 
     // Update Database D1
     await context.env.DB.prepare(
@@ -213,8 +190,9 @@ export async function onRequestPut(context) {
         input.id
     ).run();
 
+    // PERBAIKAN BUG: Ambil nomor PKRS final yang sudah ada di database, jangan dirangkai ulang
     const dataTerupdate = await context.env.DB.prepare("SELECT nomor_pkrs_final FROM nomor_pkrs WHERE id = ?").bind(input.id).first();
-    const nomor_pkrs_final = `${prefixNomor}${urutan}/${bulanRomawi}/${tahun}`;
+    const nomorPKRSFinal = dataTerupdate.nomor_pkrs_final;
 
     const desainEmail = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
@@ -222,7 +200,7 @@ export async function onRequestPut(context) {
             <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
             <p>Kami telah memperbarui detail antrean Anda untuk keperluan <strong>"${input.judul_keperluan}"</strong>.</p>
             <div style="background-color: #fef3c7; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor PKRS Anda:</p>
+                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor Antrean Anda:</p>
                 <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #b45309;">${nomorPKRSFinal}</p>
                 
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #d97706;">
@@ -230,7 +208,7 @@ export async function onRequestPut(context) {
                     <p style="margin: 5px 0 0; font-size: 18px; font-weight: bold; color: #b45309;">${input.status.toUpperCase()}</p>
                 </div>
             </div>
-            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi ini dikirim otomatis oleh Sistem PKRS Hub.</p>
+            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
         </div>
     `;
 
@@ -241,9 +219,9 @@ export async function onRequestPut(context) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            from: "TIM PKRS <no-reply@hnm.my.id>", 
+            from: `${settings.nama_instansi} <no-reply@hnm.my.id>`, // NAMA PENGIRIM BERUBAH MENJADI "IT RSUASF"
             to: [input.email],
-            subject: `[Update PKRS Hub] Status Antrean Diperbarui - ${nomorPKRSFinal}`,
+            subject: `[Update ${settings.nama_instansi}] Status Antrean Diperbarui - ${nomorPKRSFinal}`,
             html: desainEmail
         })
     });
@@ -253,16 +231,8 @@ export async function onRequestPut(context) {
         throw new Error("Ditolak Resend: " + JSON.stringify(responError));
     }
 
-    // Sukses: Balas dengan Header
-    return Response.json(
-        { sukses: true, pesan: `Data ID #${input.id} berhasil diperbarui.` },
-        { status: 200, headers: corsHeaders } // <-- Tambahan Header
-    );
+    return Response.json({ sukses: true, pesan: `Data ID #${input.id} berhasil diperbarui.` }, { status: 200, headers: corsHeaders });
   } catch (error) { 
-      // Error: Balas dengan Header
-      return Response.json(
-          { error: error.message }, 
-          { status: 500, headers: corsHeaders } // <-- Tambahan Header
-      ); 
+      return Response.json({ error: error.message }, { status: 500, headers: corsHeaders }); 
   }
 }
