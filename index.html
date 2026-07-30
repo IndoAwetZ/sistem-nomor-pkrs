@@ -763,6 +763,11 @@
                         <p class="text-[0.75rem] text-gray-500 mb-2">Format kode yang mendahului urutan angka (misal: <span class="font-bold">TIM PKRS/RSASF/</span>01/VII/2026).</p>
                         <input type="text" id="setPrefixNomor" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-[0.85rem]" placeholder="Contoh: CETAK-RSX/">
                     </div>
+                    <div>
+                        <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Instruksi / Catatan Tambahan (Email)</label>
+                        <p class="text-[0.75rem] text-gray-500 mb-2">Teks ini akan diselipkan di bagian bawah nomor pada email. (Bisa diisi jam pengambilan, kontak WA, dll).</p>
+                        <textarea id="setInstruksiEmail" rows="3" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-[0.85rem]" placeholder="Contoh: Dokumen yang berstatus SELESAI dapat diambil di Ruang IT pada jam kerja (08.00 - 15.00)."></textarea>
+                    </div>
                 </div>
                 
                 <div class="mt-8 flex justify-end gap-3 pt-4 border-t border-gray-100">
@@ -1506,6 +1511,7 @@
         function bukaModalPengaturan() {
             document.getElementById('setNamaInstansi').value = pengaturanGlobal.nama_instansi || '';
             document.getElementById('setPrefixNomor').value = pengaturanGlobal.prefix_nomor || '';
+            document.getElementById('setInstruksiEmail').value = pengaturanGlobal.instruksi_email || '';
             document.getElementById('modalPengaturanSistem').showModal();
         }
 
@@ -1516,7 +1522,8 @@
             
             const payload = {
                 nama_instansi: document.getElementById('setNamaInstansi').value,
-                prefix_nomor: document.getElementById('setPrefixNomor').value
+                prefix_nomor: document.getElementById('setPrefixNomor').value,
+                instruksi_email: document.getElementById('setInstruksiEmail').value // <-- INI TAMBAHANNYA
             };
 
             btnSubmit.innerText = "Menyimpan...";

@@ -27,31 +27,25 @@ export async function onRequestGet(context) {
 
 // 2. Endpoint untuk MEMPERBARUI data pengaturan (PUT /api/settings)
 export async function onRequestPut(context) {
-    const { request, env } = context;
-    try {
-        const body = await request.json();
-        const statements = [];
+  try {
+    const input = await context.request.json();
+    
+    // Looping semua data dari form HTML
+    for (const [key, value] of Object.entries(input)) {
+        // Cek apakah data (misal: instruksi_email) sudah ada di database
+        const cek = await context.env.DB.prepare("SELECT setting_key FROM settings WHERE setting_key = ?").bind(key).first();
         
-        // Loop setiap pengaturan yang dikirimkan dari frontend
-        for (const [key, value] of Object.entries(body)) {
-            statements.push(
-                env.DB.prepare(
-                    "UPDATE settings SET setting_value = ?, updated_at = CURRENT_TIMESTAMP WHERE setting_key = ?"
-                ).bind(value, key)
-            );
+        if (cek) {
+            // Jika sudah ada, UPDATE datanya
+            await context.env.DB.prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?").bind(value, key).run();
+        } else {
+            // Jika belum ada (karena baru kita tambahkan hari ini), INSERT data baru
+            await context.env.DB.prepare("INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)").bind(key, value).run();
         }
-        
-        // Eksekusi semua query secara bersamaan (batch) agar lebih cepat
-        await env.DB.batch(statements);
-        
-        return new Response(JSON.stringify({ sukses: true, pesan: "Pengaturan berhasil diperbarui" }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    } catch (error) {
-        return new Response(JSON.stringify({ sukses: false, error: error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
     }
+
+    return Response.json({ sukses: true });
+  } catch (err) { 
+      return Response.json({ error: err.message }, { status: 500 }); 
+  }
 }

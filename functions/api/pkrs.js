@@ -22,9 +22,15 @@ const corsHeaders = {
 // FUNGSI PEMBANTU: Tarik Pengaturan (Prefix & Nama Instansi) dari D1
 // =====================================================================
 async function getSettings(db) {
-    let settings = { prefix_nomor: "TIM PKRS/RSASF/", nama_instansi: "TIM PKRS" }; // Fallback jika DB kosong
+    // Tambahkan default instruksi_email di sini
+    let settings = { 
+        prefix_nomor: "TIM PKRS/RSASF/", 
+        nama_instansi: "TIM PKRS",
+        instruksi_email: "Jika ada kendala atau pertanyaan terkait antrean ini, silakan hubungi tim kami."
+    }; 
     try {
-        const { results } = await db.prepare("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('prefix_nomor', 'nama_instansi')").all();
+        // Tambahkan 'instruksi_email' ke dalam kueri SELECT
+        const { results } = await db.prepare("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('prefix_nomor', 'nama_instansi', 'instruksi_email')").all();
         if (results) {
             results.forEach(row => {
                 if (row.setting_value) settings[row.setting_key] = row.setting_value;
@@ -103,16 +109,28 @@ export async function onRequestPost(context) {
 
       // 4. Kustomisasi Email menggunakan Nama Instansi (Dinamic Sender Name)
       const desainEmail = `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-              <h2 style="color: #2563eb;">Permintaan Cetak Berhasil Diproses!</h2>
-              <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
-              <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
-              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
-                  <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
-              </div>
-              <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
-          </div>
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                <h2 style="color: #2563eb;">Permintaan Cetak Berhasil Diproses!</h2>
+                <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
+                <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
+                <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
+                    <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
+                    <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
+                </div>
+              
+                    <!-- ============================================== -->
+                    <!-- INI KOTAK BARU UNTUK MENAMPILKAN INSTRUKSI -->
+                    <!-- ============================================== -->
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                            <strong>Catatan / Instruksi:</strong><br>
+                            ${settings.instruksi_email}
+                        </p>
+                    </div>
+                    <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
+                </div>
+                <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
+            </div>
       `;
 
       const kirimEmail = await fetch("https://api.resend.com/emails", {
@@ -206,6 +224,20 @@ export async function onRequestPut(context) {
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #d97706;">
                     <p style="margin: 0; font-size: 14px; color: #92400e;">Status Pengerjaan Saat Ini:</p>
                     <p style="margin: 5px 0 0; font-size: 18px; font-weight: bold; color: #b45309;">${input.status.toUpperCase()}</p>
+                // (..kode sebelumnya yang menampilkan Nomor Antrean..)
+                </div>
+                
+                    <!-- ============================================== -->
+                    <!-- INI KOTAK BARU UNTUK MENAMPILKAN INSTRUKSI -->
+                    <!-- ============================================== -->
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                            <strong>Catatan / Instruksi:</strong><br>
+                            ${settings.instruksi_email}
+                        </p>
+                    </div>
+
+                    <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
                 </div>
             </div>
             <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
