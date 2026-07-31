@@ -33,7 +33,10 @@ async function getSettings(db) {
         const { results } = await db.prepare("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('prefix_nomor', 'nama_instansi', 'instruksi_email')").all();
         if (results) {
             results.forEach(row => {
-                if (row.setting_value) settings[row.setting_key] = row.setting_value;
+                // Memastikan teks kosong ("") tetap ditarik dari database
+                if (row.setting_value !== null && row.setting_value !== undefined) {
+                    settings[row.setting_key] = row.setting_value;
+                }
             });
         }
     } catch (err) {
@@ -107,50 +110,55 @@ export async function onRequestPost(context) {
         'Menunggu'
     ).run();
 
-      // 4. Kustomisasi Email menggunakan Nama Instansi (Dinamic Sender Name)
-      const desainEmail = `
+    // Cek apakah instruksi diisi. Jika kosong, hilangkan kotaknya. 
+    // Jika diisi, buat kotaknya (sekaligus mengubah Enter menjadi <br> agar rapi)
+    const kotakInstruksi = settings.instruksi_email && settings.instruksi_email.trim() !== "" 
+        ? `
+        <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
+            <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                <strong>Catatan / Instruksi:</strong><br>
+                ${settings.instruksi_email.replace(/\n/g, '<br>')}
+            </p>
+        </div>
+        `
+        : "";
+        
+        // 4. Kustomisasi Email menggunakan Nama Instansi (Dinamic Sender Name)
+        const desainEmail = `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
                 <h2 style="color: #2563eb;">Permintaan Cetak Berhasil Diproses!</h2>
                 <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
                 <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
+                
                 <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
                     <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
                     <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
                 </div>
-              
-                    <!-- ============================================== -->
-                    <!-- INI KOTAK BARU UNTUK MENAMPILKAN INSTRUKSI -->
-                    <!-- ============================================== -->
-                    <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
-                        <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
-                            <strong>Catatan / Instruksi:</strong><br>
-                            ${settings.instruksi_email}
-                        </p>
-                    </div>
-                    <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
-                </div>
+            
+                ${kotakInstruksi}
+
                 <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
             </div>
-      `;
+        `;
 
-      const kirimEmail = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-              "Authorization": `Bearer ${context.env.RESEND_API_KEY}`,
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-              from: `${settings.nama_instansi} <no-reply@hnm.my.id>`, // NAMA PENGIRIM BERUBAH MENJADI "IT RSUASF"
-              to: [input.email],
-              subject: `[${settings.nama_instansi}] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
-              html: desainEmail
-          })
-      });
+        const kirimEmail = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${context.env.RESEND_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                from: `${settings.nama_instansi} <no-reply@hnm.my.id>`, // NAMA PENGIRIM BERUBAH MENJADI "IT RSUASF"
+                to: [input.email],
+                subject: `[${settings.nama_instansi}] Nomor Anda Telah Terbit - ${nomorPKRSFinal}`,
+                html: desainEmail
+            })
+        });
 
-      if (!kirimEmail.ok) {
-          const responError = await kirimEmail.json();
-          throw new Error("Ditolak Resend: " + JSON.stringify(responError));
-      }
+        if (!kirimEmail.ok) {
+            const responError = await kirimEmail.json();
+            throw new Error("Ditolak Resend: " + JSON.stringify(responError));
+        }
 
     // Sukses
     return Response.json(
