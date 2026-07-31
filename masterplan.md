@@ -17,9 +17,9 @@ Dokumen ini berisi peta jalan (*roadmap*) dan target pengembangan fitur untuk me
   - [x] Kustomisasi format *prefix* nomor antrean/dokumen (misal: `CETAK-RSX/01/VII/2026`).
   - [x] Pembaruan teks dinamis pada *navbar* dan format cetak dokumen/struk.
 
-- [ ] **3. Kustomisasi Template Email (Resend API)**
-  - [ ] Form *textarea* pada pengaturan untuk mengustomisasi isi pesan *email* notifikasi.
-  - [ ] Fleksibilitas merangkai sapaan, instruksi pengambilan barang, dan catatan kaki secara dinamis.
+- [x] **3. Kustomisasi Template Email (Resend API)**
+  - [x] Form *textarea* pada pengaturan untuk mengustomisasi isi pesan *email* notifikasi.
+  - [x] Fleksibilitas merangkai sapaan, instruksi pengambilan barang, dan catatan kaki secara dinamis.
 
 - [ ] **4. Laporan & Rekapitulasi Data**
   - [ ] *Dashboard* khusus untuk memantau statistik permintaan.

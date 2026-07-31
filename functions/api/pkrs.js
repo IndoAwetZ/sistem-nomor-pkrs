@@ -234,16 +234,21 @@ export async function onRequestPut(context) {
           `
         : "";
 
-    // 2. Suntikkan variabel kotakInstruksi langsung ke dalam desain Email
+    // 2. Suntikkan variabel kotakInstruksi langsung ke dalam desain Email (KHUSUS UPDATE STATUS)
     const desainEmail = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-            <h2 style="color: #f59e0b;">Permintaan Cetak Berhasil Diproses!</h2>
+            <h2 style="color: #f59e0b;">Perubahan Status Antrean!</h2>
             <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
-            <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
+            <p>Kami telah memperbarui detail antrean Anda untuk keperluan <strong>"${input.judul_keperluan}"</strong>.</p>
             
-            <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
-                <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
+            <div style="background-color: #fef3c7; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
+                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor Antrean Anda:</p>
+                <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #b45309;">${nomorPKRSFinal}</p>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #d97706;">
+                    <p style="margin: 0; font-size: 14px; color: #92400e;">Status Pengerjaan Saat Ini:</p>
+                    <p style="margin: 5px 0 0; font-size: 18px; font-weight: bold; color: #b45309;">${input.status.toUpperCase()}</p>
+                </div>
             </div>
             
             ${kotakInstruksi}
