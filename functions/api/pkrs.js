@@ -220,35 +220,35 @@ export async function onRequestPut(context) {
     const dataTerupdate = await context.env.DB.prepare("SELECT nomor_pkrs_final FROM nomor_pkrs WHERE id = ?").bind(input.id).first();
     const nomorPKRSFinal = dataTerupdate.nomor_pkrs_final;
 
+    // 1. Proses pengecekan: Jika kosong, jadikan string kosong (""). Jika ada, buatkan kotak HTML-nya.
+    const isiInstruksi = settings.instruksi_email ? settings.instruksi_email.trim() : "";
+    
+    const kotakInstruksi = isiInstruksi !== "" 
+        ? `
+          <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
+              <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                  <strong>Catatan / Instruksi:</strong><br>
+                  ${isiInstruksi.replace(/\n/g, '<br>')}
+              </p>
+          </div>
+          `
+        : "";
+
+    // 2. Suntikkan variabel kotakInstruksi langsung ke dalam desain Email
     const desainEmail = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-            <h2 style="color: #f59e0b;">Perubahan Status / Data Berhasil Disimpan!</h2>
+            <h2 style="color: #f59e0b;">Permintaan Cetak Berhasil Diproses!</h2>
             <p>Halo, <strong>${input.nama_peminta}</strong>,</p>
-            <p>Kami telah memperbarui detail antrean Anda untuk keperluan <strong>"${input.judul_keperluan}"</strong>.</p>
-            <div style="background-color: #fef3c7; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
-                <p style="margin: 0; font-size: 14px; color: #92400e; text-transform: uppercase;">Nomor Antrean Anda:</p>
-                <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #b45309;">${nomorPKRSFinal}</p>
-                
-                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #d97706;">
-                    <p style="margin: 0; font-size: 14px; color: #92400e;">Status Pengerjaan Saat Ini:</p>
-                    <p style="margin: 5px 0 0; font-size: 18px; font-weight: bold; color: #b45309;">${input.status.toUpperCase()}</p>
-                // (..kode sebelumnya yang menampilkan Nomor Antrean..)
-                </div>
-                
-                    <!-- ============================================== -->
-                    <!-- INI KOTAK BARU UNTUK MENAMPILKAN INSTRUKSI -->
-                    <!-- ============================================== -->
-                    <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px;">
-                        <p style="margin: 0; font-size: 13px; color: #475569; line-height: 1.5;">
-                            <strong>Catatan / Instruksi:</strong><br>
-                            ${settings.instruksi_email}
-                        </p>
-                    </div>
-
-                    <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
-                </div>
+            <p>Terima kasih. Permintaan cetak <strong>${input.jenis_cetak}</strong> untuk <strong>"${input.judul_keperluan}"</strong> telah kami catat di sistem.</p>
+            
+            <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0;">
+                <p style="margin: 0; font-size: 14px; color: #4b5563; text-transform: uppercase;">Nomor Antrean Anda:</p>
+                <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #1e3a8a;">${nomorPKRSFinal}</p>
             </div>
-            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email notifikasi ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
+            
+            ${kotakInstruksi}
+
+            <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">Email ini dikirim otomatis oleh Sistem ${settings.nama_instansi}.</p>
         </div>
     `;
 
