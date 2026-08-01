@@ -21,8 +21,8 @@ Dokumen ini berisi peta jalan (*roadmap*) dan target pengembangan fitur untuk me
   - [x] Form *textarea* pada pengaturan untuk mengustomisasi isi pesan *email* notifikasi.
   - [x] Fleksibilitas merangkai sapaan, instruksi pengambilan barang, dan catatan kaki secara dinamis.
 
-- [ ] **4. Laporan & Rekapitulasi Data**
-  - [ ] *Dashboard* khusus untuk memantau statistik permintaan.
+- [x] **4. Laporan & Rekapitulasi Data**
+  - [x] *Dashboard* khusus untuk memantau statistik permintaan.
   - [ ] Implementasi grafik visual yang ringan (misal menggunakan Chart.js).
   - [ ] Rekapitulasi data bulanan/tahunan (jumlah cetakan, filter berdasarkan departemen peminta).
 
