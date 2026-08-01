@@ -7,7 +7,7 @@
     <!-- GOOGLE FONTS: INTER -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,444 +15,456 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        emerald: { 500: '#0d8a72', 600: '#0a6b58' },
+                        emerald: { 500: '#0d8a72', 600: '#0a6b58', 700: '#074e40' },
                         red: { 500: '#e53e3e', 600: '#c53030' },
-                        gray: { 50: '#f7faf9', 500: '#718096', 900: '#1a202c' },
-                        badge: '#e6fffa'
+                        slate: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 800: '#1e293b', 900: '#0f172a' }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #f7faf9; color: #1a202c; }
-        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease-in-out; }
+        body { background-color: #f1f5f9; color: #1e293b; }
+        .card-hover { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
 
-        /* SCROLLBAR ELEGAN */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f7faf9; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        /* TAILADMIN CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: #0d8a72; }
 
-        /* HAMBURGER & PUSH EFFECT */
-        .chm-04, .chm-04 *, .chm-04 *::before, .chm-04 *::after { box-sizing: border-box; }
-        .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f7faf9; }
+        /* SIDEBAR PUSH ANIMATION (TAILADMIN PATTERN) */
+        .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f1f5f9; }
         .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
-        .chm-04__shell { position: relative; min-height: 100vh; background: #ffffff; z-index: 2; transition: transform .65s cubic-bezier(.16,1,.3,1), filter .65s; will-change: transform; }
-        .chm-04.is-pushed .chm-04__shell { transform: translateX(260px) scale(.94); border-radius: 24px; overflow: hidden; filter: brightness(.8); box-shadow: -10px 0 30px rgba(0,0,0,0.15); }
-        .chm-04__trg { position: absolute; top: 10px; left: 16px; z-index: 60; width: 44px; height: 44px; cursor: pointer; display: grid; place-items: center; transition: all .5s cubic-bezier(.16,1,.3,1); border-radius: 12px; background: transparent; border: 1px solid transparent; }
-        .chm-04.is-pushed .chm-04__trg { transform: translateX(270px); background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .chm-04__b { width: 24px; height: 14px; position: relative; }
-        .chm-04__b i { position: absolute; left: 0; height: 2.5px; width: 100%; border-radius: 3px; background: #ffffff; transition: transform .5s cubic-bezier(.7,0,.2,1), opacity .3s, background .4s; }
+        .chm-04__shell { position: relative; min-height: 100vh; background: #f1f5f9; z-index: 2; transition: transform .5s cubic-bezier(.16,1,.3,1), filter .5s; will-change: transform; }
+        .chm-04.is-pushed .chm-04__shell { transform: translateX(260px) scale(.96); border-radius: 20px; overflow: hidden; filter: brightness(.85); box-shadow: -15px 0 35px rgba(0,0,0,0.12); }
+        .chm-04__trg { position: absolute; top: 12px; left: 16px; z-index: 60; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; border-radius: 10px; background: #ffffff; border: 1px solid #e2e8f0; shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .chm-04.is-pushed .chm-04__trg { transform: translateX(270px); }
+        .chm-04__b { width: 20px; height: 12px; position: relative; }
+        .chm-04__b i { position: absolute; left: 0; height: 2px; width: 100%; border-radius: 2px; background: #475569; transition: all .4s cubic-bezier(.7,0,.2,1); }
         .chm-04__b i:nth-child(1) { top: 0; }
-        .chm-04__b i:nth-child(2) { top: 6px; }
-        .chm-04__b i:nth-child(3) { top: 12px; }
+        .chm-04__b i:nth-child(2) { top: 5px; }
+        .chm-04__b i:nth-child(3) { top: 10px; }
         .chm-04.is-pushed .chm-04__b i { background: #0d8a72; } 
-        .chm-04.is-pushed .chm-04__b i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .chm-04.is-pushed .chm-04__b i:nth-child(1) { transform: translateY(5px) rotate(45deg); }
         .chm-04.is-pushed .chm-04__b i:nth-child(2) { opacity: 0; }
-        .chm-04.is-pushed .chm-04__b i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-        .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e2e8f0; transform: translateX(-100%); transition: transform .65s cubic-bezier(.16,1,.3,1); padding: 24px; display: flex; flex-direction: column; }
+        .chm-04.is-pushed .chm-04__b i:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+        .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e2e8f0; transform: translateX(-100%); transition: transform .5s cubic-bezier(.16,1,.3,1); padding: 20px; display: flex; flex-direction: column; }
         .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
 
-        /* MODAL FEEDBACK */
-        .feedback-dlg { margin: auto; opacity: 0; transform: translateY(12px) scale(.96); transition: opacity .28s, transform .28s, overlay .28s allow-discrete, display .28s allow-discrete; }
+        /* MODAL ANIMATION & BACKDROP */
+        .feedback-dlg { margin: auto; opacity: 0; transform: translateY(10px) scale(.98); transition: opacity .25s ease, transform .25s ease; }
         .feedback-dlg[open] { opacity: 1; transform: none; }
-        @starting-style { .feedback-dlg[open] { opacity: 0; transform: translateY(12px) scale(.96); } }
-        .feedback-dlg::backdrop { background: rgba(0,0,0,0); backdrop-filter: blur(0); transition: background .3s, backdrop-filter .3s, overlay .3s allow-discrete, display .3s allow-discrete; }
-        .feedback-dlg[open]::backdrop { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); }
-        @starting-style { .feedback-dlg[open]::backdrop { background: rgba(0,0,0,0); backdrop-filter: blur(0); } }
+        .feedback-dlg::backdrop { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); transition: all .25s ease; }
         .feedback-ring { stroke: #e2e8f0; opacity: .5; }
         .feedback-mark { stroke-dasharray: 48; stroke-dashoffset: 48; }
         .feedback-dlg.is-ok .feedback-ring { stroke: #0d8a72; opacity: 1; animation: feedback-ring .5s ease forwards; }
-        .feedback-dlg.is-ok .feedback-mark { stroke: #0d8a72; animation: feedback-draw .45s .25s cubic-bezier(.2,1.3,.4,1) forwards; }
+        .feedback-dlg.is-ok .feedback-mark { stroke: #0d8a72; animation: feedback-draw .45s .2s cubic-bezier(.2,1.3,.4,1) forwards; }
         .feedback-dlg.is-err .feedback-ring { stroke: #e53e3e; opacity: 1; animation: feedback-ring .5s ease forwards; }
-        .feedback-dlg.is-err .feedback-mark { stroke: #e53e3e; animation: feedback-draw .45s .25s ease forwards; }
-        .feedback-dlg.is-err .feedback-icon { animation: feedback-shake .4s .55s both; }
+        .feedback-dlg.is-err .feedback-mark { stroke: #e53e3e; animation: feedback-draw .45s .2s ease forwards; }
         @keyframes feedback-ring { from { stroke-dasharray: 0 160; } to { stroke-dasharray: 160 160; } }
         @keyframes feedback-draw { to { stroke-dashoffset: 0; } }
-        @keyframes feedback-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 
-        /* MODAL LOGIN FIX */
+        /* MODAL LOGIN TAILADMIN FIX */
         #modalLogin { border: none !important; outline: none !important; overflow: hidden !important; }
-        .lf-01,.lf-01 *,.lf-01 *::before,.lf-01 *::after{box-sizing:border-box;margin:0;padding:0}
-        .lf-01{--accent:#0d8a72;--brand-bg:#0a6b58;--radius:14px;--field-h:48px; font-family:inherit;width:100%;min-height:auto !important;background:transparent !important; display:flex;align-items:center;justify-content:center;padding:0 !important;}
-        .lf-01__shell{width:min(900px,100%);min-height:450px;display:grid;grid-template-columns:1.05fr 1fr; background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(13,138,114,.3)}
-        .lf-01__brand{position:relative;background:var(--brand-bg);color:#fff;overflow:hidden;display:flex}
-        .lf-01__mesh{position:absolute;inset:0;background: radial-gradient(60% 55% at 20% 20%,rgba(13,138,114,0.55),transparent 60%), radial-gradient(55% 50% at 85% 30%,rgba(10,107,88,0.5),transparent 60%), radial-gradient(70% 60% at 60% 100%,rgba(6,80,66,0.45),transparent 60%)}
-        .lf-01__brandbody{position:relative;padding:48px;display:flex;flex-direction:column;gap:24px;justify-content:space-between}
-        .lf-01__logo{font-size:22px;font-weight:700;letter-spacing:1px}
-        .lf-01__pitch{font-size:26px;line-height:1.28;font-weight:600;letter-spacing:-.01em;text-wrap:balance; margin-top: auto;}
-        .lf-01__quote blockquote{font-size:15px;line-height:1.5;color:#e6fffa; font-style: italic;}
-        .lf-01__quote figcaption{margin-top:14px;font-size:13px;color:#aeeadd;display:flex;align-items:center;gap:10px}
-        .lf-01__av{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700}
-        .lf-01__panel{display:grid;place-items:center;padding:48px}
-        .lf-01__form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:16px}
-        .lf-01__h{font-size:28px;font-weight:700;color:#1a202c;letter-spacing:-.02em}
-        .lf-01__sub{font-size:14px;color:#718096;margin-top:-8px;margin-bottom:6px}
-        .lf-01__field{display:flex;flex-direction:column;gap:7px}
-        .lf-01__label{font-size:13px;font-weight:600;color:#1a202c}
-        .lf-01__field input{height:var(--field-h);border:1px solid #e2e8f0;border-radius:var(--radius); padding:0 14px;font-size:15px;color:#1a202c;background:#f8fafc;transition:border-color .18s,box-shadow .18s}
-        .lf-01__field input::placeholder{color:#a0aec0}
-        .lf-01__field input:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(13,138,114,0.16)}
-        .lf-01__submit{height:var(--field-h);margin-top:4px;border:0;border-radius:var(--radius);cursor:pointer; background:var(--accent);color:#fff;font-size:15px;font-weight:600; transition:transform .12s,filter .18s}
-        .lf-01__submit:hover{background:#0a6b58;}
-        .lf-01__submit:active{transform:scale(.985)}
-        .lf-01__foot{font-size:14px;color:#718096;text-align:center; margin-top: 10px;}
-        .lf-01__foot a{color:var(--accent);font-weight:600;text-decoration:none; transition: color 0.2s;}
-        .lf-01__foot a:hover{color:#0a6b58; text-decoration:underline}
-        @media (max-width:768px){.lf-01__shell{grid-template-columns:1fr;min-height:0}.lf-01__brand{display:none}.lf-01__panel{padding:36px 26px}}
+        .lf-01 { --accent:#0d8a72; --brand-bg:#0a6b58; font-family:inherit; width:100%; min-height:auto !important; background:transparent !important; display:flex; align-items:center; justify-content:center; padding:0 !important; }
+        .lf-01__shell { width:min(900px,100%); min-height:460px; display:grid; grid-template-columns:1.05fr 1fr; background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .lf-01__brand { position:relative; background:var(--brand-bg); color:#fff; overflow:hidden; display:flex; }
+        .lf-01__mesh { position:absolute; inset:0; background: radial-gradient(60% 55% at 20% 20%,rgba(13,138,114,0.55),transparent 60%), radial-gradient(55% 50% at 85% 30%,rgba(10,107,88,0.5),transparent 60%); }
+        .lf-01__brandbody { position:relative; padding:40px; display:flex; flex-direction:column; gap:20px; justify-content:space-between; }
+        .lf-01__logo { font-size:20px; font-weight:800; letter-spacing:0.5px; }
+        .lf-01__pitch { font-size:24px; line-height:1.3; font-weight:700; margin-top:auto; }
+        .lf-01__quote blockquote { font-size:14px; line-height:1.5; color:#e6fffa; font-style:italic; }
+        .lf-01__panel { display:grid; place-items:center; padding:40px; }
+        .lf-01__form { width:100%; max-width:320px; display:flex; flex-direction:column; gap:16px; }
+        .lf-01__h { font-size:26px; font-weight:800; color:#0f172a; }
+        .lf-01__sub { font-size:13px; color:#64748b; margin-top:-8px; }
+        .lf-01__field { display:flex; flex-direction:column; gap:6px; }
+        .lf-01__label { font-size:12px; font-weight:600; color:#334155; text-transform:uppercase; tracking-wide:0.05em; }
+        .lf-01__field input { height:44px; border:1px solid #cbd5e1; border-radius:10px; padding:0 14px; font-size:14px; color:#0f172a; background:#f8fafc; transition:all .18s; }
+        .lf-01__field input:focus-visible { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(13,138,114,0.15); background:#ffffff; }
+        .lf-01__submit { height:44px; border:0; border-radius:10px; cursor:pointer; background:var(--accent); color:#fff; font-size:14px; font-weight:700; transition:all .18s; }
+        .lf-01__submit:hover { background:#0a6b58; }
+        .lf-01__foot { font-size:13px; color:#64748b; text-align:center; margin-top:8px; }
+        .lf-01__foot a { color:var(--accent); font-weight:600; text-decoration:none; }
+        .lf-01__foot a:hover { text-decoration:underline; }
+        @media (max-width:768px){ .lf-01__shell { grid-template-columns:1fr; } .lf-01__brand { display:none; } .lf-01__panel { padding:32px 24px; } }
 
-        /* PRELOADER FULL SCREEN */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
-        .spinner { width: 45px; height: 45px; border: 4px solid rgba(13, 138, 114, 0.2); border-left-color: #0d8a72; border-radius: 50%; animation: spin 1s linear infinite; }
+        /* PRELOADER */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.4s ease; }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(13, 138, 114, 0.15); border-left-color: #0d8a72; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="font-sans antialiased overflow-hidden">
+<body class="font-sans antialiased overflow-hidden text-slate-800 bg-slate-100">
 
 <!-- PRELOADER -->
 <div id="preloader"><div class="spinner"></div></div>
 
-<!-- MAIN APPLICATION ROOT -->
+<!-- MAIN DASHBOARD -->
 <div id="mainDashboard" class="block">
     <div class="chm-04" id="appRoot">
         <div class="chm-04__scene">
-            <!-- Hamburger menu (mobile) -->
+            <!-- HAMBURGER BUTTON (MOBILE) -->
             <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
                 <div class="chm-04__b"><i></i><i></i><i></i></div>
             </div>
 
-            <!-- SIDEBAR MOBILE -->
+            <!-- SIDEBAR DRAWER (MOBILE) -->
             <aside class="chm-04__sidebar md:hidden">
                 <div class="space-y-4 pt-2">
-                    <div class="flex items-center mb-8 pb-4 border-b border-gray-100">
-                        <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-black text-lg mr-2 shadow-sm">P</div>
-                        <span id="teksNamaInstansiMobile" class="text-emerald-500 font-bold text-[1.3rem] tracking-tight">TIM PKRS RSUASF</span>
+                    <div class="flex items-center mb-6 pb-4 border-b border-slate-100">
+                        <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-extrabold text-lg mr-2.5 shadow-sm">P</div>
+                        <span id="teksNamaInstansiMobile" class="text-slate-900 font-extrabold text-lg tracking-tight">TIM PKRS RSUASF</span>
                     </div>
 
-                    <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-3 rounded-[12px] font-semibold hover:bg-emerald-600 shadow-md transition-all active:scale-95 mb-2">
-                        <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                    <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-600 shadow-sm transition-all active:scale-95 mb-4">
+                        <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                         Buat Nomor Baru
                     </button>
 
-                    <!-- NAV MENU MOBILE -->
-                    <div class="flex flex-col space-y-1 py-2">
-                        <button onclick="bukaHalamanUtama()" class="w-full px-4 py-2.5 text-left text-[0.85rem] font-semibold text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                    <!-- NAV LIST MOBILE -->
+                    <div class="flex flex-col space-y-1">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">Menu Utama</p>
+                        <button onclick="bukaHalamanUtama()" class="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                             Manajemen Antrean
                         </button>
-                        <button onclick="bukaHalamanLaporan()" class="w-full px-4 py-2.5 text-left text-[0.85rem] font-semibold text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <button onclick="bukaHalamanLaporan()" class="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                             Laporan Statistik
                         </button>
                     </div>
 
-                    <div id="panelAdminMobile" class="hidden flex-col space-y-3 pt-6 border-t border-gray-100 mt-4">
-                        <div class="flex items-center gap-3 px-1 mb-2">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm border border-emerald-200 shadow-sm">AD</div>
-                            <div>
-                                <p id="txtUserMob" class="text-[0.95rem] font-bold text-gray-900 leading-tight capitalize">Admin</p>
-                                <p class="text-[0.65rem] text-emerald-600 font-bold uppercase tracking-widest mt-0.5">Sesi Aktif</p>
+                    <!-- USER ADMIN PANEL MOBILE -->
+                    <div id="panelAdminMobile" class="hidden flex-col space-y-2 pt-4 border-t border-slate-100 mt-4">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">Pengaturan Admin</p>
+                        <div class="flex items-center gap-2.5 px-3 py-2 bg-slate-50 rounded-xl border border-slate-200/60 mb-1">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">AD</div>
+                            <div class="overflow-hidden">
+                                <p id="txtUserMob" class="text-xs font-bold text-slate-900 truncate capitalize">Admin</p>
+                                <p class="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider">Sesi Aktif</p>
                             </div>
                         </div>
 
-                        <button id="btnManajemenAkunMobile" onclick="bukaManajemenAkun(); toggleSidebar()" class="hidden w-full flex items-center justify-center gap-2 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 font-semibold py-2.5 rounded-[12px] border border-indigo-100 shadow-sm transition-colors">
+                        <button id="btnManajemenAkunMobile" onclick="bukaManajemenAkun(); toggleSidebar()" class="hidden w-full flex items-center gap-2 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-2 px-3 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                             Kelola Admin
                         </button>
 
-                        <button id="btnPengaturanSistemMobile" onclick="bukaModalPengaturan(); toggleSidebar()" class="hidden w-full flex items-center justify-center gap-2 text-blue-700 bg-blue-50 hover:bg-blue-100 font-semibold py-2.5 rounded-[12px] border border-blue-100 shadow-sm transition-colors">
+                        <button id="btnPengaturanSistemMobile" onclick="bukaModalPengaturan(); toggleSidebar()" class="hidden w-full flex items-center gap-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 py-2 px-3 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
                             Pengaturan Sistem
                         </button>
 
-                        <button onclick="bukaModalPurge(); toggleSidebar()" class="w-full flex items-center justify-center gap-2 text-red-600 bg-white hover:bg-red-50 font-semibold py-2.5 rounded-[12px] border border-red-200 shadow-sm transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            Reset / Purge Data
+                        <button onclick="bukaModalPurge(); toggleSidebar()" class="w-full flex items-center gap-2 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 py-2 px-3 rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Purge / Reset Data
                         </button>
 
-                        <button onclick="prosesLogout()" class="w-full flex items-center justify-center gap-2 text-gray-600 bg-gray-50 hover:bg-gray-100 font-semibold py-2.5 rounded-[12px] border border-gray-200 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <button onclick="prosesLogout()" class="w-full flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 py-2 px-3 rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             Keluar (Logout)
                         </button>
                     </div>
 
-                    <div id="panelNonAdminMobile" class="flex flex-col space-y-3 pt-6 border-t border-gray-100 mt-4">
-                        <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 font-semibold py-2.5 border border-emerald-100 hover:bg-emerald-100 rounded-[12px] transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                    <div id="panelNonAdminMobile" class="flex flex-col space-y-2 pt-4 border-t border-slate-100 mt-4">
+                        <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-2.5 px-3 rounded-xl border border-emerald-200/60 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
                             Login Admin
                         </button>
                     </div>
                 </div>
             </aside>
 
+            <!-- MAIN SHELL CONTENT -->
             <div class="chm-04__shell flex flex-col">
-                <!-- NAVBAR DESKTOP -->
-                <nav class="bg-emerald-600 shadow-lg relative z-50 h-16 flex-shrink-0">
+                <!-- TOP NAVBAR TAILADMIN STYLE -->
+                <nav class="bg-white border-b border-slate-200 relative z-50 h-16 flex-shrink-0 shadow-sm">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
                         <div class="flex justify-between h-full items-center">
-                            <div class="flex-shrink-0 flex items-center pl-8 md:pl-0">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-emerald-600 font-black text-lg shadow-sm">P</div>
-                                    <span id="teksNamaInstansiDesktop" class="text-white font-bold text-[1.2rem] tracking-tight">TIM PKRS RSUASF</span>
+                            <!-- BRAND IDENTITY -->
+                            <div class="flex-shrink-0 flex items-center pl-10 md:pl-0">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-sm">P</div>
+                                    <div>
+                                        <span id="teksNamaInstansiDesktop" class="text-slate-900 font-extrabold text-base md:text-lg tracking-tight block leading-tight">TIM PKRS RSUASF</span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Sistem Antrean Digital</span>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="hidden md:flex items-center space-x-6">
-                                <div id="panelAdminDesktop" class="hidden flex items-center space-x-4 relative">
+                            <!-- DESKTOP ACTIONS & PROFILE -->
+                            <div class="hidden md:flex items-center space-x-4">
+                                <button onclick="cekAksesBuatNomor()" class="group relative inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition-all duration-200 active:scale-95">
+                                    <svg class="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                                    Buat Nomor Baru
+                                </button>
+
+                                <div class="h-5 w-px bg-slate-200"></div>
+
+                                <!-- ADMIN PROFILE & NAVIGATION DROPDOWN -->
+                                <div id="panelAdminDesktop" class="hidden flex items-center relative">
                                     <div class="relative">
-                                        <button type="button" onclick="document.getElementById('menuAdminDesktop').classList.toggle('hidden')" class="group flex items-center gap-2 bg-emerald-700/50 hover:bg-emerald-700/70 py-1.5 pl-1.5 pr-3 rounded-full border border-emerald-500/50 shadow-inner transition-colors focus:outline-none">
-                                            <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shadow-sm group-hover:scale-105 transition-transform">AD</div>
-                                            <span id="txtUserDesk" class="text-[0.8rem] font-medium text-emerald-50 tracking-wide capitalize">Admin</span>
-                                            <svg class="w-3.5 h-3.5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                                        <button type="button" onclick="document.getElementById('menuAdminDesktop').classList.toggle('hidden')" class="group flex items-center gap-2 bg-slate-50 hover:bg-slate-100 py-1.5 pl-2 pr-3 rounded-xl border border-slate-200 transition-colors focus:outline-none">
+                                            <div class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px] shadow-sm">AD</div>
+                                            <span id="txtUserDesk" class="text-xs font-bold text-slate-800 tracking-wide capitalize">Admin</span>
+                                            <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                         </button>
 
-                                        <!-- DROPDOWN MENU -->
-                                        <div id="menuAdminDesktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[100] origin-top-right">
-                                            <button onclick="bukaHalamanUtama()" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-gray-700 hover:bg-gray-100 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                                        <!-- DROPDOWN MENU TAILADMIN -->
+                                        <div id="menuAdminDesktop" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-[100] origin-top-right p-1.5">
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1.5">Navigasi SPA</p>
+                                            <button onclick="bukaHalamanUtama()" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-emerald-600 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                                                 Manajemen Antrean
                                             </button>
-                                            <button onclick="bukaHalamanLaporan()" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-gray-700 hover:bg-gray-100 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                            <button onclick="bukaHalamanLaporan()" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-emerald-600 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                                                 Laporan Statistik
                                             </button>
                                             
-                                            <div class="h-px bg-gray-100 my-1"></div>
+                                            <div class="h-px bg-slate-100 my-1"></div>
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1.5">Sistem & Akses</p>
 
-                                            <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-4 py-2.5 text-[0.85rem] text-indigo-700 hover:bg-indigo-50 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                            <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-3 py-2 text-xs text-indigo-700 hover:bg-indigo-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                                 Kelola Admin
                                             </button>
 
-                                            <button id="btnPengaturanSistem" onclick="bukaModalPengaturan(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-4 py-2.5 text-[0.85rem] text-blue-600 hover:bg-blue-50 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+                                            <button id="btnPengaturanSistem" onclick="bukaModalPengaturan(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-3 py-2 text-xs text-blue-700 hover:bg-blue-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
                                                 Pengaturan Sistem
                                             </button>
 
-                                            <button onclick="bukaModalPurge(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-red-600 hover:bg-red-50 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            <button onclick="bukaModalPurge(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                                 Purge Data
                                             </button>
 
-                                            <div class="h-px bg-gray-100 my-1"></div>
+                                            <div class="h-px bg-slate-100 my-1"></div>
 
-                                            <button onclick="prosesLogout(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-4 py-2.5 text-[0.85rem] text-gray-700 hover:bg-gray-100 font-semibold flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                            <button onclick="prosesLogout(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-100 font-semibold rounded-xl flex items-center gap-2 transition-colors">
+                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                                                 Logout
                                             </button>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div id="panelNonAdminDesktop" class="flex items-center space-x-4">
-                                    <button onclick="bukaLayarLogin()" class="group flex items-center gap-2 text-emerald-50 hover:text-white font-medium text-[0.85rem] transition-colors">
-                                        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 group-hover:bg-emerald-400 transition-colors shadow-sm">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                                        </div>
-                                        <span>Login</span>
+                                <div id="panelNonAdminDesktop" class="flex items-center">
+                                    <button onclick="bukaLayarLogin()" class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs py-2 px-3.5 rounded-xl border border-emerald-200/80 transition-colors shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                        <span>Login Admin</span>
                                     </button>
                                 </div>
-
-                                <div class="h-6 w-px bg-emerald-500"></div>
-                                <button onclick="cekAksesBuatNomor()" class="group relative inline-flex items-center justify-center gap-2 bg-white text-emerald-600 px-5 py-2.5 rounded-[12px] font-bold text-[0.85rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 transition-all duration-200 active:scale-95">
-                                    <svg class="w-4 h-4 text-emerald-500 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
-                                    Buat Nomor
-                                </button>
                             </div>
                         </div>
                     </div>
                 </nav>
 
-                <!-- MAIN SCROLL AREA -->
-                <div id="areaScroll" class="w-full overflow-y-auto flex-grow bg-[#f7faf9]" style="height: calc(100vh - 64px);">
+                <!-- MAIN SCROLLABLE AREA -->
+                <div id="areaScroll" class="w-full overflow-y-auto flex-grow bg-slate-100" style="height: calc(100vh - 64px);">
 
                     <!-- 1. CONTAINER HALAMAN UTAMA (MANAGEMENT ANTREAN) -->
                     <div id="halamanUtamaContainer" class="block">
-                        <!-- STICKY HEADER TOOLBAR -->
-                        <div class="sticky top-0 z-40 bg-[#f7faf9] pt-4 pb-3 md:pt-8 md:pb-6 px-4 sm:px-6 lg:px-8 border-b border-[#e2e8f0] shadow-sm">
+                        <!-- HEADER BARIS TERISOLASI ATAU STICKY -->
+                        <div class="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-md pt-5 pb-4 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 shadow-sm">
                             <div class="max-w-7xl mx-auto">
-                                <div class="mb-3 md:mb-6 flex flex-col md:flex-row justify-between items-start md:items-end space-y-3 md:space-y-0">
+                                <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-end space-y-3 md:space-y-0">
                                     <div>
-                                        <h1 class="text-[1.25rem] md:text-[1.8rem] font-bold text-gray-900 tracking-tight leading-tight">Daftar Permintaan</h1>
-                                        <p class="text-[0.75rem] md:text-[0.85rem] text-gray-500 mt-0.5 md:mt-1">Manajemen antrean pencetakan nomor PKRS.</p>
+                                        <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Permintaan</h1>
+                                        <p class="text-xs text-slate-500 mt-0.5">Kelola dan tinjau status seluruh nomor antrean pencetakan PKRS.</p>
                                     </div>
 
                                     <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
                                         <div class="relative w-full sm:w-auto">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                             </div>
-                                            <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-10 pr-4 py-1.5 md:py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.8rem] md:text-[0.85rem]">
+                                            <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs shadow-sm font-medium">
                                         </div>
                                         
                                         <div class="w-full flex space-x-2 sm:w-auto">
                                             <div class="relative w-1/2 sm:w-auto">
-                                                <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full bg-white text-gray-900 px-3 py-1.5 md:px-4 md:py-2 rounded-[8px] font-medium text-[0.8rem] md:text-[0.85rem] border border-[#e2e8f0] hover:bg-gray-50 shadow-sm transition-colors flex items-center justify-center relative">
-                                                    <svg class="w-4 h-4 mr-1.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                                                <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full bg-white text-slate-700 px-3.5 py-2 rounded-xl font-bold text-xs border border-slate-200 hover:bg-slate-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                                    <svg class="w-3.5 h-3.5 mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                                                     Filter
                                                     <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
                                                 </button>
                                                 
                                                 <!-- PANEL FILTER DROPDOWN -->
-                                                <div id="filterPanel" class="hidden absolute right-0 mt-2 w-[calc(100vw-32px)] max-w-[280px] sm:w-72 bg-white rounded-xl shadow-lg border border-[#e2e8f0] z-[70] p-4 md:p-5 origin-top-right transition-all">
-                                                    <div class="flex justify-between items-center mb-4 border-b border-[#e2e8f0] pb-2">
-                                                        <h4 class="font-bold text-gray-900 text-[0.85rem]">Saring Data</h4>
+                                                <div id="filterPanel" class="hidden absolute right-0 mt-2 w-[calc(100vw-32px)] max-w-[280px] sm:w-72 bg-white rounded-2xl shadow-xl border border-slate-200 z-[70] p-4 md:p-5 origin-top-right transition-all">
+                                                    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+                                                        <h4 class="font-extrabold text-slate-900 text-xs">Saring Data</h4>
                                                     </div>
-                                                    <div class="space-y-4">
+                                                    <div class="space-y-3.5">
                                                         <div>
-                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Tanggal Permintaan</label>
-                                                            <input type="date" id="filterTanggal" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-[0.85rem] text-gray-900">
+                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tanggal Permintaan</label>
+                                                            <input type="date" id="filterTanggal" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs text-slate-900">
                                                         </div>
                                                         <div>
-                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Jenis Cetakan</label>
+                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jenis Cetakan</label>
                                                             <div class="relative">
-                                                                <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] bg-white text-[0.85rem] text-gray-900">
+                                                                <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
                                                                     <span id="teks-filterJenis">Semua Jenis Cetak</span>
-                                                                    <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                                    <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
                                                                 </button>
-                                                                <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')">Semua Jenis Cetak</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')">Spanduk</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')">Brosur</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')">Stiker</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')">Poster</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')">Lainnya</li>
+                                                                <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')">Semua Jenis Cetak</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')">Spanduk</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')">Brosur</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')">Stiker</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')">Poster</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')">Lainnya</li>
                                                                 </ul>
                                                                 <input type="hidden" id="inputFilterJenis" value="">
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <label class="block text-[0.75rem] font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status Antrean</label>
+                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Status Antrean</label>
                                                             <div class="relative">
-                                                                <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] bg-white text-[0.85rem] text-gray-900">
+                                                                <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
                                                                     <span id="teks-filterStatus">Semua Status</span>
-                                                                    <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                                    <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
                                                                 </button>
-                                                                <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')">Semua Status</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')">🟡 Menunggu</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')">🔵 Diproses</li>
-                                                                    <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')">🟢 Selesai</li>
+                                                                <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')">Semua Status</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')">🟡 Menunggu</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')">🔵 Diproses</li>
+                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')">🟢 Selesai</li>
                                                                 </ul>
                                                                 <input type="hidden" id="inputFilterStatus" value="">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mt-6 flex space-x-2">
-                                                        <button onclick="resetFilter()" class="flex-1 px-3 py-2 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-[8px] font-medium text-[0.85rem] transition-colors border border-[#e2e8f0]">Reset</button>
-                                                        <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow-sm transition-colors">Terapkan</button>
+                                                    <div class="mt-5 flex space-x-2">
+                                                        <button onclick="resetFilter()" class="flex-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-bold text-xs transition-colors border border-slate-200">Reset</button>
+                                                        <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-1.5 bg-emerald-500 text-white hover:bg-emerald-600 rounded-lg font-bold text-xs shadow-sm transition-colors">Terapkan</button>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <button onclick="eksporCSV()" class="w-1/2 sm:w-auto bg-gray-900 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-[8px] font-medium text-[0.8rem] md:text-[0.85rem] hover:bg-gray-800 shadow-sm transition-colors flex items-center justify-center">
-                                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                            <button onclick="eksporCSV()" class="w-1/2 sm:w-auto bg-slate-900 text-white px-3.5 py-2 rounded-xl font-bold text-xs hover:bg-slate-800 shadow-sm transition-colors flex items-center justify-center">
+                                                <svg class="w-3.5 h-3.5 mr-1.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                                 CSV
                                             </button>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- MINI STATISTIK TABEL -->
-                                <div class="grid grid-cols-4 gap-2 md:gap-4">
-                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-gray-400">
-                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-gray-500 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Total</p>
-                                        <div class="flex items-center justify-between">
-                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statTotal">0</h3>
+                                <!-- MINI STATISTIK TABEL ALA TAILADMIN -->
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total</p>
+                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statTotal">0</h3>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-yellow-400">
-                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-yellow-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Tunggu</p>
-                                        <div class="flex items-center justify-between">
-                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statMenunggu">0</h3>
+                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider">Tunggu</p>
+                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statMenunggu">0</h3>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-blue-400">
-                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-blue-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Proses</p>
-                                        <div class="flex items-center justify-between">
-                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statDiproses">0</h3>
+                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider">Proses</p>
+                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statDiproses">0</h3>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg md:rounded-[14px] shadow-sm border border-[#e2e8f0] p-2 md:p-4 border-b-2 md:border-b-0 md:border-l-4 border-emerald-400">
-                                        <p class="text-[0.6rem] md:text-[0.75rem] font-bold text-emerald-600 uppercase tracking-wider mb-0.5 md:mb-1 truncate">Selesai</p>
-                                        <div class="flex items-center justify-between">
-                                            <h3 class="text-lg md:text-2xl font-black text-gray-900 leading-none" id="statSelesai">0</h3>
+                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">Selesai</p>
+                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statSelesai">0</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- AREA DATA TABEL & CARDS MOBILE -->
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-16 relative z-10">
-                            <div id="loadingState" class="text-center py-10">
-                                <p class="text-gray-500 animate-pulse font-medium text-[0.85rem]">Memuat data dari database...</p>
+                        <!-- WADAH TABEL & MOBILE CARDS -->
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
+                            <div id="loadingState" class="text-center py-12">
+                                <p class="text-slate-500 animate-pulse font-bold text-xs">Memuat data dari database...</p>
                             </div>
 
-                            <div class="hidden md:block bg-white shadow-[0_4px_15px_rgba(0,0,0,0.03)] rounded-lg overflow-hidden border border-[#e2e8f0]">
-                                <table class="min-w-full divide-y divide-[#e2e8f0]">
-                                    <thead class="bg-gray-50">
+                            <div class="hidden md:block bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-200/80">
+                                <table class="min-w-full divide-y divide-slate-100">
+                                    <thead class="bg-slate-50/80">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Nomor & Status</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminta</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keperluan & Jenis</th>
-                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-900 uppercase tracking-wider">Nomor & Status</th>
+                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal</th>
+                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Peminta</th>
+                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Keperluan & Jenis</th>
+                                            <th class="px-6 py-3.5 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-[#e2e8f0]"></tbody>
+                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-slate-100 text-xs"></tbody>
                                 </table>
                             </div>
 
-                            <div id="isiTabelMobile" class="md:hidden space-y-4 pb-4"></div>
-                            <div id="wadahPagination" class="mt-8 flex justify-center items-center space-x-1 pb-8"></div>
+                            <div id="isiTabelMobile" class="md:hidden space-y-3.5 pb-4"></div>
+                            <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1.5 pb-8"></div>
                         </div>
                     </div>
 
                     <!-- 2. CONTAINER HALAMAN LAPORAN STATISTIK (SPA) -->
-                    <div id="halamanLaporanContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16 relative z-10">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div id="halamanLaporanContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative z-10">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                             <div>
-                                <h2 class="text-2xl md:text-[1.8rem] font-bold text-gray-900 leading-tight">Dashboard Laporan</h2>
-                                <p class="text-[0.85rem] text-gray-500 mt-1">Ringkasan aktivitas seluruh data dan ekspor penuh sistem.</p>
+                                <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">Dashboard Laporan</h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Ringkasan aktivitas seluruh data antrean dan fasilitas ekspor penuh.</p>
                             </div>
-                            <button onclick="eksporCSVPenuh()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-[10px] font-semibold text-[0.85rem] shadow-sm flex items-center gap-2 transition-colors active:scale-95">
+                            <button onclick="eksporCSVPenuh()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm flex items-center gap-2 transition-colors active:scale-95">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                Export Rekap (Semua Data)
+                                Export Rekap Penuh (CSV)
                             </button>
                         </div>
 
-                        <!-- KOTAK ANGKA BESAR DASHBOARD -->
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                            <div class="bg-white p-6 rounded-[16px] border border-gray-200 shadow-sm relative overflow-hidden">
-                                <p class="text-[0.8rem] font-bold text-gray-500 uppercase tracking-wider mb-2">Total Permintaan</p>
-                                <h3 id="dashTotal" class="text-4xl font-black text-gray-900">0</h3>
+                        <!-- BIG STAT CARDS TAILADMIN -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Total Permintaan</p>
+                                <h3 id="dashTotal" class="text-3xl font-black text-slate-900">0</h3>
                             </div>
-                            <div class="bg-white p-6 rounded-[16px] border border-yellow-200 shadow-sm relative overflow-hidden">
-                                <p class="text-[0.8rem] font-bold text-yellow-600 uppercase tracking-wider mb-2">Menunggu</p>
-                                <h3 id="dashMenunggu" class="text-4xl font-black text-yellow-500">0</h3>
+                            <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-sm relative overflow-hidden">
+                                <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider mb-1">Menunggu</p>
+                                <h3 id="dashMenunggu" class="text-3xl font-black text-amber-500">0</h3>
                             </div>
-                            <div class="bg-white p-6 rounded-[16px] border border-blue-200 shadow-sm relative overflow-hidden">
-                                <p class="text-[0.8rem] font-bold text-blue-600 uppercase tracking-wider mb-2">Sedang Diproses</p>
-                                <h3 id="dashProses" class="text-4xl font-black text-blue-500">0</h3>
+                            <div class="bg-white p-5 rounded-2xl border border-blue-200/80 shadow-sm relative overflow-hidden">
+                                <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider mb-1">Sedang Diproses</p>
+                                <h3 id="dashProses" class="text-3xl font-black text-blue-500">0</h3>
                             </div>
-                            <div class="bg-white p-6 rounded-[16px] border border-emerald-200 shadow-sm relative overflow-hidden">
-                                <p class="text-[0.8rem] font-bold text-emerald-600 uppercase tracking-wider mb-2">Selesai</p>
-                                <h3 id="dashSelesai" class="text-4xl font-black text-emerald-500">0</h3>
+                            <div class="bg-white p-5 rounded-2xl border border-emerald-200/80 shadow-sm relative overflow-hidden">
+                                <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
+                                <h3 id="dashSelesai" class="text-3xl font-black text-emerald-500">0</h3>
                             </div>
                         </div>
 
                         <!-- LIST BREAKDOWN ANALISIS -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div class="bg-white p-6 rounded-[16px] border border-[#e2e8f0] shadow-sm">
-                                <h4 class="font-bold text-gray-900 mb-4 border-b border-gray-100 pb-3 flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                                <h4 class="font-extrabold text-slate-900 text-sm mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                                     Peringkat Jenis Cetak Terbanyak
                                 </h4>
                                 <ul id="listJenisCetak" class="space-y-1">
-                                    <li class="text-gray-400 text-sm italic py-2">Belum ada data untuk dianalisis...</li>
+                                    <li class="text-slate-400 text-xs italic py-2">Belum ada data untuk dianalisis...</li>
                                 </ul>
                             </div>
                         </div>
@@ -469,7 +481,7 @@
 <!-- MODAL LOGIN ADMIN -->
 <dialog id="modalLogin" class="feedback-dlg w-[min(900px,95vw)] rounded-[20px] bg-transparent p-0 border-0 outline-none overflow-hidden shadow-2xl z-[200]">
     <section class="lf-01 m-0 h-full">
-        <div class="lf-01__shell min-h-[450px]">
+        <div class="lf-01__shell min-h-[460px]">
             <aside class="lf-01__brand" aria-hidden="true">
                 <div class="lf-01__mesh"></div>
                 <div class="lf-01__brandbody">
@@ -483,14 +495,14 @@
             </aside>
 
             <div class="lf-01__panel relative bg-white">
-                <button type="button" onclick="document.getElementById('modalLogin').close()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button type="button" onclick="document.getElementById('modalLogin').close()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors outline-none">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
 
                 <form class="lf-01__form" onsubmit="prosesLogin(event)">
                     <h1 class="lf-01__h">Selamat Datang</h1>
                     <p class="lf-01__sub">Masuk sebagai Admin PKRS Hub.</p>
-                    <div style="height: 15px;"></div>
+                    <div style="height: 10px;"></div>
                     <label class="lf-01__field">
                         <span class="lf-01__label">Username</span>
                         <input type="text" id="loginUser" autocomplete="off" placeholder="Masukkan username..." required>
@@ -499,7 +511,7 @@
                         <span class="lf-01__label">Password</span>
                         <input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••" required>
                     </label>
-                    <div style="height: 10px;"></div>
+                    <div style="height: 6px;"></div>
                     <button class="lf-01__submit" id="btnLoginSubmit" type="submit">Sign in</button>
                     <p class="lf-01__foot"><a href="#" onclick="document.getElementById('modalLogin').close(); return false;">← Kembali ke Beranda</a></p>
                 </form>
@@ -509,74 +521,74 @@
 </dialog>
 
 <!-- MODAL GANTI PASSWORD -->
-<dialog id="modalGantiPassword" class="feedback-dlg w-[min(400px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[250]">
+<dialog id="modalGantiPassword" class="feedback-dlg w-[min(400px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[250]">
     <div class="p-6 relative text-left">
-        <h2 class="text-[1.3rem] font-bold text-gray-900 mb-2">Ganti Password</h2>
-        <p class="text-[0.85rem] text-gray-600 mb-4">Silakan buat password baru demi keamanan akun Anda.</p>
+        <h2 class="text-lg font-bold text-slate-900 mb-1">Ganti Password</h2>
+        <p class="text-xs text-slate-500 mb-4">Silakan buat password baru demi keamanan akun Anda.</p>
         <form id="formGantiPassword" onsubmit="simpanPasswordBaru(event)">
             <input type="hidden" id="ubahPassUser" value="">
-            <div class="space-y-4">
+            <div class="space-y-3.5">
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Password Baru</label>
-                    <input type="password" id="passBaru" required minlength="6" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password Baru</label>
+                    <input type="password" id="passBaru" required minlength="6" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Konfirmasi Password</label>
-                    <input type="password" id="passKonfirm" required minlength="6" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Konfirmasi Password</label>
+                    <input type="password" id="passKonfirm" required minlength="6" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                 </div>
             </div>
             <div class="mt-6">
-                <button type="submit" id="btnSubmitPass" class="px-4 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow w-full transition-colors">Simpan & Login</button>
+                <button type="submit" id="btnSubmitPass" class="px-4 py-2.5 bg-emerald-500 text-white hover:bg-emerald-600 rounded-xl font-bold text-xs shadow w-full transition-colors">Simpan & Login</button>
             </div>
         </form>
     </div>
 </dialog>
 
 <!-- MODAL KONFIRMASI LOGOUT -->
-<dialog id="modalLogout" class="feedback-dlg w-[min(380px,90vw)] rounded-[16px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[250]">
+<dialog id="modalLogout" class="feedback-dlg w-[min(380px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[250]">
     <div class="p-6 relative text-center">
-        <div class="w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4 border border-red-100">
-            <svg class="w-7 h-7 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        <div class="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-3 border border-red-100">
+            <svg class="w-6 h-6 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
         </div>
-        <h2 class="text-[1.3rem] font-bold text-gray-900 mb-2">Konfirmasi Keluar</h2>
-        <p class="text-[0.85rem] text-gray-600 mb-6">Apakah Anda yakin ingin keluar dari sesi admin?</p>
-        <div class="flex justify-center gap-3">
-            <button type="button" onclick="document.getElementById('modalLogout').close()" class="px-5 py-2.5 bg-gray-100 text-gray-900 hover:bg-gray-200 rounded-[10px] font-medium text-[0.85rem] w-full">Batal</button>
-            <button type="button" onclick="konfirmasiLogoutPasti()" class="px-5 py-2.5 bg-red-600 text-white hover:bg-red-700 rounded-[10px] font-semibold text-[0.85rem] shadow w-full">Ya, Keluar</button>
+        <h2 class="text-base font-bold text-slate-900 mb-1">Konfirmasi Keluar</h2>
+        <p class="text-xs text-slate-500 mb-5">Apakah Anda yakin ingin keluar dari sesi admin?</p>
+        <div class="flex justify-center gap-2.5">
+            <button type="button" onclick="document.getElementById('modalLogout').close()" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs w-full">Batal</button>
+            <button type="button" onclick="konfirmasiLogoutPasti()" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold text-xs shadow w-full">Ya, Keluar</button>
         </div>
     </div>
 </dialog>
 
 <!-- MODAL MANAJEMEN AKUN ADMIN -->
-<dialog id="modalManajemenAkun" class="feedback-dlg w-[min(700px,95vw)] rounded-[16px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[250]">
+<dialog id="modalManajemenAkun" class="feedback-dlg w-[min(700px,95vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[250]">
     <div class="p-6 relative text-left">
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-5">
             <div>
-                <h2 class="text-[1.3rem] font-bold text-gray-900 leading-tight">Manajemen Akses</h2>
-                <p class="text-[0.85rem] text-gray-500 mt-1">Kelola daftar admin yang memiliki akses ke sistem.</p>
+                <h2 class="text-base font-bold text-slate-900 leading-tight">Manajemen Akses</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Kelola daftar admin yang memiliki akses ke sistem.</p>
             </div>
-            <button onclick="document.getElementById('modalManajemenAkun').close()" class="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+            <button onclick="document.getElementById('modalManajemenAkun').close()" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div class="mb-4 flex justify-end">
-            <button onclick="bukaModalTambahAdmin()" class="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-[8px] font-semibold text-[0.85rem] shadow-sm flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <button onclick="bukaModalTambahAdmin()" class="px-3.5 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-xl font-bold text-xs shadow-sm flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 Tambah Admin Baru
             </button>
         </div>
-        <div class="overflow-x-auto rounded-[8px] border border-gray-200">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-50 text-[0.8rem] text-gray-500 uppercase tracking-wider border-b border-gray-200">
-                        <th class="px-4 py-3 font-semibold">User Info</th>
-                        <th class="px-4 py-3 font-semibold text-center">Peran</th>
-                        <th class="px-4 py-3 font-semibold text-center">Status</th>
-                        <th class="px-4 py-3 font-semibold text-right">Aksi</th>
+                    <tr class="bg-slate-50 text-[10px] text-slate-400 uppercase tracking-wider border-b border-slate-200">
+                        <th class="px-4 py-2.5 font-bold">User Info</th>
+                        <th class="px-4 py-2.5 font-bold text-center">Peran</th>
+                        <th class="px-4 py-2.5 font-bold text-center">Status</th>
+                        <th class="px-4 py-2.5 font-bold text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="tabelDaftarAdmin" class="text-[0.85rem] divide-y divide-gray-100">
-                    <tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Memuat data admin...</td></tr>
+                <tbody id="tabelDaftarAdmin" class="text-xs divide-y divide-slate-100">
+                    <tr><td colspan="4" class="px-4 py-8 text-center text-slate-500">Memuat data admin...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -584,188 +596,188 @@
 </dialog>
 
 <!-- MODAL TAMBAH ADMIN -->
-<dialog id="modalTambahAdmin" class="feedback-dlg w-[min(400px,90vw)] rounded-[16px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[260]">
+<dialog id="modalTambahAdmin" class="feedback-dlg w-[min(400px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[260]">
     <div class="p-6 relative text-left">
-        <h2 class="text-[1.3rem] font-bold text-gray-900 mb-1">Tambah Admin Baru</h2>
-        <p class="text-[0.85rem] text-gray-600 mb-5">Password acak akan dibuat otomatis dan dikirim ke email ini.</p>
+        <h2 class="text-base font-bold text-slate-900 mb-1">Tambah Admin Baru</h2>
+        <p class="text-xs text-slate-500 mb-4">Password acak akan dibuat otomatis dan dikirim ke email ini.</p>
         <form id="formTambahAdmin" onsubmit="simpanAdminBaru(event)">
-            <div class="space-y-4">
+            <div class="space-y-3.5">
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Username <span class="text-red-500">*</span></label>
-                    <input type="text" id="addUsername" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]" placeholder="contoh: budi_pkrs">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username <span class="text-red-500">*</span></label>
+                    <input type="text" id="addUsername" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs" placeholder="contoh: budi_pkrs">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Email <span class="text-red-500">*</span></label>
-                    <input type="email" id="addEmail" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]" placeholder="budi@rsuasf.com">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Email <span class="text-red-500">*</span></label>
+                    <input type="email" id="addEmail" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs" placeholder="budi@rsuasf.com">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Peran / Hak Akses <span class="text-red-500">*</span></label>
-                    <select id="addRole" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem] bg-white">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Peran / Hak Akses <span class="text-red-500">*</span></label>
+                    <select id="addRole" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-white">
                         <option value="admin">Admin Biasa</option>
                         <option value="super_admin">Super Admin</option>
                     </select>
                 </div>
             </div>
-            <div class="mt-8 flex gap-3">
-                <button type="button" onclick="tutupModalTambahAdmin()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-[8px] font-semibold text-[0.85rem]">Batal</button>
-                <button type="submit" id="btnSubmitAdmin" class="flex-1 px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-[8px] font-semibold text-[0.85rem] shadow-sm">Simpan & Kirim</button>
+            <div class="mt-6 flex gap-2.5">
+                <button type="button" onclick="tutupModalTambahAdmin()" class="flex-1 px-3 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs">Batal</button>
+                <button type="submit" id="btnSubmitAdmin" class="flex-1 px-3 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-xl font-bold text-xs shadow-sm">Simpan & Kirim</button>
             </div>
         </form>
     </div>
 </dialog>
 
 <!-- MODAL TAMBAH & EDIT ANTREAN -->
-<dialog id="modalTambah" class="feedback-dlg overflow-visible w-[min(400px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[150]">
+<dialog id="modalTambah" class="feedback-dlg overflow-visible w-[min(420px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[150]">
     <div class="p-6 relative text-left">
-        <h2 id="modalTitle" class="text-[1.3rem] font-bold text-gray-900 mb-4">Buat Nomor PKRS Baru</h2>
+        <h2 id="modalTitle" class="text-base font-bold text-slate-900 mb-4">Buat Nomor PKRS Baru</h2>
         <form id="formTambah" onsubmit="simpanData(event)">
             <input type="hidden" id="edit_id" value="">
-            <div class="space-y-4">
-                <div id="wadahStatus" class="hidden bg-gray-50 p-3 rounded-[8px] border border-[#e2e8f0] mb-2 relative">
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Ubah Status Pengerjaan</label>
-                    <button type="button" onclick="toggleDropdown('status')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] bg-white font-medium text-[0.85rem] text-gray-900">
+            <div class="space-y-3.5">
+                <div id="wadahStatus" class="hidden bg-slate-50 p-3 rounded-xl border border-slate-200/80 mb-2 relative">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Ubah Status Pengerjaan</label>
+                    <button type="button" onclick="toggleDropdown('status')" class="w-full flex justify-between items-center px-3 py-2 border border-slate-200 rounded-lg bg-white font-semibold text-xs text-slate-900">
                         <span id="teks-status">🟡 Menunggu</span>
-                        <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                        <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
                     </button>
-                    <ul id="menu-status" class="absolute z-[200] left-3 right-3 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                        <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'status', 'status')">🟡 Menunggu</li>
-                        <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'status', 'status')">🔵 Diproses</li>
-                        <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'status', 'status')">🟢 Selesai</li>
+                    <ul id="menu-status" class="absolute z-[200] left-3 right-3 mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                        <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'status', 'status')">🟡 Menunggu</li>
+                        <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'status', 'status')">🔵 Diproses</li>
+                        <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'status', 'status')">🟢 Selesai</li>
                     </ul>
                     <input type="hidden" id="status" value="Menunggu">
                 </div>
 
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Nama Peminta</label>
-                    <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Peminta</label>
+                    <input type="text" id="nama_peminta" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Email Tujuan</label>
-                    <input type="email" id="email" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Email Tujuan</label>
+                    <input type="email" id="email" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                 </div>
-                <div class="grid grid-cols-2 gap-4 relative">
+                <div class="grid grid-cols-2 gap-3.5 relative">
                     <div>
-                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Tanggal</label>
-                        <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal</label>
+                        <input type="date" id="tanggal_permintaan" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                     </div>
                     <div class="relative">
-                        <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Jenis Cetak</label>
-                        <button type="button" onclick="toggleDropdown('jenisCetak')" class="w-full flex justify-between items-center px-3 py-2 border border-[#e2e8f0] rounded-[8px] bg-white text-[0.85rem] text-gray-900">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Cetak</label>
+                        <button type="button" onclick="toggleDropdown('jenisCetak')" class="w-full flex justify-between items-center px-3 py-2 border border-slate-200 rounded-xl bg-white text-xs text-slate-900">
                             <span id="teks-jenisCetak">Pilih Jenis...</span>
-                            <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                            <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
                         </button>
-                        <ul id="menu-jenisCetak" class="absolute z-[200] w-full mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-[0.85rem] shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                            <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'jenisCetak', 'jenis_cetak')">Spanduk</li>
-                            <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'jenisCetak', 'jenis_cetak')">Brosur</li>
-                            <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'jenisCetak', 'jenis_cetak')">Stiker</li>
-                            <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'jenisCetak', 'jenis_cetak')">Poster</li>
-                            <li class="text-gray-900 cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'jenisCetak', 'jenis_cetak')">Lainnya</li>
+                        <ul id="menu-jenisCetak" class="absolute z-[200] w-full mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                            <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'jenisCetak', 'jenis_cetak')">Spanduk</li>
+                            <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'jenisCetak', 'jenis_cetak')">Brosur</li>
+                            <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'jenisCetak', 'jenis_cetak')">Stiker</li>
+                            <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'jenisCetak', 'jenis_cetak')">Poster</li>
+                            <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'jenisCetak', 'jenis_cetak')">Lainnya</li>
                         </ul>
                         <input type="hidden" id="jenis_cetak" required>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-semibold text-gray-900 mb-1">Judul Keperluan</label>
-                    <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Keperluan</label>
+                    <input type="text" id="judul_keperluan" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs">
                 </div>
             </div>
-            <div class="mt-6 flex justify-end space-x-3">
-                <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-gray-100 text-gray-900 hover:bg-gray-200 rounded-[8px] font-medium text-[0.85rem]">Batal</button>
-                <button type="submit" id="btnSubmit" class="px-4 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-[8px] font-semibold text-[0.85rem] shadow flex items-center transition-colors">Simpan & Generate</button>
+            <div class="mt-6 flex justify-end space-x-2">
+                <button type="button" onclick="tutupModal()" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs">Batal</button>
+                <button type="submit" id="btnSubmit" class="px-4 py-2 bg-emerald-500 text-white hover:bg-emerald-600 rounded-xl font-bold text-xs shadow transition-colors">Simpan & Generate</button>
             </div>
         </form>
     </div>
 </dialog>
 
 <!-- MODAL KONFIRMASI HAPUS -->
-<dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(400px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[150]">
-    <div class="px-8 pb-7 pt-9 text-left">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
-            <svg class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+<dialog id="modalKonfirmasiHapus" class="feedback-dlg w-[min(400px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[150]">
+    <div class="px-6 pb-6 pt-8 text-left">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+            <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
         </div>
-        <h3 class="text-[1.3rem] font-bold text-gray-900 text-center mb-2">Hapus Permanen?</h3>
-        <p class="text-[0.85rem] text-gray-500 text-center mb-6 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Data beserta nomor PKRS ini akan dihapus permanen dari sistem.</p>
-        <div class="bg-gray-50 p-4 rounded-[8px] border border-[#e2e8f0] mb-6">
-            <label class="block text-[0.75rem] font-semibold text-gray-900 mb-2 text-center">Ketik <span id="teksTargetHapus" class="font-bold text-red-500 select-all tracking-wide"></span> untuk mengonfirmasi:</label>
-            <input type="text" id="inputKonfirmasiHapus" oninput="cekInputHapus()" autocomplete="off" placeholder="Ketik persis seperti di atas..." class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-center font-bold text-gray-900 text-[0.85rem]">
+        <h3 class="text-base font-bold text-slate-900 text-center mb-1">Hapus Permanen?</h3>
+        <p class="text-xs text-slate-500 text-center mb-5 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Data beserta nomor PKRS ini akan dibuang dari sistem.</p>
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mb-5">
+            <label class="block text-[11px] font-semibold text-slate-700 mb-1.5 text-center">Ketik <span id="teksTargetHapus" class="font-bold text-red-500 select-all tracking-wide"></span> untuk konfirmasi:</label>
+            <input type="text" id="inputKonfirmasiHapus" oninput="cekInputHapus()" autocomplete="off" placeholder="Ketik persis seperti di atas..." class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-center font-bold text-slate-900 text-xs">
         </div>
-        <div class="flex space-x-3">
-            <button type="button" onclick="tutupModalHapus()" class="w-full rounded-[8px] bg-gray-100 px-4 py-2.5 text-[0.85rem] font-medium text-gray-900 hover:bg-gray-200">Batal</button>
-            <button type="button" id="btnProsesHapus" onclick="prosesHapusData()" disabled class="w-full rounded-[8px] bg-red-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-red-600 disabled:opacity-40 disabled:cursor-not-allowed">Hapus Data</button>
+        <div class="flex space-x-2">
+            <button type="button" onclick="tutupModalHapus()" class="w-full rounded-xl bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-200">Batal</button>
+            <button type="button" id="btnProsesHapus" onclick="prosesHapusData()" disabled class="w-full rounded-xl bg-red-500 px-3 py-2 text-xs font-bold text-white hover:bg-red-600 disabled:opacity-40 disabled:cursor-not-allowed">Hapus Data</button>
         </div>
     </div>
 </dialog>
 
 <!-- MODAL KONFIRMASI PURGE -->
-<dialog id="modalKonfirmasiPurge" class="feedback-dlg w-[min(400px,90vw)] rounded-[14px] border border-red-200 bg-white p-0 shadow-2xl z-[150]">
-    <div class="px-8 pb-7 pt-9 text-left">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100 border-4 border-red-50">
+<dialog id="modalKonfirmasiPurge" class="feedback-dlg w-[min(400px,90vw)] rounded-2xl border border-red-200 bg-white p-0 shadow-2xl z-[150]">
+    <div class="px-6 pb-6 pt-8 text-left">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 border-4 border-red-50">
             <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
         </div>
-        <h3 class="text-[1.3rem] font-black text-gray-900 text-center mb-2 uppercase tracking-tight">Peringatan Kritis!</h3>
-        <p class="text-[0.85rem] text-red-600 font-semibold text-center mb-1">Anda akan menghapus SELURUH data antrean.</p>
-        <p class="text-[0.8rem] text-gray-500 text-center mb-6">Sistem akan dikosongkan dan nomor urut akan direset kembali ke 1.</p>
-        <div class="bg-gray-50 p-4 rounded-[8px] border border-[#e2e8f0] mb-6">
-            <label class="block text-[0.75rem] font-semibold text-gray-900 mb-2 text-center">Ketik <span class="font-bold text-red-500 select-all">RESET DATABASE</span> di bawah ini:</label>
-            <input type="text" id="inputKonfirmasiPurge" oninput="cekInputPurge()" autocomplete="off" placeholder="Ketik di sini..." class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-center font-bold text-gray-900 text-[0.85rem]">
+        <h3 class="text-base font-black text-slate-900 text-center mb-1 uppercase tracking-tight">Peringatan Kritis!</h3>
+        <p class="text-xs text-red-600 font-bold text-center mb-1">Anda akan menghapus SELURUH data antrean.</p>
+        <p class="text-[11px] text-slate-500 text-center mb-5">Sistem akan dikosongkan dan nomor urut akan direset kembali ke 1.</p>
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mb-5">
+            <label class="block text-[11px] font-semibold text-slate-700 mb-1.5 text-center">Ketik <span class="font-bold text-red-500 select-all">RESET DATABASE</span> di bawah ini:</label>
+            <input type="text" id="inputKonfirmasiPurge" oninput="cekInputPurge()" autocomplete="off" placeholder="Ketik di sini..." class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-center font-bold text-slate-900 text-xs">
         </div>
-        <div class="flex space-x-3">
-            <button type="button" onclick="tutupModalPurge()" class="w-full rounded-[8px] bg-gray-100 px-4 py-2.5 text-[0.85rem] font-medium text-gray-900 hover:bg-gray-200">Batal</button>
-            <button type="button" id="btnProsesPurge" onclick="prosesPurgeData()" disabled class="w-full rounded-[8px] bg-red-600 px-4 py-2.5 text-[0.85rem] font-bold text-white hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed">Reset Sistem</button>
+        <div class="flex space-x-2">
+            <button type="button" onclick="tutupModalPurge()" class="w-full rounded-xl bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-200">Batal</button>
+            <button type="button" id="btnProsesPurge" onclick="prosesPurgeData()" disabled class="w-full rounded-xl bg-red-600 px-3 py-2 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed">Reset Sistem</button>
         </div>
     </div>
 </dialog>
 
 <!-- MODAL FEEDBACK -->
-<dialog id="modalFeedback" class="feedback-dlg w-[min(360px,90vw)] rounded-[14px] border border-[#e2e8f0] bg-white p-0 text-center shadow-2xl z-[160]">
-    <div class="px-8 pb-7 pt-9">
-        <div class="feedback-icon mx-auto mb-5 grid h-20 w-20 place-items-center">
-            <svg viewBox="0 0 52 52" class="h-20 w-20"><circle class="feedback-ring" cx="26" cy="26" r="24" fill="none" stroke-width="3"></circle><path class="feedback-mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path></svg>
+<dialog id="modalFeedback" class="feedback-dlg w-[min(360px,90vw)] rounded-2xl border border-slate-200 bg-white p-0 text-center shadow-2xl z-[160]">
+    <div class="px-6 pb-6 pt-8">
+        <div class="feedback-icon mx-auto mb-4 grid h-16 w-16 place-items-center">
+            <svg viewBox="0 0 52 52" class="h-16 w-16"><circle class="feedback-ring" cx="26" cy="26" r="24" fill="none" stroke-width="3"></circle><path class="feedback-mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path></svg>
         </div>
-        <h2 id="feedbackTitle" class="text-[1.3rem] font-bold tracking-tight text-gray-900">Tunggu...</h2>
-        <p id="feedbackMsg" class="mt-2 text-[0.85rem] leading-relaxed text-gray-500" role="status">Memproses permintaan Anda.</p>
-        <button id="btnFeedbackClose" class="mt-6 w-full rounded-[8px] px-4 py-2.5 text-[0.85rem] font-semibold text-white transition active:translate-y-px" type="button">Tutup</button>
+        <h2 id="feedbackTitle" class="text-base font-bold text-slate-900 tracking-tight">Tunggu...</h2>
+        <p id="feedbackMsg" class="mt-1.5 text-xs text-slate-500 leading-relaxed" role="status">Memproses permintaan Anda.</p>
+        <button id="btnFeedbackClose" class="mt-5 w-full rounded-xl px-4 py-2 text-xs font-bold text-white transition" type="button">Tutup</button>
     </div>
 </dialog>
 
 <!-- MODAL PENGATURAN SISTEM -->
-<dialog id="modalPengaturanSistem" class="feedback-dlg w-[min(500px,95vw)] rounded-[16px] border border-[#e2e8f0] bg-white p-0 shadow-2xl z-[250]">
+<dialog id="modalPengaturanSistem" class="feedback-dlg w-[min(500px,95vw)] rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl z-[250]">
     <div class="p-6 relative text-left">
-        <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-3">
+        <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-3">
             <div>
-                <h2 class="text-[1.3rem] font-bold text-gray-900 leading-tight">Pengaturan Sistem</h2>
-                <p class="text-[0.85rem] text-gray-500 mt-1">Sesuaikan identitas aplikasi White-Label Anda.</p>
+                <h2 class="text-base font-bold text-slate-900 leading-tight">Pengaturan Sistem</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Sesuaikan identitas aplikasi White-Label Anda.</p>
             </div>
-            <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+            <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
 
         <form id="formPengaturanSistem" onsubmit="simpanPengaturan(event)">
-            <div class="space-y-5">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Nama Instansi / Rumah Sakit</label>
-                    <input type="text" id="setNamaInstansi" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]" placeholder="Contoh: SIMRS RSUD Kota">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Instansi / Rumah Sakit</label>
+                    <input type="text" id="setNamaInstansi" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs" placeholder="Contoh: SIMRS RSUD Kota">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Awalan (Prefix) Nomor Antrean</label>
-                    <input type="text" id="setPrefixNomor" required class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]" placeholder="Contoh: CETAK-RSX/">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Awalan (Prefix) Nomor Antrean</label>
+                    <input type="text" id="setPrefixNomor" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs" placeholder="Contoh: CETAK-RSX/">
                 </div>
                 <div>
-                    <label class="block text-[0.85rem] font-bold text-gray-900 mb-1.5">Instruksi / Catatan Tambahan (Email)</label>
-                    <textarea id="setInstruksiEmail" rows="3" class="w-full px-3 py-2 border border-[#e2e8f0] rounded-[8px] text-[0.85rem]" placeholder="Contoh: Dokumen yang berstatus SELESAI dapat diambil di Ruang IT."></textarea>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Instruksi / Catatan Tambahan (Email)</label>
+                    <textarea id="setInstruksiEmail" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs" placeholder="Contoh: Dokumen yang berstatus SELESAI dapat diambil di Ruang IT."></textarea>
                 </div>
             </div>
 
-            <div class="mt-8 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="px-4 py-2.5 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-[10px] font-semibold text-[0.85rem]">Batal</button>
-                <button type="submit" id="btnSubmitPengaturan" class="px-5 py-2.5 bg-blue-600 text-white hover:bg-blue-700 rounded-[10px] font-semibold text-[0.85rem] shadow-sm">Simpan Pengaturan</button>
+            <div class="mt-6 flex justify-end gap-2.5 pt-4 border-t border-slate-100">
+                <button type="button" onclick="document.getElementById('modalPengaturanSistem').close()" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs">Batal</button>
+                <button type="submit" id="btnSubmitPengaturan" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-xl font-bold text-xs shadow-sm">Simpan Pengaturan</button>
             </div>
         </form>
     </div>
 </dialog>
 
-<!-- JAVASCRIPT LOGIC -->
+<!-- JAVASCRIPT LOGIC 100% UTUH -->
 <script>
     let dataUtama = [];
     let dataSaringanTerakhir = []; 
@@ -784,7 +796,7 @@
         const preloader = document.getElementById('preloader');
         if (preloader) {
             preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            setTimeout(() => { preloader.style.display = 'none'; }, 400);
         }
     });
 
@@ -847,9 +859,9 @@
             wadahJns.innerHTML = '';
             Object.keys(jenisCount).sort((a,b) => jenisCount[b] - jenisCount[a]).forEach(k => {
                 wadahJns.innerHTML += `
-                    <li class="flex justify-between items-center py-2.5 border-b border-gray-50 last:border-0 hover:bg-gray-50 px-2 rounded transition-colors">
-                        <span class="text-[0.9rem] text-gray-700 font-medium">${k}</span>
-                        <span class="bg-gray-100 text-gray-800 px-2.5 py-0.5 rounded-full text-xs font-bold shadow-sm">${jenisCount[k]}</span>
+                    <li class="flex justify-between items-center py-2 border-b border-slate-50 last:border-0 hover:bg-slate-50 px-2 rounded transition-colors">
+                        <span class="text-xs text-slate-700 font-semibold">${k}</span>
+                        <span class="bg-slate-100 text-slate-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-sm">${jenisCount[k]}</span>
                     </li>`;
             });
         }
@@ -906,8 +918,8 @@
         wadahDesktop.innerHTML = ''; wadahMobile.innerHTML = '';
 
         if (!dataRender || dataRender.length === 0) {
-            wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500 text-[0.85rem]">Tidak ada data antrean.</td></tr>`;
-            wadahMobile.innerHTML = '<div class="text-center py-12 text-gray-500 bg-white rounded-lg border border-[#e2e8f0] text-[0.85rem]">Tidak ada data antrean.</div>';
+            wadahDesktop.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500 font-medium text-xs">Tidak ada data antrean.</td></tr>`;
+            wadahMobile.innerHTML = '<div class="text-center py-12 text-slate-500 bg-white rounded-2xl border border-slate-200 font-medium text-xs">Tidak ada data antrean.</div>';
             document.getElementById('wadahPagination').innerHTML = '';
             return;
         }
@@ -917,47 +929,47 @@
         const dataHalamanIni = dataRender.slice(indexAwal, indexAkhir);
 
         dataHalamanIni.forEach(baris => {
-            const nomorFinal = baris.nomor_pkrs_final || '<span class="text-gray-400 italic">Belum ada nomor</span>';
-            let warnaStatus = 'bg-yellow-100 text-yellow-800 border-yellow-200'; 
+            const nomorFinal = baris.nomor_pkrs_final || '<span class="text-slate-400 italic">Belum ada nomor</span>';
+            let warnaStatus = 'bg-amber-50 text-amber-700 border-amber-200'; 
             let teksStatus = baris.status || 'Menunggu';
             
-            if (teksStatus === 'Diproses') warnaStatus = 'bg-blue-100 text-blue-800 border-blue-200';
-            else if (teksStatus === 'Selesai') warnaStatus = 'bg-[#e6fffa] text-emerald-800 border-emerald-200';
+            if (teksStatus === 'Diproses') warnaStatus = 'bg-blue-50 text-blue-700 border-blue-200';
+            else if (teksStatus === 'Selesai') warnaStatus = 'bg-emerald-50 text-emerald-700 border-emerald-200';
 
-            const badgeStatus = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wider ${warnaStatus}">${teksStatus}</span>`;
+            const badgeStatus = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${warnaStatus}">${teksStatus}</span>`;
 
-            let btnCetakPDF = `<button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center justify-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
+            let btnCetakPDF = `<button onclick="cetakStruk(${baris.id})" class="text-emerald-700 hover:text-emerald-800 text-xs font-semibold flex items-center justify-center bg-emerald-50/80 hover:bg-emerald-100/80 px-2.5 py-1 rounded-lg border border-emerald-200/60 w-full mb-1 transition-colors"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
-            let selAksiDesktop = `<td class="px-6 py-4 whitespace-nowrap text-sm text-center align-middle"><div class="flex flex-col w-full max-w-[120px] mx-auto">${btnCetakPDF}`;
-            let divAksiMobile = `<div class="mt-3 pt-3 border-t border-[#e2e8f0] flex flex-wrap justify-end gap-2"><button onclick="cetakStruk(${baris.id})" class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100 flex-grow justify-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
+            let selAksiDesktop = `<td class="px-6 py-3 whitespace-nowrap text-xs text-center align-middle"><div class="flex flex-col w-full max-w-[110px] mx-auto">${btnCetakPDF}`;
+            let divAksiMobile = `<div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap justify-end gap-2"><button onclick="cetakStruk(${baris.id})" class="text-emerald-700 hover:text-emerald-800 text-xs font-semibold flex items-center bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200/60 flex-grow justify-center"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>Struk</button>`;
 
             if (peranSistem === 'admin' || peranSistem === 'super_admin') {
-                selAksiDesktop += `<button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center justify-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100 w-full mb-2"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center justify-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100 w-full"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
-                divAksiMobile += `<button onclick="editData(${baris.id})" class="text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center bg-blue-50 px-3 py-1.5 rounded-md border border-blue-100"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-600 hover:text-red-800 text-sm font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-md border border-red-100"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
+                selAksiDesktop += `<button onclick="editData(${baris.id})" class="text-blue-700 hover:text-blue-800 text-xs font-semibold flex items-center justify-center bg-blue-50/80 hover:bg-blue-100/80 px-2.5 py-1 rounded-lg border border-blue-200/60 w-full mb-1 transition-colors"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-700 hover:text-red-800 text-xs font-semibold flex items-center justify-center bg-red-50/80 hover:bg-red-100/80 px-2.5 py-1 rounded-lg border border-red-200/60 w-full transition-colors"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
+                divAksiMobile += `<button onclick="editData(${baris.id})" class="text-blue-700 hover:text-blue-800 text-xs font-semibold flex items-center bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200/60"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Edit</button><button onclick="bukaModalHapus(${baris.id})" class="text-red-700 hover:text-red-800 text-xs font-semibold flex items-center bg-red-50 px-3 py-1.5 rounded-lg border border-red-200/60"><svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>Hapus</button>`;
             }
 
             selAksiDesktop += `</div></td>`;
             divAksiMobile += `</div>`;
 
             wadahDesktop.innerHTML += `
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 text-[0.85rem] text-gray-500 font-medium">#${baris.id}</td>
-                    <td class="px-6 py-4 text-[0.85rem] font-bold text-gray-900 whitespace-nowrap">${nomorFinal}<br><div class="mt-1">${badgeStatus}</div></td>
-                    <td class="px-6 py-4 text-[0.85rem] text-gray-600 whitespace-nowrap">${formatTanggalIndo(baris.tanggal_permintaan)}</td>
-                    <td class="px-6 py-4 text-[0.85rem] text-gray-900 font-medium">${baris.nama_peminta}<br><span class="text-xs text-gray-500 font-normal">${baris.email}</span></td>
-                    <td class="px-6 py-4 text-[0.85rem] text-gray-600"><div class="font-medium text-gray-900 mb-1">${baris.judul_keperluan}</div><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#e6fffa] text-emerald-700 border border-emerald-200">${baris.jenis_cetak}</span></td>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="px-6 py-3.5 text-slate-400 font-bold">#${baris.id}</td>
+                    <td class="px-6 py-3.5 font-bold text-slate-900 whitespace-nowrap">${nomorFinal}<br><div class="mt-1">${badgeStatus}</div></td>
+                    <td class="px-6 py-3.5 text-slate-600 font-medium whitespace-nowrap">${formatTanggalIndo(baris.tanggal_permintaan)}</td>
+                    <td class="px-6 py-3.5 text-slate-900 font-bold">${baris.nama_peminta}<br><span class="text-[11px] text-slate-400 font-medium">${baris.email}</span></td>
+                    <td class="px-6 py-3.5 text-slate-600"><div class="font-bold text-slate-900 mb-1">${baris.judul_keperluan}</div><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">${baris.jenis_cetak}</span></td>
                     ${selAksiDesktop}
                 </tr>`;
 
             wadahMobile.innerHTML += `
-                <div class="bg-white shadow-sm rounded-[14px] p-4 border border-[#e2e8f0] card-hover">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex items-center space-x-2"><span class="text-xs font-semibold text-gray-400">#${baris.id}</span>${badgeStatus}</div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">${formatTanggalIndo(baris.tanggal_permintaan)}</span>
+                <div class="bg-white shadow-sm rounded-2xl p-4 border border-slate-200/80 card-hover">
+                    <div class="flex justify-between items-start mb-2.5">
+                        <div class="flex items-center space-x-2"><span class="text-xs font-bold text-slate-400">#${baris.id}</span>${badgeStatus}</div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">${formatTanggalIndo(baris.tanggal_permintaan)}</span>
                     </div>
-                    <h3 class="text-[1.1rem] font-bold text-gray-900 mb-3">${baris.judul_keperluan}</h3>
-                    <div class="bg-[#f7faf9] rounded-[8px] border border-[#e2e8f0] p-3 mb-3"><p class="text-[10px] text-gray-500 font-semibold mb-1 uppercase">Nomor PKRS</p><p class="font-bold text-gray-900 break-words text-[0.95rem]">${nomorFinal}</p></div>
-                    <div class="text-[0.85rem] text-gray-600 space-y-1"><p><span class="font-medium text-gray-900">Peminta:</span> ${baris.nama_peminta}</p><p><span class="font-medium text-gray-900">Format:</span> ${baris.jenis_cetak}</p></div>
+                    <h3 class="text-sm font-extrabold text-slate-900 mb-2.5">${baris.judul_keperluan}</h3>
+                    <div class="bg-slate-50 rounded-xl border border-slate-200/80 p-2.5 mb-2.5"><p class="text-[10px] text-slate-400 font-bold uppercase">Nomor PKRS</p><p class="font-extrabold text-slate-900 break-words text-xs">${nomorFinal}</p></div>
+                    <div class="text-xs text-slate-600 space-y-1"><p><span class="font-semibold text-slate-900">Peminta:</span> ${baris.nama_peminta}</p><p><span class="font-semibold text-slate-900">Format:</span> ${baris.jenis_cetak}</p></div>
                     ${divAksiMobile}
                 </div>`;
         });
@@ -979,7 +991,7 @@
         })
         .catch(e => { 
             const elLoading = document.getElementById('loadingState');
-            if (elLoading) elLoading.innerHTML = '<span class="text-red-500 font-medium text-[0.85rem]">Gagal memuat data dari server.</span>'; 
+            if (elLoading) elLoading.innerHTML = '<span class="text-red-500 font-bold text-xs">Gagal memuat data dari server.</span>'; 
         });
 
     // PAGINATION
@@ -996,19 +1008,19 @@
         if (totalHalaman <= 1) return;
 
         let html = '';
-        const classBtnPrev = halamanSaatIni === 1 ? 'bg-gray-100 text-gray-400 border-[#e2e8f0] cursor-not-allowed' : 'bg-white text-gray-900 border-[#e2e8f0] hover:bg-gray-50';
-        html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-[8px] border text-[0.85rem] font-medium transition-colors ${classBtnPrev}">Sebelumnya</button>`;
+        const classBtnPrev = halamanSaatIni === 1 ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50';
+        html += `<button onclick="gantiHalaman(${halamanSaatIni - 1})" ${halamanSaatIni === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors ${classBtnPrev}">Sebelumnya</button>`;
 
         for(let i = 1; i <= totalHalaman; i++) {
             if(i === halamanSaatIni) {
-                html += `<button class="px-3 py-1.5 rounded-[8px] border border-emerald-500 bg-emerald-500 text-white text-[0.85rem] font-bold shadow-sm transition-colors">${i}</button>`;
+                html += `<button class="px-3 py-1.5 rounded-xl border border-emerald-500 bg-emerald-500 text-white text-xs font-bold shadow-sm transition-colors">${i}</button>`;
             } else {
-                html += `<button onclick="gantiHalaman(${i})" class="px-3 py-1.5 rounded-[8px] border border-[#e2e8f0] bg-white text-gray-900 hover:bg-gray-50 text-[0.85rem] font-medium transition-colors">${i}</button>`;
+                html += `<button onclick="gantiHalaman(${i})" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-bold transition-colors">${i}</button>`;
             }
         }
 
-        const classBtnNext = halamanSaatIni === totalHalaman ? 'bg-gray-100 text-gray-400 border-[#e2e8f0] cursor-not-allowed' : 'bg-white text-gray-900 border-[#e2e8f0] hover:bg-gray-50';
-        html += `<button onclick="gantiHalaman(${halamanSaatIni + 1})" ${halamanSaatIni === totalHalaman ? 'disabled' : ''} class="px-3 py-1.5 rounded-[8px] border text-[0.85rem] font-medium transition-colors ${classBtnNext}">Berikutnya</button>`;
+        const classBtnNext = halamanSaatIni === totalHalaman ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50';
+        html += `<button onclick="gantiHalaman(${halamanSaatIni + 1})" ${halamanSaatIni === totalHalaman ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors ${classBtnNext}">Berikutnya</button>`;
 
         wadah.innerHTML = html;
     }
@@ -1211,8 +1223,8 @@
         document.getElementById('feedbackMsg').innerHTML = pesan;
 
         btnClose.className = tipe === 'ok' 
-            ? "mt-6 w-full rounded-[8px] bg-emerald-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-emerald-600"
-            : "mt-6 w-full rounded-[8px] bg-red-500 px-4 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-red-600";
+            ? "mt-5 w-full rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-600"
+            : "mt-5 w-full rounded-xl bg-red-500 px-4 py-2 text-xs font-bold text-white hover:bg-red-600";
 
         dlg.showModal();
         void dlg.offsetWidth; 
@@ -1413,33 +1425,33 @@
 
     async function muatDaftarAdmin() {
         const tbody = document.getElementById('tabelDaftarAdmin');
-        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Memuat data...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-slate-500 font-medium text-xs">Memuat data...</td></tr>`;
         try {
             const response = await fetch('/api/admin/users');
             const result = await response.json();
             if (result.sukses) {
                 tbody.innerHTML = '';
                 if (result.data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">Belum ada admin.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-slate-500 font-medium text-xs">Belum ada admin.</td></tr>`;
                     return;
                 }
                 result.data.forEach(user => {
                     const isSuper = user.role === 'super_admin';
                     const isSaya = user.username === localStorage.getItem('username');
-                    const badgeRole = isSuper ? `<span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-[0.7rem] font-bold">Super Admin</span>` : `<span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-[0.7rem] font-bold">Admin</span>`;
-                    const badgeStatus = user.is_new_user === 1 ? `<span class="text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full text-[0.7rem]">Pending</span>` : `<span class="text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full text-[0.7rem]">Aktif</span>`;
-                    const tombolHapus = isSaya ? `<span class="text-[0.7rem] text-gray-400 italic">Akun Anda</span>` : `<button onclick="hapusAdmin('${user.username}')" class="text-red-500 hover:text-red-700 p-1.5 rounded">Hapus</button>`;
+                    const badgeRole = isSuper ? `<span class="bg-indigo-50 text-indigo-700 border border-indigo-200/60 px-2 py-0.5 rounded-full text-[10px] font-bold">Super Admin</span>` : `<span class="bg-slate-100 text-slate-700 border border-slate-200/60 px-2 py-0.5 rounded-full text-[10px] font-bold">Admin</span>`;
+                    const badgeStatus = user.is_new_user === 1 ? `<span class="text-amber-700 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full text-[10px] font-bold">Pending</span>` : `<span class="text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full text-[10px] font-bold">Aktif</span>`;
+                    const tombolHapus = isSaya ? `<span class="text-[10px] text-slate-400 italic font-medium">Akun Anda</span>` : `<button onclick="hapusAdmin('${user.username}')" class="text-red-600 hover:text-red-800 hover:bg-red-50 p-1 rounded-lg transition-colors font-semibold text-xs">Hapus</button>`;
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td class="px-4 py-3"><div class="font-semibold text-gray-900">${user.username}</div><div class="text-[0.75rem] text-gray-500">${user.email || '-'}</div></td>
+                        <td class="px-4 py-3"><div class="font-bold text-slate-900">${user.username}</div><div class="text-[11px] text-slate-400 font-medium">${user.email || '-'}</div></td>
                         <td class="px-4 py-3 text-center">${badgeRole}</td>
                         <td class="px-4 py-3 text-center">${badgeStatus}</td>
                         <td class="px-4 py-3 text-right">${tombolHapus}</td>`;
                     tbody.appendChild(tr);
                 });
             }
-        } catch (e) { tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-red-500">Gagal memuat.</td></tr>`; }
+        } catch (e) { tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-8 text-center text-red-500 font-bold text-xs">Gagal memuat.</td></tr>`; }
     }
 
     async function hapusAdmin(username) {
