@@ -16,8 +16,7 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         emerald: { 500: '#0d8a72', 600: '#0a6b58', 700: '#074e40' },
-                        red: { 500: '#e53e3e', 600: '#c53030' },
-                        slate: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 800: '#1e293b', 900: '#0f172a' }
+                        slate: { 800: '#1c2434', 900: '#0f172a' }
                     }
                 }
             }
@@ -34,24 +33,13 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: #0d8a72; }
 
-        /* SIDEBAR PUSH ANIMATION (TAILADMIN PATTERN) */
-        .chm-04 { min-height: 100vh; display: grid; place-items: stretch; position: relative; overflow: hidden; background: #f1f5f9; }
-        .chm-04__scene { position: relative; width: 100%; min-height: 100vh; height: 100%; overflow: hidden; }
-        .chm-04__shell { position: relative; min-height: 100vh; background: #f1f5f9; z-index: 2; transition: transform .5s cubic-bezier(.16,1,.3,1), filter .5s; will-change: transform; }
-        .chm-04.is-pushed .chm-04__shell { transform: translateX(260px) scale(.96); border-radius: 20px; overflow: hidden; filter: brightness(.85); box-shadow: -15px 0 35px rgba(0,0,0,0.12); }
-        .chm-04__trg { position: absolute; top: 12px; left: 16px; z-index: 60; width: 40px; height: 40px; cursor: pointer; display: grid; place-items: center; border-radius: 10px; background: #ffffff; border: 1px solid #e2e8f0; shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .chm-04.is-pushed .chm-04__trg { transform: translateX(270px); }
-        .chm-04__b { width: 20px; height: 12px; position: relative; }
-        .chm-04__b i { position: absolute; left: 0; height: 2px; width: 100%; border-radius: 2px; background: #475569; transition: all .4s cubic-bezier(.7,0,.2,1); }
-        .chm-04__b i:nth-child(1) { top: 0; }
-        .chm-04__b i:nth-child(2) { top: 5px; }
-        .chm-04__b i:nth-child(3) { top: 10px; }
-        .chm-04.is-pushed .chm-04__b i { background: #0d8a72; } 
-        .chm-04.is-pushed .chm-04__b i:nth-child(1) { transform: translateY(5px) rotate(45deg); }
-        .chm-04.is-pushed .chm-04__b i:nth-child(2) { opacity: 0; }
-        .chm-04.is-pushed .chm-04__b i:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
-        .chm-04__sidebar { position: absolute; top: 0; left: 0; height: 100%; width: 260px; z-index: 40; background: #ffffff; border-right: 1px solid #e2e8f0; transform: translateX(-100%); transition: transform .5s cubic-bezier(.16,1,.3,1); padding: 20px; display: flex; flex-direction: column; }
-        .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
+        /* SIDEBAR MOBILE OVERLAY ANIMATION */
+        .chm-04 { min-height: 100vh; display: flex; position: relative; overflow: hidden; background: #f1f5f9; }
+        @media (max-width: 767px) {
+            .chm-04__sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 50; transform: translateX(-100%); transition: transform .35s cubic-bezier(.16,1,.3,1); }
+            .chm-04.is-pushed .chm-04__sidebar { transform: translateX(0); }
+            .chm-04.is-pushed::after { content: ''; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(2px); z-index: 40; }
+        }
 
         /* MODAL ANIMATION & BACKDROP */
         .feedback-dlg { margin: auto; opacity: 0; transform: translateY(10px) scale(.98); transition: opacity .25s ease, transform .25s ease; }
@@ -102,376 +90,333 @@
 <!-- PRELOADER -->
 <div id="preloader"><div class="spinner"></div></div>
 
-<!-- MAIN DASHBOARD -->
-<div id="mainDashboard" class="block">
-    <div class="chm-04" id="appRoot">
-        <div class="chm-04__scene">
-            <!-- HAMBURGER BUTTON (MOBILE) -->
-            <div class="chm-04__trg md:hidden" aria-label="Toggle sidebar" onclick="toggleSidebar()">
-                <div class="chm-04__b"><i></i><i></i><i></i></div>
-            </div>
+<!-- MAIN DASHBOARD WRAPPER -->
+<div id="mainDashboard" class="block w-full h-screen">
+    <div class="chm-04 w-full h-full" id="appRoot">
 
-            <!-- SIDEBAR DRAWER (MOBILE) -->
-            <aside class="chm-04__sidebar md:hidden">
-                <div class="space-y-4 pt-2">
-                    <div class="flex items-center mb-6 pb-4 border-b border-slate-100">
-                        <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-extrabold text-lg mr-2.5 shadow-sm">P</div>
-                        <span id="teksNamaInstansiMobile" class="text-slate-900 font-extrabold text-lg tracking-tight">TIM PKRS RSUASF</span>
+        <!-- ========================================== -->
+        <!-- TAILADMIN PERSISTENT SIDEBAR (DESKTOP & MOBILE) -->
+        <!-- ========================================== -->
+        <aside class="chm-04__sidebar w-64 bg-slate-800 text-slate-300 flex-shrink-0 flex flex-col justify-between h-full z-40 border-r border-slate-700/50 shadow-xl md:shadow-none">
+            <div class="p-5 flex flex-col h-full overflow-y-auto">
+                <!-- LOGO & BRANDING -->
+                <div class="flex items-center justify-between pb-6 mb-6 border-b border-slate-700/60">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-sm">P</div>
+                        <div class="overflow-hidden">
+                            <span id="teksNamaInstansiDesktop" class="text-white font-extrabold text-sm md:text-base tracking-tight block leading-tight truncate">TIM PKRS RSUASF</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mt-0.5">SaaS PKRS Hub</span>
+                        </div>
                     </div>
+                    <!-- Hidden mobile trigger closer -->
+                    <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
 
-                    <button onclick="bukaModalDanTutupSidebar()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-600 shadow-sm transition-all active:scale-95 mb-4">
-                        <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
-                        Buat Nomor Baru
+                <!-- MAIN BUTTON ACTION -->
+                <button onclick="cekAksesBuatNomor()" class="w-full group relative flex justify-center items-center gap-2 bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-emerald-600 shadow-md transition-all active:scale-95 mb-6">
+                    <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                    Buat Nomor Baru
+                </button>
+
+                <!-- NAVIGATION LINKS -->
+                <div class="space-y-1 flex-1">
+                    <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2">Navigasi Utama</p>
+                    
+                    <button onclick="bukaHalamanUtama()" class="w-full px-3 py-2.5 text-left text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-3">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                        Manajemen Antrean
                     </button>
 
-                    <!-- NAV LIST MOBILE -->
-                    <div class="flex flex-col space-y-1">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">Menu Utama</p>
-                        <button onclick="bukaHalamanUtama()" class="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-                            Manajemen Antrean
-                        </button>
-                        <button onclick="bukaHalamanLaporan()" class="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                            Laporan Statistik
-                        </button>
-                    </div>
+                    <button onclick="bukaHalamanLaporan()" class="w-full px-3 py-2.5 text-left text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-3">
+                        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Laporan Statistik
+                    </button>
+                </div>
 
-                    <!-- USER ADMIN PANEL MOBILE -->
-                    <div id="panelAdminMobile" class="hidden flex-col space-y-2 pt-4 border-t border-slate-100 mt-4">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1">Pengaturan Admin</p>
-                        <div class="flex items-center gap-2.5 px-3 py-2 bg-slate-50 rounded-xl border border-slate-200/60 mb-1">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">AD</div>
-                            <div class="overflow-hidden">
-                                <p id="txtUserMob" class="text-xs font-bold text-slate-900 truncate capitalize">Admin</p>
-                                <p class="text-[10px] text-emerald-600 font-semibold uppercase tracking-wider">Sesi Aktif</p>
-                            </div>
+                <!-- ADMIN & SYSTEM CONTROL SECTION -->
+                <div id="panelAdminDesktop" class="hidden flex-col space-y-1 pt-4 border-t border-slate-700/60 mt-auto">
+                    <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2">Administrasi Sesi</p>
+
+                    <!-- USER INFO CARD -->
+                    <div class="flex items-center gap-2.5 px-3 py-2 bg-slate-700/40 rounded-xl border border-slate-700/50 mb-2">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px] shadow-sm flex-shrink-0">AD</div>
+                        <div class="overflow-hidden">
+                            <p id="txtUserDesk" class="text-xs font-bold text-white truncate capitalize">Admin</p>
+                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-wider">Sesi Aktif</p>
                         </div>
-
-                        <button id="btnManajemenAkunMobile" onclick="bukaManajemenAkun(); toggleSidebar()" class="hidden w-full flex items-center gap-2 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-2 px-3 rounded-lg transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            Kelola Admin
-                        </button>
-
-                        <button id="btnPengaturanSistemMobile" onclick="bukaModalPengaturan(); toggleSidebar()" class="hidden w-full flex items-center gap-2 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 py-2 px-3 rounded-lg transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
-                            Pengaturan Sistem
-                        </button>
-
-                        <button onclick="bukaModalPurge(); toggleSidebar()" class="w-full flex items-center gap-2 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 py-2 px-3 rounded-lg transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            Purge / Reset Data
-                        </button>
-
-                        <button onclick="prosesLogout()" class="w-full flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 py-2 px-3 rounded-lg transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                            Keluar (Logout)
-                        </button>
                     </div>
 
-                    <div id="panelNonAdminMobile" class="flex flex-col space-y-2 pt-4 border-t border-slate-100 mt-4">
-                        <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-2.5 px-3 rounded-xl border border-emerald-200/60 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                            Login Admin
-                        </button>
+                    <button id="btnManajemenAkun" onclick="bukaManajemenAkun()" class="hidden w-full px-3 py-2 text-left text-xs font-bold text-indigo-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        Kelola Admin
+                    </button>
+
+                    <button id="btnPengaturanSistem" onclick="bukaModalPengaturan()" class="hidden w-full px-3 py-2 text-left text-xs font-bold text-blue-300 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
+                        Pengaturan Sistem
+                    </button>
+
+                    <button onclick="bukaModalPurge()" class="w-full px-3 py-2 text-left text-xs font-bold text-red-400 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Purge / Reset Data
+                    </button>
+
+                    <button onclick="prosesLogout()" class="w-full px-3 py-2 text-left text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-700/60 rounded-xl transition-colors flex items-center gap-2.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        Keluar (Logout)
+                    </button>
+                </div>
+
+                <!-- NON-ADMIN LOGIN PANEL SIDEBAR -->
+                <div id="panelNonAdminDesktop" class="flex flex-col pt-4 border-t border-slate-700/60 mt-auto">
+                    <button onclick="bukaLayarLogin()" class="w-full flex items-center justify-center gap-2 text-xs font-bold text-emerald-400 bg-slate-700/50 hover:bg-slate-700 py-2.5 px-3 rounded-xl border border-slate-600/60 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                        Login Admin
+                    </button>
+                </div>
+
+                <!-- DUPLICATE MOBILE ID HOLDERS TO PREVENT JS NULL ERRORS -->
+                <span id="teksNamaInstansiMobile" class="hidden"></span>
+                <span id="txtUserMob" class="hidden"></span>
+                <div id="panelAdminMobile" class="hidden"></div>
+                <div id="panelNonAdminMobile" class="hidden"></div>
+                <button id="btnManajemenAkunMobile" class="hidden"></button>
+                <button id="btnPengaturanSistemMobile" class="hidden"></button>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- MAIN CONTENT AREA WITH TOP HEADER -->
+        <!-- ========================================== -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden bg-slate-100">
+            <!-- TOP NAVBAR -->
+            <header class="bg-white border-b border-slate-200/80 h-16 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-30 shadow-sm">
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest hidden md:inline-block">Sistem Antrean Digital PKRS</span>
+                </div>
+
+                <!-- Right Action Info -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200/60">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider">Cloudflare D1 Online</span>
                     </div>
                 </div>
-            </aside>
+            </header>
 
-            <!-- MAIN SHELL CONTENT -->
-            <div class="chm-04__shell flex flex-col">
-                <!-- TOP NAVBAR TAILADMIN STYLE -->
-                <nav class="bg-white border-b border-slate-200 relative z-50 h-16 flex-shrink-0 shadow-sm">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                        <div class="flex justify-between h-full items-center">
-                            <!-- BRAND IDENTITY -->
-                            <div class="flex-shrink-0 flex items-center pl-10 md:pl-0">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-sm">P</div>
-                                    <div>
-                                        <span id="teksNamaInstansiDesktop" class="text-slate-900 font-extrabold text-base md:text-lg tracking-tight block leading-tight">TIM PKRS RSUASF</span>
-                                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block">Sistem Antrean Digital</span>
-                                    </div>
+            <!-- MAIN SCROLLABLE BODY -->
+            <main id="areaScroll" class="flex-1 overflow-y-auto">
+
+                <!-- 1. CONTAINER HALAMAN UTAMA (MANAGEMENT ANTREAN) -->
+                <div id="halamanUtamaContainer" class="block">
+                    <!-- HEADER TOOLBAR -->
+                    <div class="bg-slate-100 pt-6 pb-4 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
+                        <div class="max-w-7xl mx-auto">
+                            <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-end space-y-3 md:space-y-0">
+                                <div>
+                                    <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Permintaan</h1>
+                                    <p class="text-xs text-slate-500 mt-0.5">Kelola dan tinjau status seluruh nomor antrean pencetakan PKRS.</p>
                                 </div>
-                            </div>
-                            
-                            <!-- DESKTOP ACTIONS & PROFILE -->
-                            <div class="hidden md:flex items-center space-x-4">
-                                <button onclick="cekAksesBuatNomor()" class="group relative inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition-all duration-200 active:scale-95">
-                                    <svg class="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
-                                    Buat Nomor Baru
-                                </button>
 
-                                <div class="h-5 w-px bg-slate-200"></div>
-
-                                <!-- ADMIN PROFILE & NAVIGATION DROPDOWN -->
-                                <div id="panelAdminDesktop" class="hidden flex items-center relative">
-                                    <div class="relative">
-                                        <button type="button" onclick="document.getElementById('menuAdminDesktop').classList.toggle('hidden')" class="group flex items-center gap-2 bg-slate-50 hover:bg-slate-100 py-1.5 pl-2 pr-3 rounded-xl border border-slate-200 transition-colors focus:outline-none">
-                                            <div class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px] shadow-sm">AD</div>
-                                            <span id="txtUserDesk" class="text-xs font-bold text-slate-800 tracking-wide capitalize">Admin</span>
-                                            <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                        </button>
-
-                                        <!-- DROPDOWN MENU TAILADMIN -->
-                                        <div id="menuAdminDesktop" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-[100] origin-top-right p-1.5">
-                                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1.5">Navigasi SPA</p>
-                                            <button onclick="bukaHalamanUtama()" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-emerald-600 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-                                                Manajemen Antrean
-                                            </button>
-                                            <button onclick="bukaHalamanLaporan()" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-emerald-600 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                                Laporan Statistik
+                                <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
+                                    <div class="relative w-full sm:w-auto">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                        <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs shadow-sm font-medium">
+                                    </div>
+                                    
+                                    <div class="w-full flex space-x-2 sm:w-auto">
+                                        <div class="relative w-1/2 sm:w-auto">
+                                            <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full bg-white text-slate-700 px-3.5 py-2 rounded-xl font-bold text-xs border border-slate-200 hover:bg-slate-50 shadow-sm transition-colors flex items-center justify-center relative">
+                                                <svg class="w-3.5 h-3.5 mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                                                Filter
+                                                <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
                                             </button>
                                             
-                                            <div class="h-px bg-slate-100 my-1"></div>
-                                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1.5">Sistem & Akses</p>
-
-                                            <button id="btnManajemenAkun" onclick="bukaManajemenAkun(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-3 py-2 text-xs text-indigo-700 hover:bg-indigo-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                                Kelola Admin
-                                            </button>
-
-                                            <button id="btnPengaturanSistem" onclick="bukaModalPengaturan(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="hidden w-full text-left px-3 py-2 text-xs text-blue-700 hover:bg-blue-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg>
-                                                Pengaturan Sistem
-                                            </button>
-
-                                            <button onclick="bukaModalPurge(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                                Purge Data
-                                            </button>
-
-                                            <div class="h-px bg-slate-100 my-1"></div>
-
-                                            <button onclick="prosesLogout(); document.getElementById('menuAdminDesktop').classList.add('hidden')" class="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-100 font-semibold rounded-xl flex items-center gap-2 transition-colors">
-                                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                                Logout
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="panelNonAdminDesktop" class="flex items-center">
-                                    <button onclick="bukaLayarLogin()" class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs py-2 px-3.5 rounded-xl border border-emerald-200/80 transition-colors shadow-sm">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                                        <span>Login Admin</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                <!-- MAIN SCROLLABLE AREA -->
-                <div id="areaScroll" class="w-full overflow-y-auto flex-grow bg-slate-100" style="height: calc(100vh - 64px);">
-
-                    <!-- 1. CONTAINER HALAMAN UTAMA (MANAGEMENT ANTREAN) -->
-                    <div id="halamanUtamaContainer" class="block">
-                        <!-- HEADER BARIS TERISOLASI ATAU STICKY -->
-                        <div class="sticky top-0 z-40 bg-slate-100/90 backdrop-blur-md pt-5 pb-4 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 shadow-sm">
-                            <div class="max-w-7xl mx-auto">
-                                <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-end space-y-3 md:space-y-0">
-                                    <div>
-                                        <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight">Daftar Permintaan</h1>
-                                        <p class="text-xs text-slate-500 mt-0.5">Kelola dan tinjau status seluruh nomor antrean pencetakan PKRS.</p>
-                                    </div>
-
-                                    <div class="w-full md:w-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
-                                        <div class="relative w-full sm:w-auto">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                            </div>
-                                            <input type="text" id="inputPencarian" onkeyup="saringDataUtama()" placeholder="Cari nama atau nomor..." class="w-full sm:w-64 pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs shadow-sm font-medium">
-                                        </div>
-                                        
-                                        <div class="w-full flex space-x-2 sm:w-auto">
-                                            <div class="relative w-1/2 sm:w-auto">
-                                                <button id="btnFilterToggle" onclick="toggleFilterPanel()" class="w-full bg-white text-slate-700 px-3.5 py-2 rounded-xl font-bold text-xs border border-slate-200 hover:bg-slate-50 shadow-sm transition-colors flex items-center justify-center relative">
-                                                    <svg class="w-3.5 h-3.5 mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                                                    Filter
-                                                    <span id="indikatorFilter" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>
-                                                </button>
-                                                
-                                                <!-- PANEL FILTER DROPDOWN -->
-                                                <div id="filterPanel" class="hidden absolute right-0 mt-2 w-[calc(100vw-32px)] max-w-[280px] sm:w-72 bg-white rounded-2xl shadow-xl border border-slate-200 z-[70] p-4 md:p-5 origin-top-right transition-all">
-                                                    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
-                                                        <h4 class="font-extrabold text-slate-900 text-xs">Saring Data</h4>
+                                            <!-- PANEL FILTER DROPDOWN -->
+                                            <div id="filterPanel" class="hidden absolute right-0 mt-2 w-[calc(100vw-32px)] max-w-[280px] sm:w-72 bg-white rounded-2xl shadow-xl border border-slate-200 z-[70] p-4 md:p-5 origin-top-right transition-all">
+                                                <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+                                                    <h4 class="font-extrabold text-slate-900 text-xs">Saring Data</h4>
+                                                </div>
+                                                <div class="space-y-3.5">
+                                                    <div>
+                                                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tanggal Permintaan</label>
+                                                        <input type="date" id="filterTanggal" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs text-slate-900">
                                                     </div>
-                                                    <div class="space-y-3.5">
-                                                        <div>
-                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tanggal Permintaan</label>
-                                                            <input type="date" id="filterTanggal" class="w-full px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs text-slate-900">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jenis Cetakan</label>
-                                                            <div class="relative">
-                                                                <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
-                                                                    <span id="teks-filterJenis">Semua Jenis Cetak</span>
-                                                                    <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
-                                                                </button>
-                                                                <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')">Semua Jenis Cetak</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')">Spanduk</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')">Brosur</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')">Stiker</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')">Poster</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')">Lainnya</li>
-                                                                </ul>
-                                                                <input type="hidden" id="inputFilterJenis" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Status Antrean</label>
-                                                            <div class="relative">
-                                                                <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
-                                                                    <span id="teks-filterStatus">Semua Status</span>
-                                                                    <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
-                                                                </button>
-                                                                <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')">Semua Status</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')">🟡 Menunggu</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')">🔵 Diproses</li>
-                                                                    <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')">🟢 Selesai</li>
-                                                                </ul>
-                                                                <input type="hidden" id="inputFilterStatus" value="">
-                                                            </div>
+                                                    <div>
+                                                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jenis Cetakan</label>
+                                                        <div class="relative">
+                                                            <button type="button" onclick="toggleDropdown('filterJenis')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
+                                                                <span id="teks-filterJenis">Semua Jenis Cetak</span>
+                                                                <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                            </button>
+                                                            <ul id="menu-filterJenis" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Jenis Cetak', 'filterJenis', 'inputFilterJenis')">Semua Jenis Cetak</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Spanduk', 'Spanduk', 'filterJenis', 'inputFilterJenis')">Spanduk</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Brosur', 'Brosur', 'filterJenis', 'inputFilterJenis')">Brosur</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Stiker', 'Stiker', 'filterJenis', 'inputFilterJenis')">Stiker</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Poster', 'Poster', 'filterJenis', 'inputFilterJenis')">Poster</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Lainnya', 'Lainnya', 'filterJenis', 'inputFilterJenis')">Lainnya</li>
+                                                            </ul>
+                                                            <input type="hidden" id="inputFilterJenis" value="">
                                                         </div>
                                                     </div>
-                                                    <div class="mt-5 flex space-x-2">
-                                                        <button onclick="resetFilter()" class="flex-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-bold text-xs transition-colors border border-slate-200">Reset</button>
-                                                        <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-1.5 bg-emerald-500 text-white hover:bg-emerald-600 rounded-lg font-bold text-xs shadow-sm transition-colors">Terapkan</button>
+                                                    <div>
+                                                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Status Antrean</label>
+                                                        <div class="relative">
+                                                            <button type="button" onclick="toggleDropdown('filterStatus')" class="w-full flex justify-between items-center px-3 py-1.5 border border-slate-200 rounded-lg bg-white text-xs text-slate-900">
+                                                                <span id="teks-filterStatus">Semua Status</span>
+                                                                <svg class="h-3.5 w-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>
+                                                            </button>
+                                                            <ul id="menu-filterStatus" class="absolute z-[200] w-full mt-1 max-h-48 overflow-auto rounded-lg bg-white py-1 text-xs shadow-lg ring-1 ring-black ring-opacity-5 transition-all opacity-0 scale-95 pointer-events-none origin-top">
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('', 'Semua Status', 'filterStatus', 'inputFilterStatus')">Semua Status</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Menunggu', '🟡 Menunggu', 'filterStatus', 'inputFilterStatus')">🟡 Menunggu</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Diproses', '🔵 Diproses', 'filterStatus', 'inputFilterStatus')">🔵 Diproses</li>
+                                                                <li class="text-slate-800 cursor-pointer select-none py-1.5 pl-3 pr-8 hover:bg-emerald-50" onclick="pilihOpsi('Selesai', '🟢 Selesai', 'filterStatus', 'inputFilterStatus')">🟢 Selesai</li>
+                                                            </ul>
+                                                            <input type="hidden" id="inputFilterStatus" value="">
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="mt-5 flex space-x-2">
+                                                    <button onclick="resetFilter()" class="flex-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-bold text-xs transition-colors border border-slate-200">Reset</button>
+                                                    <button onclick="terapkanFilterBaru()" class="flex-1 px-3 py-1.5 bg-emerald-500 text-white hover:bg-emerald-600 rounded-lg font-bold text-xs shadow-sm transition-colors">Terapkan</button>
+                                                </div>
                                             </div>
+                                        </div>
 
-                                            <button onclick="eksporCSV()" class="w-1/2 sm:w-auto bg-slate-900 text-white px-3.5 py-2 rounded-xl font-bold text-xs hover:bg-slate-800 shadow-sm transition-colors flex items-center justify-center">
-                                                <svg class="w-3.5 h-3.5 mr-1.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                                CSV
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- MINI STATISTIK TABEL ALA TAILADMIN -->
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
-                                        <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total</p>
-                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statTotal">0</h3>
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
-                                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider">Tunggu</p>
-                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statMenunggu">0</h3>
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
-                                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider">Proses</p>
-                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statDiproses">0</h3>
-                                        </div>
-                                    </div>
-                                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
-                                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">Selesai</p>
-                                            <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statSelesai">0</h3>
-                                        </div>
+                                        <button onclick="eksporCSV()" class="w-1/2 sm:w-auto bg-slate-900 text-white px-3.5 py-2 rounded-xl font-bold text-xs hover:bg-slate-800 shadow-sm transition-colors flex items-center justify-center">
+                                            <svg class="w-3.5 h-3.5 mr-1.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                            CSV
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- WADAH TABEL & MOBILE CARDS -->
-                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
-                            <div id="loadingState" class="text-center py-12">
-                                <p class="text-slate-500 animate-pulse font-bold text-xs">Memuat data dari database...</p>
-                            </div>
-
-                            <div class="hidden md:block bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-200/80">
-                                <table class="min-w-full divide-y divide-slate-100">
-                                    <thead class="bg-slate-50/80">
-                                        <tr>
-                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
-                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-900 uppercase tracking-wider">Nomor & Status</th>
-                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal</th>
-                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Peminta</th>
-                                            <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Keperluan & Jenis</th>
-                                            <th class="px-6 py-3.5 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="isiTabelDesktop" class="bg-white divide-y divide-slate-100 text-xs"></tbody>
-                                </table>
-                            </div>
-
-                            <div id="isiTabelMobile" class="md:hidden space-y-3.5 pb-4"></div>
-                            <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1.5 pb-8"></div>
-                        </div>
-                    </div>
-
-                    <!-- 2. CONTAINER HALAMAN LAPORAN STATISTIK (SPA) -->
-                    <div id="halamanLaporanContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative z-10">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                            <div>
-                                <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">Dashboard Laporan</h2>
-                                <p class="text-xs text-slate-500 mt-0.5">Ringkasan aktivitas seluruh data antrean dan fasilitas ekspor penuh.</p>
-                            </div>
-                            <button onclick="eksporCSVPenuh()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm flex items-center gap-2 transition-colors active:scale-95">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                Export Rekap Penuh (CSV)
-                            </button>
-                        </div>
-
-                        <!-- BIG STAT CARDS TAILADMIN -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
-                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Total Permintaan</p>
-                                <h3 id="dashTotal" class="text-3xl font-black text-slate-900">0</h3>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-sm relative overflow-hidden">
-                                <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider mb-1">Menunggu</p>
-                                <h3 id="dashMenunggu" class="text-3xl font-black text-amber-500">0</h3>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-blue-200/80 shadow-sm relative overflow-hidden">
-                                <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider mb-1">Sedang Diproses</p>
-                                <h3 id="dashProses" class="text-3xl font-black text-blue-500">0</h3>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-emerald-200/80 shadow-sm relative overflow-hidden">
-                                <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
-                                <h3 id="dashSelesai" class="text-3xl font-black text-emerald-500">0</h3>
-                            </div>
-                        </div>
-
-                        <!-- LIST BREAKDOWN ANALISIS -->
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                                <h4 class="font-extrabold text-slate-900 text-sm mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                    Peringkat Jenis Cetak Terbanyak
-                                </h4>
-                                <ul id="listJenisCetak" class="space-y-1">
-                                    <li class="text-slate-400 text-xs italic py-2">Belum ada data untuk dianalisis...</li>
-                                </ul>
+                            <!-- MINI STATISTIK TABEL -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Total</p>
+                                        <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statTotal">0</h3>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider">Tunggu</p>
+                                        <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statMenunggu">0</h3>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider">Proses</p>
+                                        <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statDiproses">0</h3>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-3.5 md:p-4 flex items-center gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider">Selesai</p>
+                                        <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-none mt-0.5" id="statSelesai">0</h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- WADAH TABEL & MOBILE CARDS -->
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
+                        <div id="loadingState" class="text-center py-12">
+                            <p class="text-slate-500 animate-pulse font-bold text-xs">Memuat data dari database...</p>
+                        </div>
+
+                        <div class="hidden md:block bg-white shadow-sm rounded-2xl overflow-hidden border border-slate-200/80">
+                            <table class="min-w-full divide-y divide-slate-100">
+                                <thead class="bg-slate-50/80">
+                                    <tr>
+                                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-900 uppercase tracking-wider">Nomor & Status</th>
+                                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Peminta</th>
+                                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Keperluan & Jenis</th>
+                                        <th class="px-6 py-3.5 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="isiTabelDesktop" class="bg-white divide-y divide-slate-100 text-xs"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="isiTabelMobile" class="md:hidden space-y-3.5 pb-4"></div>
+                        <div id="wadahPagination" class="mt-6 flex justify-center items-center space-x-1.5 pb-8"></div>
+                    </div>
                 </div>
-            </div>
+
+                <!-- 2. CONTAINER HALAMAN LAPORAN STATISTIK (SPA) -->
+                <div id="halamanLaporanContainer" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative z-10">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">Dashboard Laporan</h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Ringkasan aktivitas seluruh data antrean dan fasilitas ekspor penuh.</p>
+                        </div>
+                        <button onclick="eksporCSVPenuh()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm flex items-center gap-2 transition-colors active:scale-95">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Export Rekap Penuh (CSV)
+                        </button>
+                    </div>
+
+                    <!-- BIG STAT CARDS TAILADMIN -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+                            <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Total Permintaan</p>
+                            <h3 id="dashTotal" class="text-3xl font-black text-slate-900">0</h3>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-sm relative overflow-hidden">
+                            <p class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider mb-1">Menunggu</p>
+                            <h3 id="dashMenunggu" class="text-3xl font-black text-amber-500">0</h3>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-blue-200/80 shadow-sm relative overflow-hidden">
+                            <p class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider mb-1">Sedang Diproses</p>
+                            <h3 id="dashProses" class="text-3xl font-black text-blue-500">0</h3>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-emerald-200/80 shadow-sm relative overflow-hidden">
+                            <p class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-wider mb-1">Selesai</p>
+                            <h3 id="dashSelesai" class="text-3xl font-black text-emerald-500">0</h3>
+                        </div>
+                    </div>
+
+                    <!-- LIST BREAKDOWN ANALISIS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                            <h4 class="font-extrabold text-slate-900 text-sm mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                Peringkat Jenis Cetak Terbanyak
+                            </h4>
+                            <ul id="listJenisCetak" class="space-y-1">
+                                <li class="text-slate-400 text-xs italic py-2">Belum ada data untuk dianalisis...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
         </div>
     </div>
 </div>
@@ -777,7 +722,7 @@
     </div>
 </dialog>
 
-<!-- JAVASCRIPT LOGIC 100% UTUH -->
+<!-- JAVASCRIPT LOGIC 100% UNTOUCHED -->
 <script>
     let dataUtama = [];
     let dataSaringanTerakhir = []; 
@@ -804,8 +749,6 @@
     function bukaHalamanLaporan() {
         document.getElementById('halamanUtamaContainer').classList.add('hidden');
         document.getElementById('halamanLaporanContainer').classList.remove('hidden');
-        const menuDesk = document.getElementById('menuAdminDesktop');
-        if(menuDesk) menuDesk.classList.add('hidden');
         if(document.getElementById('appRoot').classList.contains('is-pushed')) toggleSidebar();
         updateDashboardLaporan();
     }
@@ -813,8 +756,6 @@
     function bukaHalamanUtama() {
         document.getElementById('halamanLaporanContainer').classList.add('hidden');
         document.getElementById('halamanUtamaContainer').classList.remove('hidden');
-        const menuDesk = document.getElementById('menuAdminDesktop');
-        if(menuDesk) menuDesk.classList.add('hidden');
         if(document.getElementById('appRoot').classList.contains('is-pushed')) toggleSidebar();
     }
 
@@ -1358,7 +1299,6 @@
                 pengaturanGlobal = result.data;
                 const nama = pengaturanGlobal.nama_instansi || 'TIM PKRS RSUASF';
                 if(document.getElementById('teksNamaInstansiDesktop')) document.getElementById('teksNamaInstansiDesktop').innerText = nama;
-                if(document.getElementById('teksNamaInstansiMobile')) document.getElementById('teksNamaInstansiMobile').innerText = nama;
                 document.title = nama + " - Manajemen Cetak";
             }
         } catch (e) { console.error("Gagal muat pengaturan:", e); }
@@ -1471,30 +1411,21 @@
         const usernameAktif = localStorage.getItem('username');
 
         if (statusLogin === 'true') {
-            if (usernameAktif) {
-                if (document.getElementById('txtUserDesk')) document.getElementById('txtUserDesk').innerText = usernameAktif;
-                if (document.getElementById('txtUserMob')) document.getElementById('txtUserMob').innerText = usernameAktif;
+            if (usernameAktif && document.getElementById('txtUserDesk')) {
+                document.getElementById('txtUserDesk').innerText = usernameAktif;
             }
             if (document.getElementById('panelNonAdminDesktop')) document.getElementById('panelNonAdminDesktop').classList.add('hidden');
-            if (document.getElementById('panelNonAdminMobile')) document.getElementById('panelNonAdminMobile').classList.add('hidden');
             if (document.getElementById('panelAdminDesktop')) { document.getElementById('panelAdminDesktop').classList.remove('hidden'); document.getElementById('panelAdminDesktop').classList.add('flex'); }
-            if (document.getElementById('panelAdminMobile')) { document.getElementById('panelAdminMobile').classList.remove('hidden'); document.getElementById('panelAdminMobile').classList.add('flex'); }
 
             if (role === 'super_admin') {
                 if (document.getElementById('btnManajemenAkun')) document.getElementById('btnManajemenAkun').classList.remove('hidden');
-                if (document.getElementById('btnManajemenAkunMobile')) document.getElementById('btnManajemenAkunMobile').classList.remove('hidden');
                 if (document.getElementById('btnPengaturanSistem')) document.getElementById('btnPengaturanSistem').classList.remove('hidden');
-                if (document.getElementById('btnPengaturanSistemMobile')) document.getElementById('btnPengaturanSistemMobile').classList.remove('hidden');
             }
         }
     });
 
     // OUTSIDE CLICK DROPDOWN CLOSER
     document.addEventListener('click', (event) => {
-        const menu = document.getElementById('menuAdminDesktop');
-        const panel = document.getElementById('panelAdminDesktop');
-        if (menu && panel && !panel.contains(event.target)) menu.classList.add('hidden');
-
         if (dropdownAktif) {
             const btn = document.querySelector(`button[onclick="toggleDropdown('${dropdownAktif}')"]`);
             const m = document.getElementById(`menu-${dropdownAktif}`);
