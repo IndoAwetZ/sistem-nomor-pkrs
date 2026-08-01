@@ -113,6 +113,19 @@
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F1F5F9; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
         .spinner { width: 45px; height: 45px; border: 4px solid rgba(16, 185, 129, 0.2); border-left-color: #10B981; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* FIX: Hilangkan Scrollbar & Padding Bocor Pada Modal Login */
+        #modalLogin {
+            border: none !important;
+            outline: none !important;
+            overflow: hidden !important;
+        }
+
+        #modalLogin .lf-01 {
+            min-height: auto !important;
+            padding: 0 !important;
+            background: transparent !important;
+        }
     </style>
 </head>
 <body class="font-sans antialiased overflow-hidden">
@@ -454,7 +467,7 @@
     <!-- ======================================================= -->
 
     <!-- MODAL LOGIN -->
-    <dialog id="modalLogin" class="feedback-dlg w-[min(900px,95vw)] rounded-[20px] bg-transparent p-0 shadow-2xl z-[200]">
+    <dialog id="modalLogin" class="feedback-dlg w-[min(900px,95vw)] rounded-[20px] bg-transparent p-0 border-0 outline-none overflow-hidden shadow-2xl z-[200]">
         <section class="lf-01 m-0 h-full">
           <div class="lf-01__shell min-h-[450px]">
             <aside class="lf-01__brand" aria-hidden="true">
