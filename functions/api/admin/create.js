@@ -1,13 +1,31 @@
+// Header CORS terpusat
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+};
+
+// Handling Preflight (OPTIONS)
+export async function onRequestOptions() {
+    return new Response(null, {
+        status: 204,
+        headers: { ...corsHeaders, "Access-Control-Max-Age": "86400" }
+    });
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
-    const body = await request.json();
-    const { username, email, role } = body;
-
+    
     try {
+        const body = await request.json();
+        const { username, email, role } = body;
+
         // 1. Validasi: Pastikan Username belum dipakai
         const cekUser = await env.DB.prepare("SELECT id FROM users WHERE username = ?").bind(username).first();
         if (cekUser) {
-            return new Response(JSON.stringify({ sukses: false, pesan: "Username sudah digunakan." }), { status: 400 });
+            return new Response(JSON.stringify({ sukses: false, pesan: "Username sudah digunakan." }), { 
+                status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } 
+            });
         }
 
         // 2. Buat Password Acak (6 Karakter kombinasi huruf dan angka)
@@ -49,7 +67,7 @@ export async function onRequestPost(context) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'TIM PKRS RSUASF <onboarding@hnm.my.id>', // Ganti dengan domain Anda jika sudah verifikasi di Resend
+                from: 'TIM PKRS RSUASF <onboarding@hnm.my.id>',
                 to: email,
                 subject: 'Akses Admin Sistem TIM PKRS',
                 html: emailHtml
@@ -58,17 +76,18 @@ export async function onRequestPost(context) {
 
         if (!resendResponse.ok) {
             console.error("Gagal kirim email:", await resendResponse.text());
-            // Tetap anggap sukses karena DB sudah masuk, hanya email yang gagal
-            return new Response(JSON.stringify({ sukses: true, pesan: "Akun terbuat, tapi gagal mengirim email." }));
+            return new Response(JSON.stringify({ sukses: true, pesan: "Akun terbuat, tapi gagal mengirim email." }), {
+                headers: { 'Content-Type': 'application/json', ...corsHeaders }
+            });
         }
 
         return new Response(JSON.stringify({ sukses: true }), {
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
 
     } catch (error) {
         return new Response(JSON.stringify({ sukses: false, error: error.message }), {
-            status: 500, headers: { 'Content-Type': 'application/json' }
+            status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
     }
 }
