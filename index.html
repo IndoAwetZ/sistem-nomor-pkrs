@@ -1404,22 +1404,58 @@
         } catch (e) { alert("Error jaringan."); }
     }
 
-    // INIT USER SESSION DISPLAY
-    document.addEventListener('DOMContentLoaded', () => {
+    // INIT USER SESSION DISPLAY & SECURITY CHECK
+    document.addEventListener('DOMContentLoaded', async () => {
         const statusLogin = localStorage.getItem('isLoggedIn');
-        const role = localStorage.getItem('role_sistem');
         const usernameAktif = localStorage.getItem('username');
+        let role = localStorage.getItem('role_sistem');
 
-        if (statusLogin === 'true') {
-            if (usernameAktif && document.getElementById('txtUserDesk')) {
+        if (statusLogin === 'true' && usernameAktif) {
+            
+            // --- AWAL TAMBAHAN KEAMANAN: Cek ke database apakah akun masih ada ---
+            try {
+                const res = await fetch('/api/auth/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: usernameAktif })
+                });
+                const result = await res.json();
+                
+                // Jika akun sudah dihapus dari database, paksa logout!
+                if (result.sukses && result.valid === false) {
+                    localStorage.clear();
+                    window.location.reload();
+                    return; // Hentikan eksekusi script selanjutnya
+                }
+
+                // Opsional: Update role di localStorage jika tiba-tiba diubah oleh Super Admin
+                if (result.valid && result.role && result.role !== role) {
+                    localStorage.setItem('role_sistem', result.role);
+                    role = result.role;
+                }
+            } catch (e) {
+                console.log("Gagal memverifikasi sesi ke server:", e);
+            }
+            // --- AKHIR TAMBAHAN KEAMANAN ---
+
+            // Jika lolos verifikasi, render UI Admin seperti biasa
+            if (document.getElementById('txtUserDesk')) {
                 document.getElementById('txtUserDesk').innerText = usernameAktif;
             }
+            if (document.getElementById('txtUserMob')) {
+                document.getElementById('txtUserMob').innerText = usernameAktif;
+            }
+            
             if (document.getElementById('panelNonAdminDesktop')) document.getElementById('panelNonAdminDesktop').classList.add('hidden');
+            if (document.getElementById('panelNonAdminMobile')) document.getElementById('panelNonAdminMobile').classList.add('hidden');
             if (document.getElementById('panelAdminDesktop')) { document.getElementById('panelAdminDesktop').classList.remove('hidden'); document.getElementById('panelAdminDesktop').classList.add('flex'); }
+            if (document.getElementById('panelAdminMobile')) { document.getElementById('panelAdminMobile').classList.remove('hidden'); document.getElementById('panelAdminMobile').classList.add('flex'); }
 
             if (role === 'super_admin') {
                 if (document.getElementById('btnManajemenAkun')) document.getElementById('btnManajemenAkun').classList.remove('hidden');
+                if (document.getElementById('btnManajemenAkunMobile')) document.getElementById('btnManajemenAkunMobile').classList.remove('hidden');
                 if (document.getElementById('btnPengaturanSistem')) document.getElementById('btnPengaturanSistem').classList.remove('hidden');
+                if (document.getElementById('btnPengaturanSistemMobile')) document.getElementById('btnPengaturanSistemMobile').classList.remove('hidden');
             }
         }
     });
